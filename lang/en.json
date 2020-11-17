@@ -1,0 +1,17 @@
+{
+  "this_week_page_title": "This week",
+  "history_page_title": "History",
+  "account_page_title": "Account",
+  "settings_page_title": "Settings",
+  "about_page_title": "About",
+
+  "add_work_title": "Add work",
+  "add_work_date": "Date",
+  "add_work_location": "Location",
+  "add_work_description": "Description",
+  "add_work_time": "Time",
+  "add_work_workType": "Worktype",
+  "add_work_saveError": "Couldn't save your work do to an error.",
+
+  "list_work_hour": "hour(s)"
+}

@@ -31,6 +31,9 @@ class WorkBloc {
   Sink<WorkEvent> get workEventSink => _eventController.sink;
 
   WorkBloc({this.startDate, this.endDate}) {
+    // Load something into list output
+    _inWork.add(_list);
+
     print(
         "WorkBloc: startDate: ${this.startDate.toString()} endDate: ${this.endDate.toString()}");
 
@@ -107,9 +110,7 @@ class WorkBloc {
 
               // Sort the list
               tmp.sort((a, b) {
-                DateTime aDate = DateTime.parse(a.date);
-                DateTime bDate = DateTime.parse(b.date);
-                return -aDate.compareTo(bDate);
+                return -a.date.compareTo(b.date);
               });
 
               // Save the result
@@ -126,6 +127,21 @@ class WorkBloc {
             }
           }
         }();
+      } else if (event is AddWork) {
+        // Add work to the _list
+        _list.add(event.work);
+
+        // Sort the list
+        _list.sort((a, b) {
+          return -a.date.compareTo(b.date);
+        });
+
+        // Save the result
+        // TODO: Add work function on WorkStoage
+
+        if (!_stateController.isClosed) {
+          _inWork.add(_list);
+        }
       }
     });
   }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:trackless/app_localizations.dart';
 import 'package:trackless/models/work.dart';
 import 'package:skeleton_animation/skeleton_animation.dart';
+import 'package:trackless/pages/Work.dart';
 
 List<Widget> listWork(AsyncSnapshot<List<Work>> snapshot) {
   print('ListWork: parsing snapshot');
@@ -15,11 +17,12 @@ List<Widget> listWork(AsyncSnapshot<List<Work>> snapshot) {
         // Basic skeleton header
         header: Container(
           height: 60,
-          color: Theme.of(context).primaryColorDark,
+          color: Theme.of(context).primaryColorLight,
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 22),
           child: Skeleton(
             height: 16,
             style: SkeletonStyle.text,
+            baseColor: Colors.grey,
           ),
         ),
         sliver: SliverList(
@@ -33,11 +36,34 @@ List<Widget> listWork(AsyncSnapshot<List<Work>> snapshot) {
                 height: 12,
                 style: SkeletonStyle.text,
               ),
+              trailing: Skeleton(
+                height: 16,
+                width: 50,
+                style: SkeletonStyle.text,
+              ),
             );
 
             if (index + 1 == 15) {
-              // Last item don't show a divider
-              return listItem;
+              // Last one have extra spacing for lack of the divider
+              return Column(
+                children: [
+                  listItem,
+                  SizedBox(
+                    height: 8,
+                  ),
+                ],
+              );
+            } else if (index == 0) {
+              // For the first one
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 8,
+                  ),
+                  listItem,
+                  Divider(),
+                ],
+              );
             } else {
               return Column(
                 children: [
@@ -123,37 +149,52 @@ class ListWorkSliver extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverList(
         delegate: SliverChildBuilderDelegate((context, index) {
-          final tile = ListTile(
-            title: Text(
-                work[index].location.place + ' - ' + work[index].location.name),
-            subtitle: Text(work[index].description),
-          );
+      final tile = ListTile(
+        title: Text(
+            work[index].location.place + ' - ' + work[index].location.name),
+        subtitle: Text(work[index].description),
+        trailing: Text(
+            '${work[index].time.toString()} ${AppLocalizations.of(context).translate('list_work_hour')}'),
+        onTap: () => {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WorkDialog(
+                  editWork: work[index],
+                ),
+              ))
+        },
+      );
 
-          if (index + 1 == this.work.length) {
-            // Last one have extra spacing for lack of the divider
-            return Column(
-              children: [
-                tile,
-                SizedBox(height: 8,),
-              ],
-            );
-          } else if (index == 0) {
-            // For the first one
-            return Column(
-              children: [
-                SizedBox(height: 8,),
-                tile,
-                Divider(),
-              ],
-            );
-          } else {
-            return Column(
-              children: [
-                tile,
-                Divider(),
-              ],
-            );
-          }
+      if (index + 1 == this.work.length) {
+        // Last one have extra spacing for lack of the divider
+        return Column(
+          children: [
+            tile,
+            SizedBox(
+              height: 8,
+            ),
+          ],
+        );
+      } else if (index == 0) {
+        // For the first one
+        return Column(
+          children: [
+            SizedBox(
+              height: 8,
+            ),
+            tile,
+            Divider(),
+          ],
+        );
+      } else {
+        return Column(
+          children: [
+            tile,
+            Divider(),
+          ],
+        );
+      }
     }, childCount: work.length));
   }
 }

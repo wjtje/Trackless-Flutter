@@ -31,7 +31,7 @@ class Work {
   factory Work.fromJson(Map<String, dynamic> json) {
     return Work(
         workID: json['workID'],
-        time: double.parse(json['time']),
+        time: double.parse(json['time'].toString()),
         date: json['date'],
         description: json['description'],
         location: Location.fromJson(json['location']),

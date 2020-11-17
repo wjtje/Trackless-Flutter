@@ -1,13 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:trackless/bloc/work_bloc.dart';
-import 'package:trackless/bloc/work_event.dart';
+import 'package:trackless/bloc/location_bloc.dart';
+import 'package:trackless/bloc/location_event.dart';
+import 'package:trackless/bloc/worktype_bloc.dart';
+import 'package:trackless/bloc/worktype_event.dart';
 import 'package:trackless/components/drawer.dart';
-import 'package:trackless/date.dart';
 import 'package:trackless/main.dart';
 import 'package:trackless/models/login.dart';
 import 'package:http/http.dart' as http;
+import 'package:loader_overlay/loader_overlay.dart';
 
 class LoginPage extends StatelessWidget {
   // Define text controllers
@@ -18,6 +20,8 @@ class LoginPage extends StatelessWidget {
 
   _onLoginPressed(BuildContext context) {
     return () async {
+      context.showLoaderOverlay();
+
       print('Login: Checking values');
 
       // Check the input values
@@ -61,6 +65,8 @@ class LoginPage extends StatelessWidget {
           'deviceName': deviceName
         });
 
+        context.hideLoaderOverlay();
+
         if (response.statusCode != 200) {
           // Somethings wrong
           Scaffold.of(context).showSnackBar(SnackBar(
@@ -76,14 +82,13 @@ class LoginPage extends StatelessWidget {
           print('Login: Your apiKey: "${res.bearer}"');
 
           // Start loading data
-          final _workBloc = WorkBloc(
-              startDate: firstDayOfWeek(DateTime.parse("2020-11-02")),
-              endDate: firstDayOfWeek(DateTime.parse("2020-11-02"))
-                  .add(Duration(days: 6)));
+          final WorktypeBloc worktypeBloc = WorktypeBloc();
+          worktypeBloc.worktypeEventSink.add(LoadWorktypeFromServer());
+          worktypeBloc.dispose();
 
-          _workBloc.workEventSink.add(LoadWorkFromServer());
-
-          _workBloc.dispose();
+          final LocationBloc locationBloc = LocationBloc();
+          locationBloc.locationEventSink.add(LoadLocationFromServer());
+          locationBloc.dispose();
 
           // Go to the homepage
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);

@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:trackless/app.dart';
+import 'package:trackless/app_localizations.dart';
+import 'package:trackless/bloc/location_bloc.dart';
+import 'package:trackless/bloc/location_event.dart';
+import 'package:trackless/bloc/worktype_bloc.dart';
+import 'package:trackless/bloc/worktype_event.dart';
 import 'package:trackless/pages/Login.dart';
 import 'package:trackless/theme/dark.dart';
 import 'package:trackless/theme/light.dart';
@@ -37,7 +45,18 @@ void main() {
     runApp(BaseApp(
       initRoute: initPage,
     ));
+
+    // Load basic data from server
+    final WorktypeBloc worktypeBloc = WorktypeBloc();
+    worktypeBloc.worktypeEventSink.add(LoadWorktypeFromServer());
+    worktypeBloc.dispose();
+
+    final LocationBloc locationBloc = LocationBloc();
+    locationBloc.locationEventSink.add(LoadLocationFromServer());
+    locationBloc.dispose();
   });
+
+  print(DateFormat.yMd().format(DateTime.now()));
 }
 
 class BaseApp extends StatelessWidget {
@@ -48,18 +67,37 @@ class BaseApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Trackless',
-      // Create the base navigation
-      initialRoute: this.initRoute,
-      routes: {
-        '/': (context) => MyApp(),
-        '/login': (context) => LoginPage(),
-      },
-      navigatorObservers: [routeObserver],
-      // Import the themes
-      theme: lightTheme,
-      darkTheme: darkTheme,
+    return GlobalLoaderOverlay(
+      useDefaultLoading: true,
+      child: MaterialApp(
+        title: 'Trackless',
+        // Create the base navigation
+        initialRoute: this.initRoute,
+        routes: {
+          '/': (context) => MyApp(),
+          '/login': (context) => LoginPage(),
+        },
+        navigatorObservers: [routeObserver],
+        // Import the themes
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        // Import
+        supportedLocales: [Locale('en'), Locale('nl')],
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        localeResolutionCallback: (locale, supportedLocales) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode) {
+              return supportedLocale;
+            }
+          }
+
+          return supportedLocales.first;
+        },
+      ),
     );
   }
 }

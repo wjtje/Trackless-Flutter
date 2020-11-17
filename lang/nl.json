@@ -1,0 +1,17 @@
+{
+  "this_week_page_title": "Deze week",
+  "history_page_title": "Geschiedenis",
+  "account_page_title": "Account",
+  "settings_page_title": "Instellingen",
+  "about_page_title": "Over app",
+
+  "add_work_title": "Werk toevoegen",
+  "add_work_date": "Datum",
+  "add_work_location": "Locatie",
+  "add_work_description": "Omschijving",
+  "add_work_time": "Duur",
+  "add_work_workType": "Werktype",
+  "add_work_saveError": "Er is een fout opgetreden. Kon uw werk niet opslaan.",
+
+  "list_work_hour": "uur"
+}

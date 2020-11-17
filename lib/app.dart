@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trackless/app_localizations.dart';
 import 'package:trackless/components/drawer.dart';
 import 'package:trackless/pages/Home.dart';
 
@@ -11,21 +12,16 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // The app state
-  String _appBarTitle = '';
-  Widget _activePage;
-  Widget _floatingActionButton;
-
-  _MyAppState() {
-    _appBarTitle = 'Deze week';
-    _activePage = HomePage();
-  }
+  String _appBarTitle = 'this_week_page_title';
+  Widget _activePage = HomePage();
+  Widget _floatingActionButton = homePageFloatingActionButton;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // The appBar
       appBar: AppBar(
-        title: Text(_appBarTitle),
+        title: Text(AppLocalizations.of(context).translate(_appBarTitle)),
       ),
       // The active page
       body: _activePage,
@@ -38,7 +34,8 @@ class _MyAppState extends State<MyApp> {
             TracklessDrawerHeader(),
             // This week
             ListTile(
-              title: Text('Deze week'),
+              title: Text(AppLocalizations.of(context)
+                  .translate('this_week_page_title')),
               leading: Icon(Icons.home),
               onTap: () {
                 // Show the correct page
@@ -49,22 +46,28 @@ class _MyAppState extends State<MyApp> {
               },
             ),
             // History
-            ListTile(title: Text('Geschidenis'), leading: Icon(Icons.history)),
+            ListTile(
+                title: Text(AppLocalizations.of(context)
+                    .translate('history_page_title')),
+                leading: Icon(Icons.history)),
             // Account
             ListTile(
-              title: Text('Account'),
+              title: Text(
+                  AppLocalizations.of(context).translate('account_page_title')),
               leading: Icon(Icons.account_box),
             ),
             // Other options
             Divider(),
             // Settigns
             ListTile(
-              title: Text('Instellingen'),
+              title: Text(AppLocalizations.of(context)
+                  .translate('settings_page_title')),
               leading: Icon(Icons.settings),
             ),
             // About
             ListTile(
-              title: Text('Over app'),
+              title: Text(
+                  AppLocalizations.of(context).translate('about_page_title')),
               leading: Icon(Icons.info),
             ),
             // App version

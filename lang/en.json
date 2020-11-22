@@ -9,9 +9,13 @@
   "add_work_date": "Date",
   "add_work_location": "Location",
   "add_work_description": "Description",
-  "add_work_time": "Time",
+  "add_work_time": "Time (hours)",
   "add_work_workType": "Worktype",
   "add_work_saveError": "Couldn't save your work do to an error.",
+  "add_work_removeTitle": "Delete work",
+  "add_work_removeBody": "You are on a point to permanently delete work. This cannot be reversed.",
+  "add_work_removeButton": "Delete",
 
-  "list_work_hour": "hour(s)"
+  "list_work_hour": "hour(s)",
+  "list_work_total": "hour(s) total"
 }

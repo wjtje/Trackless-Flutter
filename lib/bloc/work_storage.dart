@@ -102,6 +102,31 @@ class WorkStorage {
     }
   }
 
+  Future<void> removeWork(Work work, DateTime orgDate) async {
+    print('WorkStorage: removing work');
+
+    final String oldDate = '${orgDate.year}-${orgDate.month}-${orgDate.day}';
+
+    List<Work> tmp = new List<Work>();
+
+    // Get all the work on the org date
+    final List<dynamic> jsonList = storage.getItem(oldDate);
+
+    if (jsonList != null) {
+      jsonList.forEach((element) {
+        final Work w = Work.fromJson(element);
+
+        // Remove the correct one
+        if (w.workID != work.workID) {
+          tmp.add(w);
+        }
+      });
+    }
+
+    // Save the changes
+    await storage.setItem(oldDate, tmp);
+  }
+
   List<Work> loadWork(DateTime startDate, DateTime endDate) {
     List<Work> tmp = [];
     DateTime tmpDate = endDate;

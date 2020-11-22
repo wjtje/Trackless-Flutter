@@ -41,6 +41,11 @@ void main() {
       initPage = '/login';
     }
 
+    // Reset the work date
+    final DateTime today = DateTime.now();
+    storage.setItem(
+        'editWorkDate', '${today.year}-${today.month}-${today.day}');
+
     // Start the app
     runApp(BaseApp(
       initRoute: initPage,

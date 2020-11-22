@@ -57,11 +57,13 @@ class _WorkDialogState extends State<WorkDialog> {
       _timeInput.text = widget.editWork.time.toString();
       worktypeID = widget.editWork.worktype.worktypeID;
     } else {
+      // Setup the widget to add work
       _editDate = null;
 
       // Get last used
       locationID = storage.getItem('editWorkLocation');
       worktypeID = storage.getItem('editWorkWorkType');
+      _dateTime = DateTime.parse(storage.getItem('editWorkDate'));
     }
 
     super.initState();
@@ -121,7 +123,8 @@ class _WorkDialogState extends State<WorkDialog> {
     print('Work: saving to the server');
     final String apiKey = storage.getItem('apiKey');
     final String serverUrl = storage.getItem('serverUrl');
-    final response = await http.patch('$serverUrl/user/~/work/${widget.editWork.workID}', body: {
+    final response = await http
+        .patch('$serverUrl/user/~/work/${widget.editWork.workID}', body: {
       'worktypeID': worktypeID.toString() ?? '0',
       'locationID': locationID.toString() ?? '0',
       'date':
@@ -136,24 +139,51 @@ class _WorkDialogState extends State<WorkDialog> {
 
     if (response.statusCode == 200) {
       // Save it to localStorage
-      _workStorage.updateWork(new Work(
-        // Get the workID from the response
-        workID: widget.editWork.workID,
-        date:
-            '${_dateTime.year.toString()}-${_dateTime.month.toString()}-${_dateTime.day.toString()}',
-        description: _descriptionInput.value.text,
-        time: double.tryParse(_timeInput.value.text) ?? 0,
-        // TODO: select the correct user
-        user: new User(
-            userID: 0,
-            firstname: 'TODO:',
-            lastname: 'TODO:',
-            username: 'TODO:',
-            groupID: 0,
-            groupName: 'TODO:'),
-        location: _locationBloc.getById(locationID),
-        worktype: _worktypeBloc.getById(worktypeID),
-      ), _editDate);
+      _workStorage.updateWork(
+          new Work(
+            // Get the workID from the response
+            workID: widget.editWork.workID,
+            date:
+                '${_dateTime.year.toString()}-${_dateTime.month.toString()}-${_dateTime.day.toString()}',
+            description: _descriptionInput.value.text,
+            time: double.tryParse(_timeInput.value.text) ?? 0,
+            // TODO: select the correct user
+            user: new User(
+                userID: 0,
+                firstname: 'TODO:',
+                lastname: 'TODO:',
+                username: 'TODO:',
+                groupID: 0,
+                groupName: 'TODO:'),
+            location: _locationBloc.getById(locationID),
+            worktype: _worktypeBloc.getById(worktypeID),
+          ),
+          _editDate);
+
+      Navigator.of(context).pop();
+    } else {
+      // Couldn't save your work
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content:
+            Text(AppLocalizations.of(context).translate('add_work_saveError')),
+      ));
+    }
+  }
+
+  Future<void> removeWork(BuildContext context) async {
+    // Remove the work
+    print('Work: removing the work');
+    final String apiKey = storage.getItem('apiKey');
+    final String serverUrl = storage.getItem('serverUrl');
+    final response = await http.delete(
+        '$serverUrl/user/~/work/${widget.editWork.workID}',
+        headers: {'Authorization': 'Bearer $apiKey'});
+
+    print('Work: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      // Removing work from LocalStorage
+      _workStorage.removeWork(widget.editWork, _editDate);
 
       Navigator.of(context).pop();
     } else {
@@ -182,6 +212,51 @@ class _WorkDialogState extends State<WorkDialog> {
         // Show the app bar
         title: Text(AppLocalizations.of(context).translate('add_work_title')),
         actions: [
+          // The delete button
+          Builder(
+            builder: (context) => Visibility(
+              visible: widget.editWork != null,
+              child: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    // Hide the keyboard
+                    FocusScope.of(context).requestFocus(new FocusNode());
+
+                    // Show a dialog to comfirm the action
+                    showDialog<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(AppLocalizations.of(context)
+                              .translate('add_work_removeTitle')),
+                          content: Text(AppLocalizations.of(context)
+                              .translate('add_work_removeBody')),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text(AppLocalizations.of(context)
+                                  .translate('add_work_removeButton')),
+                              onPressed: () async {
+                                // Hide the dialog
+
+                                // Show a loading animation
+                                context.showLoaderOverlay();
+
+                                await removeWork(context);
+                                Navigator.of(context).pop();
+
+                                // Hide the animation
+                                context.hideLoaderOverlay();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }),
+            ),
+          ),
+
+          // The save button
           Builder(
               builder: (context) => IconButton(
                   icon: Icon(Icons.save),
@@ -191,6 +266,8 @@ class _WorkDialogState extends State<WorkDialog> {
                     // Update the last used
                     storage.setItem('editWorkLocation', locationID);
                     storage.setItem('editWorkWorkType', worktypeID);
+                    storage.setItem('editWorkDate',
+                        '${_dateTime.year}-${_dateTime.month}-${_dateTime.day}');
 
                     // Hide the keyboard and show loading animation
                     FocusScope.of(context).requestFocus(new FocusNode());

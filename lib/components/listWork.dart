@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:intl/intl.dart';
 import 'package:trackless/app_localizations.dart';
 import 'package:trackless/models/work.dart';
 import 'package:skeleton_animation/skeleton_animation.dart';
@@ -104,10 +105,19 @@ List<Widget> listWork(AsyncSnapshot<List<Work>> snapshot) {
     // Make sure the data is valid
     if (parcedWork[0].length > 0) {
       slivers = []; // Clear the list
+
       parcedWork.forEach((element) {
+        // Calculate the total hours
+        double hours = 0;
+
+        element.forEach((element) {
+          hours += element.time;
+        });
+
         slivers.add(SliverStickyHeader(
           header: ListWorkHeader(
-            text: element[0].date,
+            date: element[0].date,
+            hours: hours,
           ),
           sliver: ListWorkSliver(
             work: element,
@@ -121,9 +131,10 @@ List<Widget> listWork(AsyncSnapshot<List<Work>> snapshot) {
 }
 
 class ListWorkHeader extends StatelessWidget {
-  final String text;
+  final String date;
+  final double hours;
 
-  const ListWorkHeader({Key key, this.text}) : super(key: key);
+  const ListWorkHeader({Key key, this.date, this.hours}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -131,11 +142,33 @@ class ListWorkHeader extends StatelessWidget {
       height: 60,
       color: Theme.of(context).primaryColorLight,
       padding: EdgeInsets.symmetric(horizontal: 16.0),
-      alignment: Alignment.centerLeft,
-      child: Text(this.text,
-          style: Theme.of(context).textTheme.subtitle1.merge(TextStyle(
-              // Make sure the text has the correct color
-              color: Theme.of(context).colorScheme.onPrimary))),
+      child: Row(
+        children: [
+          // Display the Date on the left
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(this.date,
+                  style: Theme.of(context).textTheme.subtitle1.merge(TextStyle(
+                      // Make sure the text has the correct color
+                      color: Theme.of(context).colorScheme.onPrimary))),
+            ],
+          ),
+          // Display the total hours on the right
+          Expanded(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                  '${this.hours.toString()} ${AppLocalizations.of(context).translate('list_work_total')}',
+                  style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(
+                      // Make sure the text has the correct color
+                      color: Theme.of(context).colorScheme.onPrimary))),
+            ],
+          ))
+        ],
+      ),
     );
   }
 }

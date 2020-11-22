@@ -9,9 +9,13 @@
   "add_work_date": "Datum",
   "add_work_location": "Locatie",
   "add_work_description": "Omschijving",
-  "add_work_time": "Duur",
+  "add_work_time": "Tijds duur (in uren)",
   "add_work_workType": "Werktype",
   "add_work_saveError": "Er is een fout opgetreden. Kon uw werk niet opslaan.",
+  "add_work_removeTitle": "Werk verwijderen",
+  "add_work_removeBody": "U staat op het punt om werk te verwijderen. Dit kan niet ongedaan worden gemaakt.",
+  "add_work_removeButton": "Verwijderen",
 
-  "list_work_hour": "uur"
+  "list_work_hour": "uur",
+  "list_work_total": "uur in totaal"
 }

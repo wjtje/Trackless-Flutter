@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:intl/intl.dart';
 import 'package:trackless/app_localizations.dart';
 import 'package:trackless/models/work.dart';
 import 'package:skeleton_animation/skeleton_animation.dart';
@@ -101,10 +100,11 @@ List<Widget> listWork(AsyncSnapshot<List<Work>> snapshot) {
     // Add the last
     parcedWork.add(tmp);
 
+    slivers = []; // Clear the list
+    
     // Build the slivers
     // Make sure the data is valid
     if (parcedWork[0].length > 0) {
-      slivers = []; // Clear the list
 
       parcedWork.forEach((element) {
         // Calculate the total hours

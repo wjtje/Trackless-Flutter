@@ -3,8 +3,16 @@ import 'package:trackless/models/work.dart';
 import 'package:intl/intl.dart';
 
 class WorkStorage {
-  void saveWorkOverride(List<Work> work) async {
+  void saveWorkOverride(List<Work> work, DateTime startDate, DateTime endDate) async {
     print('WorkStorage: saving work');
+
+    // Clean the localStorage
+    DateTime workingDate = startDate;
+
+    while (workingDate.isBefore(endDate)) {
+      storage.setItem(new DateFormat('yyyy-MM-dd').format(workingDate), []);
+      workingDate = workingDate.add(Duration(days: 1));
+    }
 
     // Sort the work by date
     List<Work> tmp = new List<Work>();

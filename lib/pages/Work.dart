@@ -225,7 +225,7 @@ class _WorkDialogState extends State<WorkDialog> {
                     // Show a dialog to comfirm the action
                     showDialog<void>(
                       context: context,
-                      builder: (BuildContext context) {
+                      builder: (BuildContext contextDialog) {
                         return AlertDialog(
                           title: Text(AppLocalizations.of(context)
                               .translate('add_work_removeTitle')),

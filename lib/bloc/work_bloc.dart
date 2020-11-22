@@ -116,7 +116,7 @@ class WorkBloc {
               // Save the result
               _list = tmp;
 
-              workStorage.saveWorkOverride(_list);
+              workStorage.saveWorkOverride(_list, this.startDate, this.endDate);
 
               // Check if the stream is active
               if (!_stateController.isClosed) {

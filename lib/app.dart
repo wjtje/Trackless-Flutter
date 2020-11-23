@@ -118,14 +118,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
                   leading: Icon(Icons.settings),
                 ),
                 // About
-                ListTile(
-                  title: Text(AppLocalizations.of(context)
-                      .translate('about_page_title')),
-                  leading: Icon(Icons.info),
-                ),
-                // App version
-                Divider(),
-                TracklessDrawerAppVersion(),
+                AboutTrackless(),
               ],
             ),
           ),

@@ -5,6 +5,15 @@
   "settings_page_title": "Instellingen",
   "about_page_title": "Over app",
 
+  "login_title": "Inloggen",
+  "login_server": "Server",
+  "login_username": "Gebruikersnaam",
+  "login_password": "Wachtwoord",
+  "login_deviceName": "Apperaat naam",
+  "login_btn": "Inloggen",
+  "login_error": "Niet alle verplichte velden zijn ingevult",
+  "login_disclaimer": "Trackless slaat geen persoonlijke informatie over jou of jouw apparaat op. Alle ingevulde informatie in deze app is opgeslagen op de server van jouw bedrijf. Deze software is onder de MIT licentie. Voor meer informatie kan je naar",
+
   "add_work_title": "Werk toevoegen",
   "add_work_date": "Datum",
   "add_work_location": "Locatie",
@@ -15,6 +24,9 @@
   "add_work_removeTitle": "Werk verwijderen",
   "add_work_removeBody": "U staat op het punt om werk te verwijderen. Dit kan niet ongedaan worden gemaakt.",
   "add_work_removeButton": "Verwijderen",
+  "add_work_dataNotEntered": "U heeft niet alles ingevult.",
+  "add_work_inputDescriptionEmptyError": "De omschijving kan niet leeg zijn",
+  "add_work_inputTimeEmptyError": "De tijds duur kan niet leeg zijn",
 
   "list_work_hour": "uur",
   "list_work_total": "uur in totaal"

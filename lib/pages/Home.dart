@@ -41,13 +41,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
         initialData: null,
         builder: (context, AsyncSnapshot<List<Work>> snapshot) =>
             CustomScrollView(
-              slivers: [
-                SliverList(delegate: SliverChildBuilderDelegate(
-                  (context, i) => LinearProgressIndicator(),
-                  childCount: 1
-                )),
-                ...listWork(snapshot)
-                ],
+              slivers: [...listWork(snapshot)],
             ));
   }
 

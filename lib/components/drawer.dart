@@ -1,4 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:trackless/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../common.dart';
 
@@ -64,6 +67,51 @@ class _TracklessDrawerAppVersionState extends State<TracklessDrawerAppVersion> {
           _tapCount = _tapCount;
         });
       },
+    );
+  }
+}
+
+class AboutTrackless extends StatelessWidget {
+  const AboutTrackless({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AboutListTile(
+      icon: Icon(Icons.info),
+      applicationIcon: Image(
+        image: AssetImage('images/T_icon.png'),
+        height: 32,
+        width: 32,
+      ),
+      applicationName: 'Trackless',
+      applicationVersion: appVersion,
+      applicationLegalese: '\u{a9} 2020 Wouter van der Wal',
+      aboutBoxChildren: [
+        SizedBox(height: 24),
+        RichText(
+          text: TextSpan(
+            style: Theme.of(context).textTheme.bodyText2,
+            children: <TextSpan>[
+              TextSpan(
+                  text: AppLocalizations.of(context)
+                          .translate('login_disclaimer') +
+                      ' '),
+              TextSpan(
+                text: 'trackless.ga',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    .copyWith(color: Theme.of(context).accentColor),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    launch('https://trackless.ga');
+                  },
+              ),
+              TextSpan(style: Theme.of(context).textTheme.bodyText2, text: '.'),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

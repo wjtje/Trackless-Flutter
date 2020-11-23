@@ -44,6 +44,9 @@ class _WorkDialogState extends State<WorkDialog> {
   final TextEditingController _descriptionInput = new TextEditingController();
   final TextEditingController _timeInput = new TextEditingController();
 
+  // Does the input need to show the errors
+  bool showInputError = false;
+
   @override
   void initState() {
     // Load the details from the edit
@@ -236,12 +239,12 @@ class _WorkDialogState extends State<WorkDialog> {
                               child: Text(AppLocalizations.of(context)
                                   .translate('add_work_removeButton')),
                               onPressed: () async {
-                                // Hide the dialog
-
                                 // Show a loading animation
                                 context.showLoaderOverlay();
 
                                 await removeWork(context);
+
+                                // Hide the dialog
                                 Navigator.of(context).pop();
 
                                 // Hide the animation
@@ -261,22 +264,35 @@ class _WorkDialogState extends State<WorkDialog> {
               builder: (context) => IconButton(
                   icon: Icon(Icons.save),
                   onPressed: () async {
-                    // TODO: Test the data
+                    // Test the data
+                    if (locationID != 0 &&
+                        _descriptionInput.value.text != '' &&
+                        _timeInput.value.text != '' &&
+                        worktypeID != 0) {
+                      // All data has been entered
+                      // Update the last used
+                      storage.setItem('editWorkLocation', locationID);
+                      storage.setItem('editWorkWorkType', worktypeID);
+                      storage.setItem('editWorkDate',
+                          '${_dateTime.year}-${_dateTime.month}-${_dateTime.day}');
 
-                    // Update the last used
-                    storage.setItem('editWorkLocation', locationID);
-                    storage.setItem('editWorkWorkType', worktypeID);
-                    storage.setItem('editWorkDate',
-                        '${_dateTime.year}-${_dateTime.month}-${_dateTime.day}');
+                      // Hide the keyboard and show loading animation
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                      context.showLoaderOverlay();
 
-                    // Hide the keyboard and show loading animation
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                    context.showLoaderOverlay();
-
-                    if (widget.editWork == null) {
-                      await saveWork(context);
+                      if (widget.editWork == null) {
+                        await saveWork(context);
+                      } else {
+                        await updateWork(context);
+                      }
                     } else {
-                      await updateWork(context);
+                      // Your are missing something
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                          content: Text(AppLocalizations.of(context)
+                              .translate("add_work_dataNotEntered"))));
+                      setState(() {
+                        showInputError = true;
+                      });
                     }
 
                     // Close the widget
@@ -347,6 +363,12 @@ class _WorkDialogState extends State<WorkDialog> {
                         locationID = newValue;
                       });
                     },
+                    validator: (int value) {
+                      return value == 0
+                          ? AppLocalizations.of(context)
+                              .translate('add_work_inputError')
+                          : null;
+                    },
                     decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)
                             .translate('add_work_location'),
@@ -361,6 +383,14 @@ class _WorkDialogState extends State<WorkDialog> {
             TextFormField(
               controller: _descriptionInput,
               cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
+              // Validate the input
+              autovalidateMode: AutovalidateMode.always,
+              validator: (String value) {
+                return (value == '' && showInputError)
+                    ? AppLocalizations.of(context)
+                        .translate('add_work_inputDescriptionEmptyError')
+                    : null;
+              },
               decoration: InputDecoration(
                   labelText: AppLocalizations.of(context)
                       .translate('add_work_description'),
@@ -374,6 +404,14 @@ class _WorkDialogState extends State<WorkDialog> {
             TextFormField(
               controller: _timeInput,
               cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
+              // Validate the input
+              autovalidateMode: AutovalidateMode.always,
+              validator: (String value) {
+                return (value == '' && showInputError)
+                    ? AppLocalizations.of(context)
+                        .translate('add_work_inputTimeEmptyError')
+                    : null;
+              },
               decoration: InputDecoration(
                   labelText:
                       AppLocalizations.of(context).translate('add_work_time'),

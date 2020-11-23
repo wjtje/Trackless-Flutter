@@ -1,15 +1,19 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:trackless/app_localizations.dart';
 import 'package:trackless/bloc/location_bloc.dart';
 import 'package:trackless/bloc/location_event.dart';
 import 'package:trackless/bloc/worktype_bloc.dart';
 import 'package:trackless/bloc/worktype_event.dart';
+import 'package:trackless/common.dart';
 import 'package:trackless/components/drawer.dart';
 import 'package:trackless/main.dart';
 import 'package:trackless/models/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatelessWidget {
   // Define text controllers
@@ -33,8 +37,10 @@ class LoginPage extends StatelessWidget {
       if (serverUrl == '' || username == '' || password == '') {
         // Somethings missing
         Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text('Niet alle verplichte velden zijn ingevult'),
+          content: Text(AppLocalizations.of(context).translate('login_error')),
         ));
+
+        context.hideLoaderOverlay();
       } else {
         // Test the serverURl
         if (!serverUrl.contains('https://') && !serverUrl.contains('http://')) {
@@ -103,7 +109,7 @@ class LoginPage extends StatelessWidget {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Inloggen'),
+          title: Text(AppLocalizations.of(context).translate('login_title')),
         ),
         // The login drawer
         drawer: Drawer(
@@ -112,11 +118,12 @@ class LoginPage extends StatelessWidget {
             children: [
               TracklessDrawerHeader(),
               ListTile(
-                title: Text('Inloggen'),
+                title:
+                    Text(AppLocalizations.of(context).translate('login_title')),
                 leading: Icon(Icons.login),
                 onTap: () => Navigator.pop(context),
               ),
-              TracklessDrawerAppVersion()
+              AboutTrackless(),
             ],
           ),
         ),
@@ -156,7 +163,8 @@ class LoginPage extends StatelessWidget {
                           controller: _serverInputController,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: 'Server',
+                              labelText: AppLocalizations.of(context)
+                                  .translate('login_server'),
                               icon: Icon(Icons.http))),
                       SizedBox(
                         height: 10.0,
@@ -166,7 +174,8 @@ class LoginPage extends StatelessWidget {
                         controller: _usernameInputController,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Gebruikersnaam',
+                            labelText: AppLocalizations.of(context)
+                                .translate('login_username'),
                             icon: Icon(Icons.person)),
                       ),
                       SizedBox(
@@ -178,7 +187,8 @@ class LoginPage extends StatelessWidget {
                         obscureText: true,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Wachtwoord',
+                            labelText: AppLocalizations.of(context)
+                                .translate('login_password'),
                             icon: Icon(Icons.vpn_key)),
                       ),
                       SizedBox(
@@ -189,7 +199,8 @@ class LoginPage extends StatelessWidget {
                         controller: _deviceNameInputController,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Apparaat naam',
+                            labelText: AppLocalizations.of(context)
+                                .translate('login_deviceName'),
                             icon: Icon(Icons.devices)),
                       ),
                       SizedBox(
@@ -200,7 +211,9 @@ class LoginPage extends StatelessWidget {
                         builder: (context) => ButtonTheme(
                           minWidth: double.infinity,
                           child: RaisedButton(
-                            child: Text('Inloggen',
+                            child: Text(
+                                AppLocalizations.of(context)
+                                    .translate('login_btn'),
                                 style: TextStyle(
                                     color: Theme.of(context)
                                         .colorScheme
@@ -209,6 +222,32 @@ class LoginPage extends StatelessWidget {
                             onPressed: _onLoginPressed(context),
                           ),
                         ),
+                      ),
+                      // Disclaimer
+                      SizedBox(
+                        height: 10,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                            style: Theme.of(context).textTheme.caption,
+                            children: [
+                              TextSpan(
+                                  text: AppLocalizations.of(context)
+                                          .translate('login_disclaimer') +
+                                      ' '),
+                              TextSpan(
+                                text: 'trackless.ga',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    .copyWith(
+                                        color: Theme.of(context).accentColor),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    launch('https://trackless.ga');
+                                  },
+                              ),
+                            ]),
                       ),
                     ],
                   ),

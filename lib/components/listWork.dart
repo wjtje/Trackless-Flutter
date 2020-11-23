@@ -101,11 +101,10 @@ List<Widget> listWork(AsyncSnapshot<List<Work>> snapshot) {
     parcedWork.add(tmp);
 
     slivers = []; // Clear the list
-    
+
     // Build the slivers
     // Make sure the data is valid
     if (parcedWork[0].length > 0) {
-
       parcedWork.forEach((element) {
         // Calculate the total hours
         double hours = 0;

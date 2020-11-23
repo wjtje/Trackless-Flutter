@@ -27,6 +27,7 @@
   "add_work_dataNotEntered": "Not everything has been entered. Please check your details and try again.",
   "add_work_inputDescriptionEmptyError": "The description can not be left empty",
   "add_work_inputTimeEmptyError": "The time can not be left empty",
+  "add_work_inputTimeNotValid": "This value is not valid",
 
   "list_work_hour": "hour(s)",
   "list_work_total": "hour(s) total"

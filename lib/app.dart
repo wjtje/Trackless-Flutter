@@ -66,10 +66,11 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
           // The appBar
           appBar: AppBar(
             title: Text(AppLocalizations.of(context).translate(_appBarTitle)),
-            actions: [IconButton(icon: Icon(Icons.refresh), onPressed: () {})],
           ),
           // The active page
           body: _activePage,
+
+          // Animate the floating action button
           floatingActionButton: FadeTransition(
             opacity: _hideFabAnimation,
             child: ScaleTransition(

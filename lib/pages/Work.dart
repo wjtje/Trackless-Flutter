@@ -268,6 +268,7 @@ class _WorkDialogState extends State<WorkDialog> {
                     if (locationID != 0 &&
                         _descriptionInput.value.text != '' &&
                         _timeInput.value.text != '' &&
+                        !RegExp(r'(^[0-9]{1}|^1[0-9]{1})($|[.,][0-9]{1,2}$)').hasMatch(_timeInput.value.text) &&
                         worktypeID != 0) {
                       // All data has been entered
                       // Update the last used
@@ -407,10 +408,19 @@ class _WorkDialogState extends State<WorkDialog> {
               // Validate the input
               autovalidateMode: AutovalidateMode.always,
               validator: (String value) {
-                return (value == '' && showInputError)
-                    ? AppLocalizations.of(context)
-                        .translate('add_work_inputTimeEmptyError')
-                    : null;
+                if (showInputError) {
+                  // Input can not be empty
+                  if (value == '' || value == '0') {
+                    return AppLocalizations.of(context)
+                        .translate('add_work_inputTimeEmptyError');
+                  } else if (!RegExp(r'(^[0-9]{1}|^1[0-9]{1})($|[.,][0-9]{1,2}$)').hasMatch(value)) { // Check if the input is valid 0 t/m 19.99
+                    return AppLocalizations.of(context)
+                        .translate('add_work_inputTimeNotValid');
+                  }
+                }
+
+                // The string is valid
+                return null;
               },
               decoration: InputDecoration(
                   labelText:
@@ -418,10 +428,6 @@ class _WorkDialogState extends State<WorkDialog> {
                   border: OutlineInputBorder(),
                   icon: Icon(Icons.access_time)),
               keyboardType: TextInputType.number,
-              inputFormatters: [
-                // TODO: make sure the time format is correct
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))
-              ],
             ),
             // Worktype input
             SizedBox(

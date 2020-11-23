@@ -114,12 +114,13 @@ List<Widget> listWork(AsyncSnapshot<List<Work>> snapshot) {
 
         element.forEach((element) {
           hours += element.time;
+          print('hours: $hours, time: ${element.time}');
         });
 
         slivers.add(SliverStickyHeader(
           header: ListWorkHeader(
             date: element[0].date,
-            hours: hours,
+            hours: double.parse((hours).toStringAsFixed(2)), // It's ugly but it's work
           ),
           sliver: ListWorkSliver(
             work: element,
@@ -150,7 +151,9 @@ class ListWorkHeader extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(DateFormat.yMMMd(Localizations.localeOf(context).languageCode).format(DateTime.parse(this.date)),
+              Text(
+                  DateFormat.yMMMd(Localizations.localeOf(context).languageCode)
+                      .format(DateTime.parse(this.date)),
                   style: Theme.of(context).textTheme.subtitle1.merge(TextStyle(
                       // Make sure the text has the correct color
                       color: Theme.of(context).colorScheme.onPrimary))),

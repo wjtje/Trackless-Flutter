@@ -28,6 +28,7 @@
   "add_work_inputDescriptionEmptyError": "De omschijving kan niet leeg zijn",
   "add_work_inputTimeEmptyError": "De tijds duur kan niet leeg zijn",
   "add_work_inputTimeNotValid": "Dit is geen geldige waarde",
+  "add_work_canNotEdit": "U mag dit werk niet meer aanpassen",
 
   "list_work_hour": "uur",
   "list_work_total": "uur in totaal"

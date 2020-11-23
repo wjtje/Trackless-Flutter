@@ -114,11 +114,7 @@ class _WorkDialogState extends State<WorkDialog> {
 
       Navigator.of(context).pop();
     } else {
-      // Couldn't save your work
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content:
-            Text(AppLocalizations.of(context).translate('add_work_saveError')),
-      ));
+      serverError(response, context);
     }
   }
 
@@ -166,11 +162,7 @@ class _WorkDialogState extends State<WorkDialog> {
 
       Navigator.of(context).pop();
     } else {
-      // Couldn't save your work
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content:
-            Text(AppLocalizations.of(context).translate('add_work_saveError')),
-      ));
+      serverError(response, context);
     }
   }
 
@@ -191,6 +183,18 @@ class _WorkDialogState extends State<WorkDialog> {
 
       Navigator.of(context).pop();
     } else {
+      serverError(response, context);
+    }
+  }
+
+  void serverError(http.Response response, BuildContext context) {
+    if (json.decode(response.body)['code'] == 'trackless.work.toLate') {
+      // To late
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content:
+            Text(AppLocalizations.of(context).translate('add_work_canNotEdit')),
+      ));
+    } else {
       // Couldn't save your work
       Scaffold.of(context).showSnackBar(SnackBar(
         content:
@@ -202,7 +206,9 @@ class _WorkDialogState extends State<WorkDialog> {
   @override
   Widget build(BuildContext context) {
     // Show the correct date in the input
-    _dateInput.text = DateFormat.yMMMd(Localizations.localeOf(context).languageCode).format(_dateTime);
+    _dateInput.text =
+        DateFormat.yMMMd(Localizations.localeOf(context).languageCode)
+            .format(_dateTime);
 
     return Scaffold(
       appBar: AppBar(

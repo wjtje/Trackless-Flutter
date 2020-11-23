@@ -1,0 +1,90 @@
+import 'package:flutter/material.dart';
+import 'package:trackless/bloc/work_bloc.dart';
+import 'package:trackless/bloc/work_fromServer.dart';
+import 'package:trackless/components/LinearProgress.dart';
+import 'package:trackless/components/listWork.dart';
+import 'package:trackless/date.dart';
+
+class HistoryWork extends StatefulWidget {
+  final int weekNumber;
+  final int year;
+
+  HistoryWork({Key key, this.weekNumber, this.year}) : super(key: key);
+
+  @override
+  _HistoryWorkState createState() => _HistoryWorkState();
+}
+
+class _HistoryWorkState extends State<HistoryWork>
+    with SingleTickerProviderStateMixin, RouteAware {
+  WorkBloc _workBloc;
+  double loadingSize = 0.1; // loadingSize >= 0.1
+
+  @override
+  void initState() {
+    DateTime firstDay =
+        firstDayOfWeek(isoWeekToDate(widget.year, widget.weekNumber));
+
+    // Create the workBloc
+    _workBloc =
+        WorkBloc(startDate: firstDay, endDate: firstDay.add(Duration(days: 6)));
+
+    // Load work from server
+    () async {
+      // Show a loading animation
+      setState(() {
+        loadingSize = 4; // Default size
+      });
+
+      // Load the data and wait a some time for the animation
+      await loadWorkFromServer(firstDay, firstDay.add(Duration(days: 6)));
+      await new Future.delayed(const Duration(milliseconds: 2000));
+
+      // Disable the loading animation
+      if (this.mounted) {
+        setState(() {
+          loadingSize = 0.1; // Closed size
+        });
+      }
+    }();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _workBloc.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // Show the app bar
+      appBar: AppBar(
+        title: Text('${widget.year}-W${widget.weekNumber}'),
+      ),
+      body: StreamBuilder(
+        stream: _workBloc.work,
+        initialData: null,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return CustomScrollView(
+            slivers: [
+              LinearPrograss(
+                height: loadingSize,
+              ),
+              // Make sure the skeleton is shown
+              // if snapshot.data == null && isLoading
+              // or if snapshot.data.length == null && isloading
+              ...listWork(
+                  (snapshot.data == null ? true : snapshot.data.length == 0) &&
+                          loadingSize == 0.4
+                      ? null
+                      : snapshot)
+            ],
+          );
+        },
+      ),
+    );
+  }
+}

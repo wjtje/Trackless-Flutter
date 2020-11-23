@@ -4,7 +4,6 @@ import 'package:trackless/app_localizations.dart';
 import 'package:trackless/components/drawer.dart';
 import 'package:trackless/pages/History.dart';
 import 'package:trackless/pages/Home.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class MyApp extends StatefulWidget {

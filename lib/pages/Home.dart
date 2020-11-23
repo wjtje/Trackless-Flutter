@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trackless/bloc/work_fromServer.dart';
+import 'package:trackless/components/LinearProgress.dart';
 import 'package:trackless/components/listWork.dart';
 import 'package:trackless/date.dart';
 import 'package:trackless/models/work.dart';
@@ -64,21 +65,12 @@ class _HomePageState extends State<HomePage>
         builder: (context, AsyncSnapshot<List<Work>> snapshot) =>
             CustomScrollView(
               slivers: [
-                SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                        // Animate the size of the LinearProgressIndicator
-                        (context, i) => AnimatedSize(
-                            duration: Duration(milliseconds: 150),
-                            vsync: this,
-                            // Disable the LinearProgressIndicator if the size == 0.1
-                            child: Visibility(
-                              child: LinearProgressIndicator(
-                                minHeight: loadingSize,
-                              ),
-                              visible: loadingSize != 0.1,
-                            ),
-                            curve: Curves.fastOutSlowIn),
-                        childCount: 1)),
+                LinearPrograss(
+                  height: loadingSize,
+                ),
+                // Make sure the skeleton is shown
+                // if snapshot.data == null && isLoading
+                // or if snapshot.data.length == null && isloading
                 ...listWork((snapshot.data == null
                             ? true
                             : snapshot.data.length == 0) &&

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:intl/intl.dart';
 import 'package:trackless/app_localizations.dart';
 import 'package:trackless/models/work.dart';
 import 'package:skeleton_animation/skeleton_animation.dart';
@@ -149,7 +150,7 @@ class ListWorkHeader extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(this.date,
+              Text(DateFormat.yMMMd(Localizations.localeOf(context).languageCode).format(DateTime.parse(this.date)),
                   style: Theme.of(context).textTheme.subtitle1.merge(TextStyle(
                       // Make sure the text has the correct color
                       color: Theme.of(context).colorScheme.onPrimary))),

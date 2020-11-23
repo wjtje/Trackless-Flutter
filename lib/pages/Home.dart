@@ -48,9 +48,11 @@ class _HomePageState extends State<HomePage>
       await new Future.delayed(const Duration(milliseconds: 2000));
 
       // Disable the loading animation
-      setState(() {
-        loadingSize = 0.1; // Closed size
-      });
+      if (this.mounted) {
+        setState(() {
+          loadingSize = 0.1; // Closed size
+        });
+      }
     }();
   }
 
@@ -77,7 +79,12 @@ class _HomePageState extends State<HomePage>
                             ),
                             curve: Curves.fastOutSlowIn),
                         childCount: 1)),
-                ...listWork((snapshot.data == null ? true : snapshot.data.length == 0) && loadingSize == 0.4 ? null : snapshot)
+                ...listWork((snapshot.data == null
+                            ? true
+                            : snapshot.data.length == 0) &&
+                        loadingSize == 0.4
+                    ? null
+                    : snapshot)
               ],
             ));
   }

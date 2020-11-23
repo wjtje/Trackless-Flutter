@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:trackless/app_localizations.dart';
 import 'package:trackless/bloc/location_bloc.dart';
 import 'package:trackless/bloc/work_storage.dart';
@@ -201,8 +202,7 @@ class _WorkDialogState extends State<WorkDialog> {
   @override
   Widget build(BuildContext context) {
     // Show the correct date in the input
-    _dateInput.text =
-        '${_dateTime.year.toString()}-${_dateTime.month.toString()}-${_dateTime.day.toString()}';
+    _dateInput.text = DateFormat.yMMMd(Localizations.localeOf(context).languageCode).format(_dateTime);
 
     return Scaffold(
       appBar: AppBar(

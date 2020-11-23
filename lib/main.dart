@@ -94,12 +94,14 @@ class BaseApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         localeResolutionCallback: (locale, supportedLocales) {
+          // Find the correct language
           for (var supportedLocale in supportedLocales) {
             if (supportedLocale.languageCode == locale.languageCode) {
               return supportedLocale;
             }
           }
 
+          // If the language is not supported load the first lang (en)
           return supportedLocales.first;
         },
       ),

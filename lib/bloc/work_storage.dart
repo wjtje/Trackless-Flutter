@@ -3,7 +3,7 @@ import 'package:trackless/models/work.dart';
 import 'package:intl/intl.dart';
 
 class WorkStorage {
-  void saveWorkOverride(
+  Future<void> saveWorkOverride(
       List<Work> work, DateTime startDate, DateTime endDate) async {
     print('WorkStorage: saving work');
 

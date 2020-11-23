@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:trackless/bloc/work_fromServer.dart';
 import 'package:trackless/main.dart';
 import 'package:trackless/models/work.dart';
 import 'package:trackless/bloc/work_storage.dart';
@@ -72,76 +73,7 @@ class WorkBloc {
     // Listen to the event controller
     _eventController.stream.listen((event) {
       if (event is LoadWorkFromServer) {
-        // Test if apiKey and serverUrl is present
-        () async {
-          // Get the required information
-          final String apiKey = storage.getItem('apiKey');
-          final String serverUrl = storage.getItem('serverUrl');
-          final String startDateFormat =
-              new DateFormat('yyyy-MM-dd').format(this.startDate);
-          final String endDateFormat =
-              new DateFormat('yyyy-MM-dd').format(this.endDate);
-
-          // Create a tmp buffer
-          List<Work> tmp = new List<Work>();
-
-          if (apiKey != null && serverUrl != null) {
-            // Get the data from the server
-            print(
-                'WorkBloc: fetching work: $serverUrl/user/~/work?startDate=$startDateFormat&endDate=$endDateFormat&order=date');
-
-            final response = await http.get(
-                '$serverUrl/user/~/work?startDate=$startDateFormat&endDate=$endDateFormat&order=date',
-                headers: {'Authorization': 'Bearer $apiKey'});
-
-            if (response.statusCode == 200) {
-              // Parse the JSON
-              List<dynamic> values = new List<dynamic>();
-              values = json.decode(response.body);
-
-              if (values.length > 0) {
-                for (int i = 0; i < values.length; i++) {
-                  if (values[i] != null) {
-                    // Convert to work object
-                    tmp.add(Work.fromJson(values[i]));
-                  }
-                }
-              }
-
-              // Sort the list
-              tmp.sort((a, b) {
-                return -a.date.compareTo(b.date);
-              });
-
-              // Save the result
-              _list = tmp;
-
-              workStorage.saveWorkOverride(_list, this.startDate, this.endDate);
-
-              // Check if the stream is active
-              if (!_stateController.isClosed) {
-                _inWork.add(_list);
-              }
-            } else {
-              throw Exception('Failed to load work');
-            }
-          }
-        }();
-      } else if (event is AddWork) {
-        // Add work to the _list
-        _list.add(event.work);
-
-        // Sort the list
-        _list.sort((a, b) {
-          return -a.date.compareTo(b.date);
-        });
-
-        // Save the result
-        // TODO: Add work function on WorkStoage
-
-        if (!_stateController.isClosed) {
-          _inWork.add(_list);
-        }
+        loadWorkFromServer(this.startDate, this.endDate);
       }
     });
   }

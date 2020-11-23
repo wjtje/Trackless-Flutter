@@ -268,7 +268,8 @@ class _WorkDialogState extends State<WorkDialog> {
                     if (locationID != 0 &&
                         _descriptionInput.value.text != '' &&
                         _timeInput.value.text != '' &&
-                        !RegExp(r'(^[0-9]{1}|^1[0-9]{1})($|[.,][0-9]{1,2}$)').hasMatch(_timeInput.value.text) &&
+                        RegExp(r'(^[0-9]{1}|^1[0-9]{1})($|[.,][0-9]{1,2}$)')
+                            .hasMatch(_timeInput.value.text) &&
                         worktypeID != 0) {
                       // All data has been entered
                       // Update the last used
@@ -413,7 +414,10 @@ class _WorkDialogState extends State<WorkDialog> {
                   if (value == '' || value == '0') {
                     return AppLocalizations.of(context)
                         .translate('add_work_inputTimeEmptyError');
-                  } else if (!RegExp(r'(^[0-9]{1}|^1[0-9]{1})($|[.,][0-9]{1,2}$)').hasMatch(value)) { // Check if the input is valid 0 t/m 19.99
+                  } else if (!RegExp(
+                          r'(^[0-9]{1}|^1[0-9]{1})($|[.,][0-9]{1,2}$)')
+                      .hasMatch(value)) {
+                    // Check if the input is valid 0 t/m 19.99
                     return AppLocalizations.of(context)
                         .translate('add_work_inputTimeNotValid');
                   }

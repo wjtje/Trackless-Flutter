@@ -8,6 +8,8 @@ import 'package:trackless/pages/Work.dart';
 List<Widget> listWork(AsyncSnapshot<List<Work>> snapshot) {
   print('ListWork: parsing snapshot');
 
+  print(snapshot.data);
+
   final List<Work> work = snapshot.data;
 
   // Load the slivers with default skeletons

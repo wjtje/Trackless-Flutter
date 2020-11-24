@@ -114,7 +114,6 @@ List<Widget> listWork(AsyncSnapshot<List<Work>> snapshot) {
 
         element.forEach((element) {
           hours += element.time;
-          print('hours: $hours, time: ${element.time}');
         });
 
         slivers.add(SliverStickyHeader(

@@ -10,8 +10,9 @@ class WorkStorage {
     // Clean the localStorage
     DateTime workingDate = startDate;
 
-    while (workingDate.isBefore(endDate)) {
-      storage.setItem(new DateFormat('yyyy-MM-dd').format(workingDate), []);
+    while (!workingDate.isAfter(endDate)) {
+      print('workStorage: cleaning ${new DateFormat('yyyy-MM-dd').format(workingDate)}');
+      await storage.deleteItem(new DateFormat('yyyy-MM-dd').format(workingDate));
       workingDate = workingDate.add(Duration(days: 1));
     }
 
@@ -38,9 +39,13 @@ class WorkStorage {
 
     // Save the work
     if (parcedWork[0].length > 0) {
-      parcedWork.forEach((element) {
-        storage.setItem(element[0].date, element);
-      });
+      int index = 0;
+
+      while (parcedWork[index] != null) {
+        print('WorkStorage: setting: ${parcedWork[index][0].date}');
+        await storage.setItem(parcedWork[index][0].date, parcedWork[index]);
+        index++;
+      }
     }
   }
 

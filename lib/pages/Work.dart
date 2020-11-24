@@ -399,6 +399,8 @@ class _WorkDialogState extends State<WorkDialog> {
                         .translate('add_work_inputDescriptionEmptyError')
                     : null;
               },
+              minLines: 1,
+              maxLines: 4,
               decoration: InputDecoration(
                   labelText: AppLocalizations.of(context)
                       .translate('add_work_description'),

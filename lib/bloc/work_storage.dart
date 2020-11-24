@@ -10,7 +10,7 @@ class WorkStorage {
     // Clean the localStorage
     DateTime workingDate = startDate;
 
-    while (!workingDate.isAfter(endDate)) {
+    while (workingDate.compareTo(endDate) < 0) { // Is workingDate bevore or equal to endDate
       print('workStorage: cleaning ${new DateFormat('yyyy-MM-dd').format(workingDate)}');
       await storage.deleteItem(new DateFormat('yyyy-MM-dd').format(workingDate));
       workingDate = workingDate.add(Duration(days: 1));

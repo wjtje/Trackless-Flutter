@@ -73,14 +73,7 @@ class _HistoryWorkState extends State<HistoryWork>
               LinearPrograss(
                 height: loadingSize,
               ),
-              // Make sure the skeleton is shown
-              // if snapshot.data == null && isLoading
-              // or if snapshot.data.length == null && isloading
-              ...listWork(
-                  (snapshot.data == null ? true : snapshot.data.length == 0) &&
-                          loadingSize == 0.4
-                      ? null
-                      : snapshot)
+              ...buildListWork(snapshot, loadingSize)
             ],
           );
         },

@@ -57,9 +57,6 @@ class WorkBloc {
           md5.convert(utf8.encode(jsonEncode(fromStorage))).toString();
       String listHash = md5.convert(utf8.encode(jsonEncode(_list))).toString();
 
-      print(fromStorageHash);
-      print(listHash);
-
       if (fromStorageHash != listHash) {
         print('WorkBloc: updating storage');
         _list = fromStorage;

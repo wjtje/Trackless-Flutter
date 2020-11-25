@@ -7,15 +7,6 @@ class WorkStorage {
       List<Work> work, DateTime startDate, DateTime endDate) async {
     print('WorkStorage: saving work');
 
-    // Clean the localStorage
-    DateTime workingDate = startDate;
-
-    while (workingDate.compareTo(endDate) < 0) { // Is workingDate bevore or equal to endDate
-      print('workStorage: cleaning ${new DateFormat('yyyy-MM-dd').format(workingDate)}');
-      await storage.deleteItem(new DateFormat('yyyy-MM-dd').format(workingDate));
-      workingDate = workingDate.add(Duration(days: 1));
-    }
-
     // Sort the work by date
     List<Work> tmp = new List<Work>();
     List<List<Work>> parcedWork = new List<List<Work>>();
@@ -37,15 +28,40 @@ class WorkStorage {
     // Add the last
     parcedWork.add(tmp);
 
+    // Keep track of the dates
+    Set<String> changedDates = {};
+
     // Save the work
     if (parcedWork[0].length > 0) {
       int index = 0;
 
-      while (parcedWork[index] != null) {
+      while (parcedWork.length > index) {
+        // Keep track of the date
         print('WorkStorage: setting: ${parcedWork[index][0].date}');
+        changedDates.add(parcedWork[index][0].date);
+
+        // Save it in localStorage
         await storage.setItem(parcedWork[index][0].date, parcedWork[index]);
         index++;
       }
+    }
+
+    // Remove old dates
+    DateTime workingDate = startDate;
+
+    while (workingDate.compareTo(endDate) < 0) {
+      // Is workingDate bevore or equal to endDate
+      String date = new DateFormat('yyyy-MM-dd').format(workingDate);
+
+      // Only remove dates that aren't changed
+      if (!changedDates.contains(date)) {
+        print(
+            'workStorage: cleaning ${new DateFormat('yyyy-MM-dd').format(workingDate)}');
+        await storage
+            .deleteItem(new DateFormat('yyyy-MM-dd').format(workingDate));
+      }
+
+      workingDate = workingDate.add(Duration(days: 1));
     }
   }
 

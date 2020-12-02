@@ -143,6 +143,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
                   title: Text(AppLocalizations.of(context)
                       .translate('account_page_title')),
                   leading: Icon(Icons.account_box),
+                  onTap: () async {},
                 ),
                 // Other options
                 Divider(),

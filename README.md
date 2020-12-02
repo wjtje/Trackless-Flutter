@@ -7,8 +7,9 @@ A basic flutter application to interface with the trackless-server
 # How to get started
 
 1. Setup a [trackless-server](https://github.com/wjtje/Trackless-server)
-2. Give the a group the needed rights
-3. install the app
+2. Setup sentry and dsn.dart
+3. Give the a group the needed rights
+4. install the app
 
 ## Needed rights
 

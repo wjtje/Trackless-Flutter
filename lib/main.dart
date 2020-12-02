@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
@@ -12,6 +14,10 @@ import 'package:trackless/pages/Login.dart';
 import 'package:trackless/theme/dark.dart';
 import 'package:trackless/theme/light.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:sentry/sentry.dart';
+import 'dsn.dart';
+
+final SentryClient sentry = new SentryClient(dsn: dsn);
 
 // Global LocalStorage
 LocalStorage storage;
@@ -47,23 +53,54 @@ void main() {
         'editWorkDate', '${today.year}-${today.month}-${today.day}');
 
     // Start the app
-    runApp(BaseApp(
-      initRoute: initPage,
-    ));
+    runZoned(
+      () {
+        runApp(BaseApp(
+          initRoute: initPage,
+        ));
 
-    // Load basic data from server
-    final WorktypeBloc worktypeBloc = WorktypeBloc();
-    worktypeBloc.worktypeEventSink.add(LoadWorktypeFromServer());
-    worktypeBloc.dispose();
+        // Catching flutter error's
+        FlutterError.onError = (details, {bool forceReport = false}) {
+          try {
+            sentry.captureException(
+              exception: details.exception,
+              stackTrace: details.stack,
+            );
+          } catch (e) {
+            print('Sending report to sentry.io failed: $e');
+          } finally {
+            // Also use Flutter's pretty error logging to the device's console.
+            FlutterError.dumpErrorToConsole(details, forceReport: forceReport);
+          }
+        };
 
-    final LocationBloc locationBloc = LocationBloc();
-    locationBloc.locationEventSink.add(LoadLocationFromServer());
-    locationBloc.dispose();
+        // Load basic data from server
+        final WorktypeBloc worktypeBloc = WorktypeBloc();
+        worktypeBloc.worktypeEventSink.add(LoadWorktypeFromServer());
+        worktypeBloc.dispose();
+
+        final LocationBloc locationBloc = LocationBloc();
+        locationBloc.locationEventSink.add(LoadLocationFromServer());
+        locationBloc.dispose();
+      },
+      // Catching error's
+      onError: (Object error, StackTrace stackTrace) {
+        try {
+          sentry.captureException(
+            exception: error,
+            stackTrace: stackTrace,
+          );
+          print('Error sent to sentry.io: $error');
+        } catch (e) {
+          print('Sending report to sentry.io failed: $e');
+          print('Original error: $error');
+        }
+      },
+    );
   });
 
   print(DateFormat.yMd().format(DateTime.now()));
 }
-
 class BaseApp extends StatelessWidget {
   final String initRoute;
   final RouteObserver routeObserver = RouteObserver<PageRoute>();

@@ -46,6 +46,8 @@ dependencies:
   loader_overlay: ^1.1.0+1
   # For launching urls
   url_launcher: ^5.7.10
+  # For debugging
+  sentry: ">=3.0.0 <4.0.0"
 
 dev_dependencies:
   flutter_test:

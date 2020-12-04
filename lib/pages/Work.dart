@@ -67,7 +67,7 @@ class _WorkDialogState extends State<WorkDialog> {
       // Get last used
       locationID = storage.getItem('editWorkLocation');
       worktypeID = storage.getItem('editWorkWorkType');
-      _dateTime = DateTime.parse(storage.getItem('editWorkDate'));
+      _dateTime = DateTime.tryParse(storage.getItem('editWorkDate')) ?? DateTime.now();
     }
 
     super.initState();

@@ -48,9 +48,8 @@ void main() {
     }
 
     // Reset the work date
-    final DateTime today = DateTime.now();
     storage.setItem(
-        'editWorkDate', '${today.year}-${today.month}-${today.day}');
+        'editWorkDate', DateFormat('yyyy-MM-dd').format(DateTime.now()));
 
     // Start the app
     runZoned(

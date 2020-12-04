@@ -81,8 +81,7 @@ class _WorkDialogState extends State<WorkDialog> {
     final response = await http.post('$serverUrl/user/~/work', body: {
       'worktypeID': worktypeID.toString() ?? '0',
       'locationID': locationID.toString() ?? '0',
-      'date':
-          '${_dateTime.year.toString()}-${_dateTime.month.toString()}-${_dateTime.day.toString()}',
+      'date': DateFormat('yyyy-MM-dd').format(_dateTime),
       'time': double.tryParse(_timeInput.value.text).toString() ?? 0.toString(),
       'description': _descriptionInput.value.text ?? ''
     }, headers: {
@@ -96,8 +95,7 @@ class _WorkDialogState extends State<WorkDialog> {
       _workStorage.saveWork(new Work(
         // Get the workID from the response
         workID: json.decode(response.body)['workID'],
-        date:
-            '${_dateTime.year.toString()}-${_dateTime.month.toString()}-${_dateTime.day.toString()}',
+        date: DateFormat('yyyy-MM-dd').format(_dateTime),
         description: _descriptionInput.value.text,
         time: double.tryParse(_timeInput.value.text) ?? 0,
         // TODO: select the correct user
@@ -127,8 +125,7 @@ class _WorkDialogState extends State<WorkDialog> {
         .patch('$serverUrl/user/~/work/${widget.editWork.workID}', body: {
       'worktypeID': worktypeID.toString() ?? '0',
       'locationID': locationID.toString() ?? '0',
-      'date':
-          '${_dateTime.year.toString()}-${_dateTime.month.toString()}-${_dateTime.day.toString()}',
+      'date': DateFormat('yyyy-MM-dd').format(_dateTime),
       'time': double.tryParse(_timeInput.value.text).toString() ?? 0.toString(),
       'description': _descriptionInput.value.text ?? ''
     }, headers: {
@@ -143,8 +140,7 @@ class _WorkDialogState extends State<WorkDialog> {
           new Work(
             // Get the workID from the response
             workID: widget.editWork.workID,
-            date:
-                '${_dateTime.year.toString()}-${_dateTime.month.toString()}-${_dateTime.day.toString()}',
+            date: DateFormat('yyyy-MM-dd').format(_dateTime),
             description: _descriptionInput.value.text,
             time: double.tryParse(_timeInput.value.text) ?? 0,
             // TODO: select the correct user
@@ -281,8 +277,7 @@ class _WorkDialogState extends State<WorkDialog> {
                       // Update the last used
                       storage.setItem('editWorkLocation', locationID);
                       storage.setItem('editWorkWorkType', worktypeID);
-                      storage.setItem('editWorkDate',
-                          '${_dateTime.year}-${_dateTime.month}-${_dateTime.day}');
+                      storage.setItem('editWorkDate', DateFormat('yyyy-MM-dd').format(_dateTime));
 
                       // Hide the keyboard and show loading animation
                       FocusScope.of(context).requestFocus(new FocusNode());

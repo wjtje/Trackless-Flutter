@@ -29,6 +29,10 @@ void main() {
   // Open the localStorage
   storage = LocalStorage('tracklessLocalStorage');
 
+  storage.onError.addListener(() {
+    print('FAILED TO INIT STORAGE!');
+  });
+
   // Wait for the storage to start
   storage.ready.then((value) {
     // Create a broadcast stream that blocs can listen for changes
@@ -97,8 +101,6 @@ void main() {
       },
     );
   });
-
-  print(DateFormat.yMd().format(DateTime.now()));
 }
 class BaseApp extends StatelessWidget {
   final String initRoute;

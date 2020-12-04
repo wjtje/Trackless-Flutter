@@ -90,7 +90,7 @@ class WorkStorage {
   Future<void> updateWork(Work work, DateTime orgDate) async {
     print('WorkStorage: updating work');
 
-    final String oldDate = '${orgDate.year}-${orgDate.month}-${orgDate.day}';
+    final String oldDate = DateFormat('yyyy-MM-dd').format(orgDate);
 
     List<Work> tmp = new List<Work>();
 
@@ -135,7 +135,7 @@ class WorkStorage {
   Future<void> removeWork(Work work, DateTime orgDate) async {
     print('WorkStorage: removing work');
 
-    final String oldDate = '${orgDate.year}-${orgDate.month}-${orgDate.day}';
+    final String oldDate = DateFormat('yyyy-MM-dd').format(orgDate);
 
     List<Work> tmp = new List<Work>();
 
@@ -159,10 +159,10 @@ class WorkStorage {
 
   List<Work> loadWork(DateTime startDate, DateTime endDate) {
     List<Work> tmp = [];
-    DateTime tmpDate = endDate;
+    DateTime tmpDate = startDate;
 
     // Make sure to load the last day first
-    while (!tmpDate.isBefore(startDate)) {
+    while (!tmpDate.isAfter(endDate)) {
       // Load work for each date
       final List<dynamic> jsonList =
           storage.getItem(new DateFormat('yyyy-MM-dd').format(tmpDate));
@@ -174,7 +174,7 @@ class WorkStorage {
       }
 
       // Go to the next date
-      tmpDate = tmpDate.subtract(Duration(days: 1));
+      tmpDate = tmpDate.add(Duration(days: 1));
     }
 
     return tmp;

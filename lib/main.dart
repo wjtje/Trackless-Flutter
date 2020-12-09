@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:package_info/package_info.dart';
 import 'package:trackless/app.dart';
 import 'package:trackless/app_localizations.dart';
 import 'package:trackless/bloc/location_bloc.dart';
@@ -17,7 +18,13 @@ import 'package:localstorage/localstorage.dart';
 import 'package:sentry/sentry.dart';
 import 'dsn.dart';
 
+// Global var for storing sentry
+// This is used for debugging
 final SentryClient sentry = new SentryClient(dsn: dsn);
+
+// A global var for storing the appVersion name
+// It will be build in the main()
+String appVersion = ''; // Make sure it is not null
 
 // Global LocalStorage
 LocalStorage storage;
@@ -31,6 +38,12 @@ void main() {
 
   storage.onError.addListener(() {
     print('FAILED TO INIT STORAGE!');
+  });
+
+  // Get the package info
+  PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+    // Build the appVersion string
+    appVersion = '${packageInfo.version}+${packageInfo.buildNumber}';
   });
 
   // Wait for the storage to start

@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:trackless/main.dart';
-import 'package:trackless/models/worktype.dart';
-import 'package:trackless/bloc/worktype_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 
+import '../main.dart';
+import '../models/worktype.dart';
+import 'worktype_storage.dart';
 import 'worktype_event.dart';
 
 class WorktypeBloc {

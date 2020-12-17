@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:trackless/bloc/work_fromServer.dart';
-import 'package:trackless/main.dart';
-import 'package:trackless/models/work.dart';
-import 'package:trackless/bloc/work_storage.dart';
 import 'package:crypto/crypto.dart';
 
-import './work_event.dart';
+import '../main.dart';
+import '../models/work.dart';
+import 'work_storage.dart';
+import 'work_fromServer.dart';
+import 'work_event.dart';
 
 class WorkBloc {
   final DateTime startDate;

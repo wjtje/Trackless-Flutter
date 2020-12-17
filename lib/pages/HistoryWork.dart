@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:trackless/bloc/work_bloc.dart';
-import 'package:trackless/bloc/work_fromServer.dart';
-import 'package:trackless/components/LinearProgress.dart';
-import 'package:trackless/components/listWork.dart';
-import 'package:trackless/date.dart';
+
+import '../bloc/work_bloc.dart';
+import '../bloc/work_fromServer.dart';
+import '../components/LinearProgress.dart';
+import '../components/listWork.dart';
+import '../date.dart';
 
 class HistoryWork extends StatefulWidget {
   final int weekNumber;

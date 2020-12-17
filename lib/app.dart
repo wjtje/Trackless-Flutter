@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:trackless/app_localizations.dart';
-import 'package:trackless/components/drawer.dart';
-import 'package:trackless/pages/History.dart';
-import 'package:trackless/pages/Home.dart';
 import 'package:intl/date_symbol_data_local.dart';
+
+import 'app_localizations.dart';
+import 'components/drawer.dart';
+import 'pages/History.dart';
+import 'pages/Home.dart';
 
 class MyApp extends StatefulWidget {
   MyApp({Key key}) : super(key: key);

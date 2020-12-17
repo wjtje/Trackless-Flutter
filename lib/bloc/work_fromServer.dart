@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
-import 'package:trackless/main.dart';
-import 'package:trackless/models/work.dart';
-import 'package:trackless/bloc/work_storage.dart';
 import 'package:http/http.dart' as http;
+
+import '../main.dart';
+import '../models/work.dart';
+import 'work_storage.dart';
 
 Future<void> loadWorkFromServer(DateTime startDate, DateTime endDate) async {
   // Get the required information

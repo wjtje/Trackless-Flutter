@@ -2,17 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:trackless/app_localizations.dart';
-import 'package:trackless/bloc/location_bloc.dart';
-import 'package:trackless/bloc/location_event.dart';
-import 'package:trackless/bloc/worktype_bloc.dart';
-import 'package:trackless/bloc/worktype_event.dart';
-import 'package:trackless/components/drawer.dart';
-import 'package:trackless/main.dart';
-import 'package:trackless/models/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../app_localizations.dart';
+import '../bloc/location_bloc.dart';
+import '../bloc/location_event.dart';
+import '../bloc/worktype_bloc.dart';
+import '../bloc/worktype_event.dart';
+import '../components/drawer.dart';
+import '../main.dart';
+import '../models/login.dart';
 
 class LoginPage extends StatelessWidget {
   // Define text controllers

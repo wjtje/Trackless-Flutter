@@ -3,17 +3,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:trackless/app_localizations.dart';
-import 'package:trackless/bloc/location_bloc.dart';
-import 'package:trackless/bloc/work_storage.dart';
-import 'package:trackless/bloc/worktype_bloc.dart';
-import 'package:trackless/main.dart';
-import 'package:trackless/models/location.dart';
-import 'package:trackless/models/user.dart';
-import 'package:trackless/models/work.dart';
-import 'package:trackless/models/worktype.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:http/http.dart' as http;
+
+import '../app_localizations.dart';
+import '../bloc/location_bloc.dart';
+import '../bloc/work_storage.dart';
+import '../bloc/worktype_bloc.dart';
+import '../main.dart';
+import '../models/location.dart';
+import '../models/user.dart';
+import '../models/work.dart';
+import '../models/worktype.dart';
 
 class WorkDialog extends StatefulWidget {
   final Work editWork;

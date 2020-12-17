@@ -5,17 +5,18 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:package_info/package_info.dart';
-import 'package:trackless/app.dart';
-import 'package:trackless/app_localizations.dart';
-import 'package:trackless/bloc/location_bloc.dart';
-import 'package:trackless/bloc/location_event.dart';
-import 'package:trackless/bloc/worktype_bloc.dart';
-import 'package:trackless/bloc/worktype_event.dart';
-import 'package:trackless/pages/Login.dart';
-import 'package:trackless/theme/dark.dart';
-import 'package:trackless/theme/light.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:sentry/sentry.dart';
+
+import 'app.dart';
+import 'app_localizations.dart';
+import 'bloc/location_bloc.dart';
+import 'bloc/location_event.dart';
+import 'bloc/worktype_bloc.dart';
+import 'bloc/worktype_event.dart';
+import 'pages/Login.dart';
+import 'theme/dark.dart';
+import 'theme/light.dart';
 import 'dsn.dart';
 
 // Global var for storing sentry

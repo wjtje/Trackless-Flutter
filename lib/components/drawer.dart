@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:trackless/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../app_localizations.dart';
 import '../main.dart';
 
 /// Quickly make the custom Trackless drawer header

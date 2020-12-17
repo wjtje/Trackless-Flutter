@@ -1,6 +1,6 @@
-import 'package:trackless/models/location.dart';
-import 'package:trackless/models/user.dart';
-import 'package:trackless/models/worktype.dart';
+import 'location.dart';
+import 'user.dart';
+import 'worktype.dart';
 
 class Work {
   final int workID;

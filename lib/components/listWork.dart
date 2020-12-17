@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:intl/intl.dart';
-import 'package:trackless/app_localizations.dart';
-import 'package:trackless/models/work.dart';
 import 'package:skeleton_animation/skeleton_animation.dart';
-import 'package:trackless/pages/Work.dart';
+
+import '../app_localizations.dart';
+import '../models/work.dart';
+import '../pages/Work.dart';
 
 /// Creates a version of [ListWork] where the skeleton is shown
 List<Widget> buildListWork(AsyncSnapshot snapshot, double loadingSize) {

@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:trackless/main.dart';
-import 'package:trackless/models/location.dart';
-import 'package:trackless/bloc/location_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 
-import './location_event.dart';
+import '../main.dart';
+import '../models/location.dart';
+import 'location_event.dart';
+import 'location_storage.dart';
 
 class LocationBloc {
   // Connect to the local storage

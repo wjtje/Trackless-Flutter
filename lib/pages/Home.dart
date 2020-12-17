@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:trackless/bloc/work_fromServer.dart';
-import 'package:trackless/components/LinearProgress.dart';
-import 'package:trackless/components/listWork.dart';
-import 'package:trackless/date.dart';
-import 'package:trackless/models/work.dart';
-import 'package:trackless/bloc/work_bloc.dart';
-import 'package:trackless/pages/Work.dart';
+
+import '../bloc/work_fromServer.dart';
+import '../components/LinearProgress.dart';
+import '../components/listWork.dart';
+import '../date.dart';
+import '../models/work.dart';
+import '../bloc/work_bloc.dart';
+import 'Work.dart';
 
 final homePageFloatingActionButton = Builder(
     builder: (context) => FloatingActionButton(

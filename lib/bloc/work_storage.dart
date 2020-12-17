@@ -1,7 +1,7 @@
-import 'package:trackless/main.dart';
-import 'package:trackless/models/work.dart';
 import 'package:intl/intl.dart';
 
+import '../main.dart';
+import '../models/work.dart';
 class WorkStorage {
   Future<void> saveWorkOverride(
       List<Work> work, DateTime startDate, DateTime endDate) async {

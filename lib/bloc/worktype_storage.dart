@@ -1,5 +1,5 @@
-import 'package:trackless/main.dart';
-import 'package:trackless/models/worktype.dart';
+import '../main.dart';
+import '../models/worktype.dart';
 
 class WorktypeStorage {
   void saveWorktypeOverride(List<Worktype> worktype) async {

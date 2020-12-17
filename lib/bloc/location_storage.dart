@@ -1,5 +1,5 @@
-import 'package:trackless/main.dart';
-import 'package:trackless/models/location.dart';
+import '../main.dart';
+import '../models/location.dart';
 
 class LocationStorage {
   void saveLocationOverride(List<Location> location) async {

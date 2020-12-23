@@ -210,7 +210,6 @@ final List<Widget> listWorkSkeleton = [
         child: Skeleton(
           height: 16,
           style: SkeletonStyle.text,
-          baseColor: Colors.grey,
         ),
       ),
       sliver: SliverList(

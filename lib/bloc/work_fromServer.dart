@@ -48,8 +48,6 @@ Future<void> loadWorkFromServer(DateTime startDate, DateTime endDate) async {
       // Save the result
       final WorkStorage workStorage = WorkStorage();
       await workStorage.saveWorkOverride(tmp, startDate, endDate);
-    } else {
-      throw Exception('Failed to load work');
-    }
+    } else {}
   }
 }

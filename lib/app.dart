@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
+import 'package:trackless/app_state.dart';
+import 'package:trackless/pages/account/account.dart';
 
 import 'app_localizations.dart';
 import 'components/drawer.dart';
@@ -15,11 +18,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
-  // The app state
-  String _appBarTitle = 'this_week_page_title';
-  Widget _activePage = HomePage();
-  Widget _floatingActionButton = homePageFloatingActionButton;
-
   AnimationController _hideFabAnimation;
 
   @override
@@ -71,15 +69,21 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
+    final activePage = appState.activePage ?? homePage;
+
     return NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
         child: Scaffold(
           // The appBar
           appBar: AppBar(
-            title: Text(AppLocalizations.of(context).translate(_appBarTitle)),
+            title: Text(
+                AppLocalizations.of(context).translate(activePage.pageTitle)),
+            actions: activePage.appBarActions,
           ),
+
           // The active page
-          body: _activePage,
+          body: activePage.page,
 
           // Animate the floating action button
           floatingActionButton: FadeTransition(
@@ -87,7 +91,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
             child: ScaleTransition(
               scale: _hideFabAnimation,
               alignment: Alignment.center,
-              child: _floatingActionButton,
+              child: activePage.floatingActionButton,
             ),
           ),
 
@@ -97,63 +101,53 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
               children: [
                 // Header
                 TracklessDrawerHeader(),
+
                 // This week
                 ListTile(
                   title: Text(AppLocalizations.of(context)
                       .translate('this_week_page_title')),
                   leading: Icon(Icons.home),
                   onTap: () {
-                    // Show the correct page
-                    if (_appBarTitle != 'this_week_page_title') {
-                      _hideFabAnimation.forward(); // Show the FAB
-
-                      setState(() {
-                        _appBarTitle = 'this_week_page_title';
-                        _activePage = HomePage();
-                        _floatingActionButton = homePageFloatingActionButton;
-                      });
-                    }
-
-                    // Close the drawer
-                    Navigator.of(context).pop();
+                    appState.activePage = homePage; // Set the page
+                    _hideFabAnimation.forward(); // Show the FAB
+                    Navigator.of(context).pop(); // Close the drawer
                   },
                 ),
+
                 // History
                 ListTile(
                   title: Text(AppLocalizations.of(context)
                       .translate('history_page_title')),
                   leading: Icon(Icons.history),
                   onTap: () {
-                    // Show the correct page
-                    if (_appBarTitle != 'history_page_title') {
-                      _hideFabAnimation.reverse(); // Hide the FAB
-
-                      setState(() {
-                        _appBarTitle = 'history_page_title';
-                        _activePage = HistoryPage();
-                        _floatingActionButton = null;
-                      });
-                    }
-
-                    // Close the drawer
-                    Navigator.of(context).pop();
+                    appState.activePage = historyPage; // Set the page
+                    _hideFabAnimation.reverse(); // Hide the FAB
+                    Navigator.of(context).pop(); // Close the drawer
                   },
                 ),
+
                 // Account
                 ListTile(
                   title: Text(AppLocalizations.of(context)
                       .translate('account_page_title')),
                   leading: Icon(Icons.account_box),
-                  onTap: () async {},
+                  onTap: () {
+                    appState.activePage = accountPage; // Set the page
+                    _hideFabAnimation.reverse(); // Hide the FAB
+                    Navigator.of(context).pop(); // C
+                  },
                 ),
+
                 // Other options
                 Divider(),
+
                 // Settigns
                 ListTile(
                   title: Text(AppLocalizations.of(context)
                       .translate('settings_page_title')),
                   leading: Icon(Icons.settings),
                 ),
+
                 // About
                 AboutTrackless(),
               ],

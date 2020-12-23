@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:trackless/app_state.dart';
 
 import '../date.dart';
 import 'HistoryWork.dart';
+
+final historyPage =
+    new AppPage(pageTitle: 'history_page_title', page: HistoryPage());
 
 class HistoryPage extends StatefulWidget {
   HistoryPage({Key key}) : super(key: key);

@@ -68,7 +68,8 @@ class _WorkDialogState extends State<WorkDialog> {
       // Get last used
       locationID = storage.getItem('editWorkLocation');
       worktypeID = storage.getItem('editWorkWorkType');
-      _dateTime = DateTime.tryParse(storage.getItem('editWorkDate')) ?? DateTime.now();
+      _dateTime =
+          DateTime.tryParse(storage.getItem('editWorkDate')) ?? DateTime.now();
     }
 
     super.initState();
@@ -278,7 +279,8 @@ class _WorkDialogState extends State<WorkDialog> {
                       // Update the last used
                       storage.setItem('editWorkLocation', locationID);
                       storage.setItem('editWorkWorkType', worktypeID);
-                      storage.setItem('editWorkDate', DateFormat('yyyy-MM-dd').format(_dateTime));
+                      storage.setItem('editWorkDate',
+                          DateFormat('yyyy-MM-dd').format(_dateTime));
 
                       // Hide the keyboard and show loading animation
                       FocusScope.of(context).requestFocus(new FocusNode());

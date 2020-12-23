@@ -4,7 +4,6 @@
   "account_page_title": "Account",
   "settings_page_title": "Settings",
   "about_page_title": "About",
-
   "login_title": "Sign in",
   "login_server": "Server",
   "login_username": "Username",
@@ -13,7 +12,6 @@
   "login_btn": "Sign in",
   "login_error": "Not all required field are entered",
   "login_disclaimer": "Trackless does not store any personal information about you or your device. But when the app crashes some details will be sent to sentry. For more infomation go to https://sentry.io/privacy/. All entered information in this app is stored on your companies server. This software is under the MIT licence. For more information go to",
-
   "add_work_title": "Add work",
   "add_work_date": "Date",
   "add_work_location": "Location",
@@ -29,7 +27,11 @@
   "add_work_inputTimeEmptyError": "The time can not be left empty",
   "add_work_inputTimeNotValid": "This value is not valid",
   "add_work_canNotEdit": "You can no longer edit this work",
-
   "list_work_hour": "hour(s)",
-  "list_work_total": "hour(s) total"
+  "list_work_total": "hour(s) total",
+  "error_1": "No internet connection",
+  "error_2": "Unauthorized",
+  "error_3": "Server could the resource",
+  "error_4": "Internal server error",
+  "error_5": "Internal error"
 }

@@ -6,14 +6,13 @@ import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:package_info/package_info.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:provider/provider.dart';
 import 'package:sentry/sentry.dart';
+import 'package:trackless/trackless/trackless_account.dart';
 
 import 'app.dart';
 import 'app_localizations.dart';
-import 'bloc/location_bloc.dart';
-import 'bloc/location_event.dart';
-import 'bloc/worktype_bloc.dart';
-import 'bloc/worktype_event.dart';
+import 'app_state.dart';
 import 'pages/Login.dart';
 import 'theme/dark.dart';
 import 'theme/light.dart';
@@ -44,7 +43,7 @@ void main() {
   // Get the package info
   PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
     // Build the appVersion string
-    appVersion = '${packageInfo.version}+${packageInfo.buildNumber}';
+    appVersion = '${packageInfo.version} (build ${packageInfo.buildNumber})';
   });
 
   // Wait for the storage to start
@@ -90,15 +89,6 @@ void main() {
             FlutterError.dumpErrorToConsole(details, forceReport: forceReport);
           }
         };
-
-        // Load basic data from server
-        final WorktypeBloc worktypeBloc = WorktypeBloc();
-        worktypeBloc.worktypeEventSink.add(LoadWorktypeFromServer());
-        worktypeBloc.dispose();
-
-        final LocationBloc locationBloc = LocationBloc();
-        locationBloc.locationEventSink.add(LoadLocationFromServer());
-        locationBloc.dispose();
       },
       // Catching error's
       onError: (Object error, StackTrace stackTrace) {
@@ -116,6 +106,7 @@ void main() {
     );
   });
 }
+
 class BaseApp extends StatelessWidget {
   final String initRoute;
   final RouteObserver routeObserver = RouteObserver<PageRoute>();
@@ -124,39 +115,44 @@ class BaseApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlobalLoaderOverlay(
-      useDefaultLoading: true,
-      child: MaterialApp(
-        title: 'Trackless',
-        // Create the base navigation
-        initialRoute: this.initRoute,
-        routes: {
-          '/': (context) => MyApp(),
-          '/login': (context) => LoginPage(),
-        },
-        navigatorObservers: [routeObserver],
-        // Import the themes
-        theme: lightTheme,
-        darkTheme: darkTheme,
-        // Import
-        supportedLocales: [Locale('en'), Locale('nl')],
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => TracklessAccount()),
+          ChangeNotifierProvider(create: (_) => AppState())
         ],
-        localeResolutionCallback: (locale, supportedLocales) {
-          // Find the correct language
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode) {
-              return supportedLocale;
-            }
-          }
+        child: GlobalLoaderOverlay(
+          useDefaultLoading: true,
+          child: MaterialApp(
+            title: 'Trackless',
+            // Create the base navigation
+            initialRoute: this.initRoute,
+            routes: {
+              '/': (context) => MyApp(),
+              '/login': (context) => LoginPage(),
+            },
+            navigatorObservers: [routeObserver],
+            // Import the themes
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            // Import
+            supportedLocales: [Locale('en'), Locale('nl')],
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            localeResolutionCallback: (locale, supportedLocales) {
+              // Find the correct language
+              for (var supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale.languageCode) {
+                  return supportedLocale;
+                }
+              }
 
-          // If the language is not supported load the first lang (en)
-          return supportedLocales.first;
-        },
-      ),
-    );
+              // If the language is not supported load the first lang (en)
+              return supportedLocales.first;
+            },
+          ),
+        ));
   }
 }

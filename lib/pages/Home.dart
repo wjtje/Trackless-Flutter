@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trackless/app_state.dart';
 
 import '../bloc/work_fromServer.dart';
 import '../components/LinearProgress.dart';
@@ -7,6 +8,11 @@ import '../date.dart';
 import '../models/work.dart';
 import '../bloc/work_bloc.dart';
 import 'Work.dart';
+
+final homePage = new AppPage(
+    pageTitle: 'this_week_page_title',
+    page: HomePage(),
+    floatingActionButton: homePageFloatingActionButton);
 
 final homePageFloatingActionButton = Builder(
     builder: (context) => FloatingActionButton(

@@ -9,7 +9,7 @@
      android:name="android.permission.INTERNET" />
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="trackless"
+        android:label="Trackless"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

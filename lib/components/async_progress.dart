@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trackless/app_state.dart';
+
+import '../async_state.dart';
 
 /// A LinearProgressIndicator that will show when the
 /// isAsyncLoading is active in the app_state
@@ -19,16 +20,16 @@ class _AsyncProgressState extends State<AsyncProgress>
   @override
   Widget build(BuildContext context) {
     // Get the current app state
-    final appState = Provider.of<AppState>(context);
+    final asyncState = Provider.of<AsyncState>(context);
 
     // Only set the state when it not already set
     // This is for preformance reasons
-    if (!appState.isAsyncLoading && _height == 4.0) {
+    if (!asyncState.isAsyncLoading && _height == 4.0) {
       // Hide it
       setState(() {
         _height = 0.1;
       });
-    } else if (appState.isAsyncLoading && _height == 0.1) {
+    } else if (asyncState.isAsyncLoading && _height == 0.1) {
       // Show it
       setState(() {
         _height = 4;
@@ -47,5 +48,17 @@ class _AsyncProgressState extends State<AsyncProgress>
           visible: _height != 0.1,
         ),
         curve: Curves.fastOutSlowIn);
+  }
+}
+
+/// A sliver version of the asyncProgress widget
+class AsyncProgressSliver extends StatelessWidget {
+  const AsyncProgressSliver({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList(
+        delegate: SliverChildBuilderDelegate((context, i) => AsyncProgress(),
+            childCount: 1));
   }
 }

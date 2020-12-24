@@ -8,7 +8,9 @@ import 'package:package_info/package_info.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry/sentry.dart';
+import 'package:trackless/async_state.dart';
 import 'package:trackless/trackless/trackless_account.dart';
+import 'package:trackless/trackless/trackless_work.dart';
 
 import 'app.dart';
 import 'app_localizations.dart';
@@ -77,31 +79,31 @@ void main() {
 
         // Catching flutter error's
         FlutterError.onError = (details, {bool forceReport = false}) {
-          try {
-            sentry.captureException(
-              exception: details.exception,
-              stackTrace: details.stack,
-            );
-          } catch (e) {
-            print('Sending report to sentry.io failed: $e');
-          } finally {
-            // Also use Flutter's pretty error logging to the device's console.
-            FlutterError.dumpErrorToConsole(details, forceReport: forceReport);
-          }
+          // try {
+          //   sentry.captureException(
+          //     exception: details.exception,
+          //     stackTrace: details.stack,
+          //   );
+          // } catch (e) {
+          //   print('Sending report to sentry.io failed: $e');
+          // } finally {
+          //   // Also use Flutter's pretty error logging to the device's console.
+          //   FlutterError.dumpErrorToConsole(details, forceReport: forceReport);
+          // }
         };
       },
       // Catching error's
       onError: (Object error, StackTrace stackTrace) {
-        try {
-          sentry.captureException(
-            exception: error,
-            stackTrace: stackTrace,
-          );
-          print('Error sent to sentry.io: $error');
-        } catch (e) {
-          print('Sending report to sentry.io failed: $e');
-          print('Original error: $error');
-        }
+        // try {
+        //   sentry.captureException(
+        //     exception: error,
+        //     stackTrace: stackTrace,
+        //   );
+        //   print('Error sent to sentry.io: $error');
+        // } catch (e) {
+        //   print('Sending report to sentry.io failed: $e');
+        //   print('Original error: $error');
+        // }
       },
     );
   });
@@ -118,7 +120,9 @@ class BaseApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => TracklessAccount()),
-          ChangeNotifierProvider(create: (_) => AppState())
+          ChangeNotifierProvider(create: (_) => AppState()),
+          ChangeNotifierProvider(create: (_) => TracklessWorkProvider()),
+          ChangeNotifierProvider(create: (_) => AsyncState())
         ],
         child: GlobalLoaderOverlay(
           useDefaultLoading: true,

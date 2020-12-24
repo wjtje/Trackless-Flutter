@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 /// A TracklessUser object will store all the data for a single user
 class TracklessUser {
-  /// A uniqe ID for this user
+  /// An uniqe ID for this user
   final int userID;
 
   /// The user's firstname
@@ -23,8 +23,7 @@ class TracklessUser {
   /// The name for this user's group
   final String groupName;
 
-  /// If you create a TracklessUser object without any data
-  /// everything will be blank
+  /// Null values are not allowed and everything needs to be defined
   TracklessUser(
       {@required this.userID,
       @required this.firstname,
@@ -38,7 +37,7 @@ class TracklessUser {
   /// Example: Jhon Doe
   String get fullName => '${this.firstname} ${this.lastname}';
 
-  /// Calculate a hash for this object
+  /// Calculates a hash for this object
   ///
   /// This can be used the compare two objects
   String get hash => sha256
@@ -48,16 +47,13 @@ class TracklessUser {
 
   /// Convert a json object to a [TracklessUser] object
   factory TracklessUser.fromJson(Map<String, dynamic> json) {
-    // Check for nulls
-    if (json['userID'] == null ||
-        json['firstname'] == null ||
-        json['lastname'] == null ||
-        json['username'] == null ||
-        json['groupID'] == null ||
-        json['groupName'] == null) {
-      throw FormatException();
-    } else {
-      // No nulls found
+    // Check is the json contains everything
+    if (json.containsKey('userID') &&
+        json.containsKey('firstname') &&
+        json.containsKey('lastname') &&
+        json.containsKey('username') &&
+        json.containsKey('groupID') &&
+        json.containsKey('groupName')) {
       return TracklessUser(
           userID: json['userID'],
           firstname: json['firstname'],
@@ -65,6 +61,9 @@ class TracklessUser {
           username: json['username'],
           groupID: json['groupID'],
           groupName: json['groupName']);
+    } else {
+      print('TracklessUser: error');
+      throw FormatException();
     }
   }
 

@@ -19,21 +19,8 @@ class AppPage {
 class AppState extends ChangeNotifier {
   AppPage _activePage;
 
-  bool _isAsyncLoading = false;
-
   /// Get the active page
   AppPage get activePage => _activePage;
-
-  /// This is true when an async process is started but not finished
-  bool get isAsyncLoading => _isAsyncLoading;
-
-  /// Change the async state
-  set isAsyncLoading(bool newState) {
-    if (newState != _isAsyncLoading) {
-      _isAsyncLoading = newState;
-      notifyListeners();
-    }
-  }
 
   /// Change the active page
   set activePage(AppPage newPage) {

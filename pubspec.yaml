@@ -38,6 +38,8 @@ dependencies:
   sentry: ">=3.0.0 <4.0.0"
   # For showing the version
   package_info: ^0.4.3+2
+  # For running code after the build method has finished running
+  after_layout: ^1.0.7+2
 
 dev_dependencies:
   flutter_test:

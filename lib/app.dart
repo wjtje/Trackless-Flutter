@@ -1,16 +1,17 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:trackless/app_state.dart';
 import 'package:trackless/pages/account/account.dart';
-import 'package:trackless/trackless/trackless_account.dart';
-import 'package:trackless/trackless/trackless_failure.dart';
+import 'package:trackless/pages/home/home_load.dart';
 
 import 'app_localizations.dart';
 import 'components/drawer.dart';
 import 'pages/History.dart';
-import 'pages/Home.dart';
+import 'pages/home/home.dart';
+import 'pages/account/account_load.dart';
 
 class MyApp extends StatefulWidget {
   MyApp({Key key}) : super(key: key);
@@ -19,7 +20,8 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
+class _MyAppState extends State<MyApp>
+    with TickerProviderStateMixin<MyApp>, AfterLayoutMixin<MyApp> {
   AnimationController _hideFabAnimation;
 
   @override
@@ -39,6 +41,11 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
   void dispose() {
     _hideFabAnimation.dispose();
     super.dispose();
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    loadHomePage(context);
   }
 
   bool _handleScrollNotification(ScrollNotification notification) {
@@ -109,10 +116,13 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
                   title: Text(AppLocalizations.of(context)
                       .translate('this_week_page_title')),
                   leading: Icon(Icons.home),
-                  onTap: () {
+                  onTap: () async {
                     appState.activePage = homePage; // Set the page
                     _hideFabAnimation.forward(); // Show the FAB
                     Navigator.of(context).pop(); // Close the drawer
+
+                    // Load the home page details
+                    await loadHomePage(context);
                   },
                 ),
 
@@ -139,30 +149,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
                     Navigator.of(context).pop(); // Close the drawer
 
                     // Load the account details
-                    final accountState =
-                        Provider.of<TracklessAccount>(context, listen: false);
-
-                    appState.isAsyncLoading = true;
-
-                    try {
-                      await accountState.refreshFromServer();
-                    } on TracklessFailure catch (e) {
-                      if (e.code != 1) {
-                        // Offile error
-                        e.displayFailure(context);
-                      } else {
-                        try {
-                          await accountState.refreshFromLocalStorage();
-                        } on TracklessFailure catch (e) {
-                          e.displayFailure(context);
-                        }
-                      }
-                    }
-
-                    // Wait a while for the animation
-                    await Future.delayed(Duration(seconds: 1));
-
-                    appState.isAsyncLoading = false;
+                    await loadAccountPage(context);
                   },
                 ),
 

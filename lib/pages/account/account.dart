@@ -6,6 +6,7 @@ import 'package:trackless/pages/account/account_information.dart';
 import 'package:trackless/pages/account/account_options.dart';
 import 'package:trackless/pages/account/account_refresh_action.dart';
 import 'package:trackless/trackless/trackless_account.dart';
+import 'package:trackless/trackless/trackless_failure.dart';
 
 final accountPage = AppPage(
     pageTitle: 'account_page_title',
@@ -20,7 +21,23 @@ final accountPage = AppPage(
                     Provider.of<TracklessAccount>(context, listen: false);
 
                 accountState.tracklessUser = null;
-              }))
+              })),
+      Builder(
+          builder: (context) => IconButton(
+                icon: Icon(Icons.folder_open),
+                onPressed: () async {
+                  final accountState =
+                      Provider.of<TracklessAccount>(context, listen: false);
+
+                  try {
+                    await accountState.refreshFromLocalStorage();
+                  } on TracklessFailure catch (e) {
+                    // Something went wrong
+                    // Create a snackbar to alert the user
+                    e.displayFailure(context);
+                  }
+                },
+              ))
     ]);
 
 class AccountPage extends StatelessWidget {

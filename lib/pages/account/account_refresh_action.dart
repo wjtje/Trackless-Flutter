@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trackless/app_localizations.dart';
 import 'package:trackless/app_state.dart';
 import 'package:trackless/trackless/trackless_account.dart';
 import 'package:trackless/trackless/trackless_failure.dart';
@@ -18,23 +17,18 @@ class AccountRefreshAction extends StatelessWidget {
           final accountState =
               Provider.of<TracklessAccount>(context, listen: false);
 
-          appState.isAsyncLoading = true;
+          appState.isAsyncLoading = true; // Show the loading animation
 
           try {
             await accountState.refreshFromServer();
           } on TracklessFailure catch (e) {
-            Scaffold.of(context).showSnackBar(new SnackBar(
-              content: Text(
-                  AppLocalizations.of(context).translate('error_${e.code}') +
-                      e.toString()),
-              backgroundColor: Colors.red,
-            ));
+            e.displayFailure(context);
           }
 
           // Wait two seconds bevore closing the animation
           await Future.delayed(Duration(milliseconds: 500));
 
-          appState.isAsyncLoading = false;
+          appState.isAsyncLoading = false; // Hide the loading animation
         });
   }
 }

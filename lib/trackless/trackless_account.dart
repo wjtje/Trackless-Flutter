@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:trackless/main.dart';
 import 'package:trackless/trackless/models/trackless_user_model.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +12,9 @@ import 'package:trackless/trackless/trackless_failure.dart';
 
 class TracklessAccount with ChangeNotifier {
   TracklessUser _user;
+
+  // Open the localStorage
+  final LocalStorage _localStorage = new LocalStorage('trackless_account');
 
   /// The complete TracklessUser object
   ///
@@ -29,8 +33,8 @@ class TracklessAccount with ChangeNotifier {
 
   /// Get the latest account details from the server
   ///
-  /// If anything goes wrong it will return false and show a snackbar
-  Future<bool> Function() get refreshFromServer => () async {
+  /// This function will save the result in LocalStorage
+  Future<void> Function() get refreshFromServer => () async {
         // Get infomation from the storage
         final String apiKey = storage.getItem('apiKey');
         final String serverUrl = storage.getItem('serverUrl');
@@ -50,7 +54,11 @@ class TracklessAccount with ChangeNotifier {
           // Make sure there are changes
           if ((_user?.hash ?? '') != newUser.hash) {
             _user = newUser;
-            notifyListeners();
+            notifyListeners(); // This will update the ui
+
+            await _localStorage.ready; // Make sure the storage is ready
+
+            _localStorage.setItem('currentAccount', _user);
           }
         } on SocketException {
           throw TracklessFailure(1); // No internet connection
@@ -68,7 +76,33 @@ class TracklessAccount with ChangeNotifier {
         } on RangeError {
           throw TracklessFailure(5, detailCode: 1); // Internal error
         }
-
-        return true;
       };
+
+  /// Get the latest details from localstorage
+  Future<void> Function() get refreshFromLocalStorage => () async {
+        await _localStorage.ready; // Make sure the storage is ready
+
+        final json = _localStorage.getItem('currentAccount');
+
+        try {
+          final newUser = TracklessUser.fromJson(json);
+
+          // Update the ui
+          if ((_user?.hash ?? '') != newUser.hash) {
+            _user = newUser;
+            notifyListeners();
+          }
+        } on TypeError {
+          throw TracklessFailure(5, detailCode: 2); // Internal error
+        } on FormatException {
+          throw TracklessFailure(5, detailCode: 3); // Internal error
+        }
+      };
+
+  @override
+  void dispose() {
+    // Clean up the function
+    _localStorage?.dispose();
+    super.dispose();
+  }
 }

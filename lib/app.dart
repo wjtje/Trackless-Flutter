@@ -4,6 +4,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:trackless/app_state.dart';
 import 'package:trackless/pages/account/account.dart';
+import 'package:trackless/trackless/trackless_account.dart';
+import 'package:trackless/trackless/trackless_failure.dart';
 
 import 'app_localizations.dart';
 import 'components/drawer.dart';
@@ -131,10 +133,36 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin<MyApp> {
                   title: Text(AppLocalizations.of(context)
                       .translate('account_page_title')),
                   leading: Icon(Icons.account_box),
-                  onTap: () {
+                  onTap: () async {
                     appState.activePage = accountPage; // Set the page
                     _hideFabAnimation.reverse(); // Hide the FAB
-                    Navigator.of(context).pop(); // C
+                    Navigator.of(context).pop(); // Close the drawer
+
+                    // Load the account details
+                    final accountState =
+                        Provider.of<TracklessAccount>(context, listen: false);
+
+                    appState.isAsyncLoading = true;
+
+                    try {
+                      await accountState.refreshFromServer();
+                    } on TracklessFailure catch (e) {
+                      if (e.code != 1) {
+                        // Offile error
+                        e.displayFailure(context);
+                      } else {
+                        try {
+                          await accountState.refreshFromLocalStorage();
+                        } on TracklessFailure catch (e) {
+                          e.displayFailure(context);
+                        }
+                      }
+                    }
+
+                    // Wait a while for the animation
+                    await Future.delayed(Duration(seconds: 1));
+
+                    appState.isAsyncLoading = false;
                   },
                 ),
 

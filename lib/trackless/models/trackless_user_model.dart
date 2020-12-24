@@ -67,4 +67,22 @@ class TracklessUser {
           groupName: json['groupName']);
     }
   }
+
+  /// Convert a [TracklessUser] to a json object
+  Map<String, dynamic> toJson() {
+    return {
+      'userID': this.userID,
+      'firstname': this.firstname,
+      'lastname': this.lastname,
+      'username': this.username,
+      'groupID': this.groupID,
+      'groupName': this.groupName
+    };
+  }
+
+  /// Convert a [TracklessUser] to a string
+  @override
+  String toString() {
+    return 'TracklessUser: ${this.fullName}';
+  }
 }

@@ -2,7 +2,6 @@
 
  - Able to edit user info (firstname, lastname, etc.)
  - Remove the BLOC and update it for provider
- - Add localStorage support for trackless_account
 
 # For version 0.1.1-beta
 

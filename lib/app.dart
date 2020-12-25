@@ -13,6 +13,8 @@ import 'pages/History.dart';
 import 'pages/home/home.dart';
 import 'pages/account/account_load.dart';
 
+final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
 class MyApp extends StatefulWidget {
   MyApp({Key key}) : super(key: key);
 
@@ -84,6 +86,8 @@ class _MyAppState extends State<MyApp>
     return NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
         child: Scaffold(
+          key: scaffoldKey,
+
           // The appBar
           appBar: AppBar(
             title: Text(
@@ -105,67 +109,69 @@ class _MyAppState extends State<MyApp>
           ),
 
           // The drawer
-          drawer: Drawer(
-            child: ListView(
-              children: [
-                // Header
-                TracklessDrawerHeader(),
+          drawer: Builder(
+            builder: (context) => Drawer(
+              child: ListView(
+                children: [
+                  // Header
+                  TracklessDrawerHeader(),
 
-                // This week
-                ListTile(
-                  title: Text(AppLocalizations.of(context)
-                      .translate('this_week_page_title')),
-                  leading: Icon(Icons.home),
-                  onTap: () async {
-                    appState.activePage = homePage; // Set the page
-                    _hideFabAnimation.forward(); // Show the FAB
-                    Navigator.of(context).pop(); // Close the drawer
+                  // This week
+                  ListTile(
+                    title: Text(AppLocalizations.of(context)
+                        .translate('this_week_page_title')),
+                    leading: Icon(Icons.home),
+                    onTap: () {
+                      appState.activePage = homePage; // Set the page
+                      _hideFabAnimation.forward(); // Show the FAB
+                      Navigator.of(context).pop(); // Close the drawer
 
-                    // Load the home page details
-                    await loadHomePage(context);
-                  },
-                ),
+                      // Load the home page details
+                      loadHomePage(context);
+                    },
+                  ),
 
-                // History
-                ListTile(
-                  title: Text(AppLocalizations.of(context)
-                      .translate('history_page_title')),
-                  leading: Icon(Icons.history),
-                  onTap: () {
-                    appState.activePage = historyPage; // Set the page
-                    _hideFabAnimation.reverse(); // Hide the FAB
-                    Navigator.of(context).pop(); // Close the drawer
-                  },
-                ),
+                  // History
+                  ListTile(
+                    title: Text(AppLocalizations.of(context)
+                        .translate('history_page_title')),
+                    leading: Icon(Icons.history),
+                    onTap: () {
+                      appState.activePage = historyPage; // Set the page
+                      _hideFabAnimation.reverse(); // Hide the FAB
+                      Navigator.of(context).pop(); // Close the drawer
+                    },
+                  ),
 
-                // Account
-                ListTile(
-                  title: Text(AppLocalizations.of(context)
-                      .translate('account_page_title')),
-                  leading: Icon(Icons.account_box),
-                  onTap: () async {
-                    appState.activePage = accountPage; // Set the page
-                    _hideFabAnimation.reverse(); // Hide the FAB
-                    Navigator.of(context).pop(); // Close the drawer
+                  // Account
+                  ListTile(
+                    title: Text(AppLocalizations.of(context)
+                        .translate('account_page_title')),
+                    leading: Icon(Icons.account_box),
+                    onTap: () {
+                      appState.activePage = accountPage; // Set the page
+                      _hideFabAnimation.reverse(); // Hide the FAB
+                      Navigator.of(context).pop(); // Close the drawer
 
-                    // Load the account details
-                    await loadAccountPage(context);
-                  },
-                ),
+                      // Load the account details
+                      loadAccountPage(context);
+                    },
+                  ),
 
-                // Other options
-                Divider(),
+                  // Other options
+                  Divider(),
 
-                // Settigns
-                ListTile(
-                  title: Text(AppLocalizations.of(context)
-                      .translate('settings_page_title')),
-                  leading: Icon(Icons.settings),
-                ),
+                  // Settigns
+                  ListTile(
+                    title: Text(AppLocalizations.of(context)
+                        .translate('settings_page_title')),
+                    leading: Icon(Icons.settings),
+                  ),
 
-                // About
-                AboutTrackless(),
-              ],
+                  // About
+                  AboutTrackless(),
+                ],
+              ),
             ),
           ),
         ));

@@ -54,7 +54,9 @@ class TracklessWorkProvider with ChangeNotifier {
           this._workList = new List<TracklessWork>();
 
           for (var jsonItem in json.decode(response.body)) {
-            _workList.add(TracklessWork.fromJson(jsonItem));
+            final work = TracklessWork.fromJson(jsonItem);
+            await this.saveToStorage(work);
+            _workList.add(work);
           }
 
           // Sort the list
@@ -85,5 +87,12 @@ class TracklessWorkProvider with ChangeNotifier {
         } on TypeError {
           throw TracklessFailure(5, detailCode: 5); // Internal error
         }
+      };
+
+  /// Save a [TracklessWork] object to [LocalStorage]
+  Future Function(TracklessWork work) get saveToStorage => (work) async {
+        final workOnDay = _localStorage.getItem(work.date);
+
+        print(workOnDay);
       };
 }

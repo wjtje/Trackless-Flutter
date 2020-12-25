@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:trackless/app_localizations.dart';
+
+import '../app.dart';
 
 class TracklessFailure {
   final int code;
@@ -13,12 +16,14 @@ class TracklessFailure {
   }
 
   /// Displays the failure using a snackbar
-  displayFailure(BuildContext context) {
-    Scaffold.of(context).showSnackBar(new SnackBar(
-      content: Text(
-          AppLocalizations.of(context).translate('error_${this.code}') +
-              this.toString()),
-      backgroundColor: Colors.red,
-    ));
+  displayFailure() {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      scaffoldKey.currentState?.showSnackBar(new SnackBar(
+        content: Text(AppLocalizations.of(scaffoldKey.currentContext)
+                .translate('error_${this.code}') +
+            this.toString()),
+        backgroundColor: Colors.red,
+      ));
+    });
   }
 }

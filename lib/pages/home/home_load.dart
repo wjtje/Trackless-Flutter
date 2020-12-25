@@ -19,7 +19,7 @@ Future loadHomePage(BuildContext context) async {
   try {
     await tracklessWorkProvider.refreshFromServer(startDate, endDate);
   } on TracklessFailure catch (e) {
-    e.displayFailure(context);
+    e.displayFailure();
   }
 
   // Wait a while for the animation

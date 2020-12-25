@@ -12,4 +12,6 @@
 
 ### Things that are fixed
 
+* All error's are now shown correctly
+
 ### Things that are removed

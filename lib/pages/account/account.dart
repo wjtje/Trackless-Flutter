@@ -34,7 +34,7 @@ final accountPage = AppPage(
                   } on TracklessFailure catch (e) {
                     // Something went wrong
                     // Create a snackbar to alert the user
-                    e.displayFailure(context);
+                    e.displayFailure();
                   }
                 },
               ))

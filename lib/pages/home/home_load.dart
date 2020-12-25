@@ -20,6 +20,15 @@ Future loadHomePage(BuildContext context) async {
     await tracklessWorkProvider.refreshFromServer(startDate, endDate);
   } on TracklessFailure catch (e) {
     e.displayFailure();
+
+    if (e.code == 1) {
+      // Offline error
+      try {
+        await tracklessWorkProvider.refreshFromLocalStorage(startDate, endDate);
+      } on TracklessFailure catch (e) {
+        e.displayFailure();
+      }
+    }
   }
 
   // Wait a while for the animation

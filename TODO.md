@@ -7,7 +7,7 @@
 
  - Show active devices
  - Able to remove devices
- - Able to clear cache
+ - Able to clear cache / reset app settings (storage) but keep api and server
 
 # For version 0.1.2-beta
 

@@ -5,7 +5,7 @@
 * Added a global app state
 * Able to show basic account infomation
 * Localstorage is now working for account page
-
+* Added office support for work
 ### Changed in this version
 
 * The app title is now correct

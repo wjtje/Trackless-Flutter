@@ -7,37 +7,16 @@ import 'list_work_header.dart';
 import 'list_work_item.dart';
 
 /// Converts a [List<TracklessWork>] to a [List<Widget>]
-List<Widget> listWork(List<TracklessWork> work) {
+List<Widget> listWork(List<List<TracklessWork>> work) {
   if (work == null) {
     return [ListWorkSkeleton()];
   } else {
-    List<TracklessWork> tmp = new List<TracklessWork>();
-    List<List<TracklessWork>> parcedWork = new List<List<TracklessWork>>();
-    String lastDate;
-
-    // Sort the work by date
-    work.forEach((element) {
-      if (lastDate != element.date) {
-        // Update the lastDate push tmp to parcedWork and clean the tmp
-        lastDate = element.date;
-        if (tmp.length > 0) {
-          parcedWork.add(tmp);
-        }
-        tmp = new List<TracklessWork>();
-      }
-
-      tmp.add(element);
-    });
-
-    // Add the last
-    parcedWork.add(tmp);
-
     List<Widget> slivers = [];
 
     // Build the slivers
     // Make sure the data is valid
-    if (parcedWork[0].length > 0) {
-      parcedWork.forEach((element) {
+    if (work[0].length > 0) {
+      work.forEach((element) {
         // Calculate the total hours
         double hours = 0;
 

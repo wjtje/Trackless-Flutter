@@ -33,6 +33,7 @@ class ListWorkItem extends StatelessWidget {
               padding: 1,
               width: 80,
             ),
+      onTap: () {},
     );
   }
 }

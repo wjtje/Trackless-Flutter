@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../app_localizations.dart';
+
 class AccountOptions extends StatelessWidget {
   const AccountOptions({Key key}) : super(key: key);
 
@@ -10,27 +12,31 @@ class AccountOptions extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Options for your account',
+          Text(AppLocalizations.of(context).translate('account_options'),
               style: Theme.of(context).textTheme.headline6),
           SizedBox(
             height: 8,
           ),
           ListTile(
             leading: Icon(Icons.vpn_key),
-            title: Text('Change password'),
+            title: Text(AppLocalizations.of(context)
+                .translate('account_change_password')),
             onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.devices),
-            title: Text('Connected devices'),
+            title: Text(AppLocalizations.of(context)
+                .translate('account_connected_devices')),
           ),
           ListTile(
             leading: Icon(Icons.file_download),
-            title: Text('Download details'),
+            title: Text(AppLocalizations.of(context)
+                .translate('account_download_details')),
           ),
           ListTile(
             leading: Icon(Icons.edit),
-            title: Text('Edit details'),
+            title: Text(
+                AppLocalizations.of(context).translate('account_edit_details')),
           )
         ],
       ),

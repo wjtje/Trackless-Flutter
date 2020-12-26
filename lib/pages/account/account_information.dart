@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skeleton_animation/skeleton_animation.dart';
+import 'package:trackless/app_localizations.dart';
 import 'package:trackless/trackless/trackless_account.dart';
 
 class AccountInformation extends StatelessWidget {
@@ -18,7 +19,7 @@ class AccountInformation extends StatelessWidget {
           // Welcome the user
           (account?.fullName != null)
               ? Text(
-                  'Hello ${account?.fullName}!',
+                  '${AppLocalizations.of(context).translate('account_welcome')} ${account?.fullName}!',
                   style: Theme.of(context).textTheme.headline5,
                 )
               : SkeletonText(
@@ -29,7 +30,7 @@ class AccountInformation extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
-              'Your details',
+              '${AppLocalizations.of(context).translate('account_details')} ',
               style: Theme.of(context).textTheme.headline6,
             ),
           ),
@@ -40,10 +41,13 @@ class AccountInformation extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Firstname'),
-                  Text('Lastname'),
-                  Text('Username'),
-                  Text('Group')
+                  Text(AppLocalizations.of(context)
+                      .translate('account_firstname')),
+                  Text(AppLocalizations.of(context)
+                      .translate('account_lastname')),
+                  Text(AppLocalizations.of(context)
+                      .translate('account_username')),
+                  Text(AppLocalizations.of(context).translate('account_group'))
                 ],
               ),
               // Spacing

@@ -4,7 +4,6 @@
   "account_page_title": "Account",
   "settings_page_title": "Instellingen",
   "about_page_title": "Over app",
-
   "login_title": "Inloggen",
   "login_server": "Server",
   "login_username": "Gebruikersnaam",
@@ -13,7 +12,6 @@
   "login_btn": "Inloggen",
   "login_error": "Niet alle verplichte velden zijn ingevult",
   "login_disclaimer": "Trackless slaat geen persoonlijke informatie over jou of jouw apparaat op. Maar als de app crashed zullen er gegevens naar sentry worden gestuurt. Voor meer infomatie kan je naar https://sentry.io/privacy/ gaan. Alle ingevulde informatie in deze app is opgeslagen op de server van jouw bedrijf. Deze software is onder de MIT licentie. Voor meer informatie kan je naar",
-
   "add_work_title": "Werk toevoegen",
   "add_work_date": "Datum",
   "add_work_location": "Locatie",
@@ -29,7 +27,22 @@
   "add_work_inputTimeEmptyError": "De tijds duur kan niet leeg zijn",
   "add_work_inputTimeNotValid": "Dit is geen geldige waarde",
   "add_work_canNotEdit": "U mag dit werk niet meer aanpassen",
-
   "list_work_hour": "uur",
-  "list_work_total": "uur in totaal"
+  "list_work_total": "uur in totaal",
+  "account_welcome": "Hallo",
+  "account_details": "Jouw gegevens",
+  "account_firstname": "Voornaam",
+  "account_lastname": "Achternaam",
+  "account_username": "Gebruikersnaam",
+  "account_group": "Groep",
+  "account_options": "Opties voor je account",
+  "account_change_password": "Wachtwoord aanpassen",
+  "account_connected_devices": "Verbonden apperaten",
+  "account_download_details": "Gegevens downloaden",
+  "account_edit_details": "Gegevens aanpassen",
+  "error_1": "Geen internet verbinding",
+  "error_2": "Geen toegang",
+  "error_3": "De server kon het niet vinden",
+  "error_4": "Onbekende server fout",
+  "error_5": "Onbekende fout"
 }

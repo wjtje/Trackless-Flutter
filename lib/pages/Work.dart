@@ -469,7 +469,7 @@ class _WorkDialogState extends State<WorkDialog> {
                     },
                     decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)
-                            .translate('add_work_workType'),
+                            .translate('add_work_worktype'),
                         border: OutlineInputBorder(),
                         icon: Icon(Icons.work)),
                   );

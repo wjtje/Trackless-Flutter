@@ -36,9 +36,13 @@ class TracklessLocation {
   ///
   /// This can be used to compare two objects
   String get hash => sha256
-      .convert(utf8.encode(
-          '${this.locationID} ${this.hidden} ${this.name} ${this.place} ${this.id} ${this.time}'))
+      .convert(utf8.encode('$locationID $hidden $name $place $id $time'))
       .toString();
+
+  /// Gets the full name of a location
+  ///
+  /// place - name
+  String get fullName => '$place - $name';
 
   /// Convert json to a [TracklessLocation] object
   factory TracklessLocation.fromJson(Map<String, dynamic> json) {

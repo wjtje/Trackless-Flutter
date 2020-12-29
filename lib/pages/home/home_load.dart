@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:trackless/async_state.dart';
 import 'package:trackless/date.dart';
 import 'package:trackless/trackless/trackless_failure.dart';
+import 'package:trackless/trackless/trackless_location.dart';
 import 'package:trackless/trackless/trackless_work.dart';
+import 'package:trackless/trackless/trackless_worktype.dart';
 
 /// Start loading all the data needed for the home page
 Future loadHomePage(BuildContext context) async {
@@ -12,12 +14,19 @@ Future loadHomePage(BuildContext context) async {
 
   final tracklessWorkProvider =
       Provider.of<TracklessWorkProvider>(context, listen: false);
+  final tracklessLocationProvider =
+      Provider.of<TracklessLocationProvider>(context, listen: false);
+  final tracklessWorktypeProvider =
+      Provider.of<TracklessWorktypeProvider>(context, listen: false);
+
   final asyncState = Provider.of<AsyncState>(context, listen: false);
 
   asyncState.isAsyncLoading = true;
 
   try {
     await tracklessWorkProvider.refreshFromServer(startDate, endDate);
+    await tracklessLocationProvider.refreshFromServer();
+    await tracklessWorktypeProvider.refreshFromServer();
   } on TracklessFailure catch (e) {
     e.displayFailure();
 
@@ -25,6 +34,8 @@ Future loadHomePage(BuildContext context) async {
       // Offline error
       try {
         await tracklessWorkProvider.refreshFromLocalStorage(startDate, endDate);
+        await tracklessLocationProvider.refreshFromLocalStorage();
+        await tracklessWorktypeProvider.refreshFromLocalStorage();
       } on TracklessFailure catch (e) {
         e.displayFailure();
       }

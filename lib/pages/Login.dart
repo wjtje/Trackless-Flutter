@@ -229,25 +229,47 @@ class LoginPage extends StatelessWidget {
                       ),
                       RichText(
                         text: TextSpan(
-                            style: Theme.of(context).textTheme.caption,
-                            children: [
-                              TextSpan(
-                                  text: AppLocalizations.of(context)
-                                          .translate('login_disclaimer') +
-                                      ' '),
-                              TextSpan(
-                                text: 'trackless.ga',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    .copyWith(
-                                        color: Theme.of(context).accentColor),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    launch('https://trackless.ga');
-                                  },
-                              ),
-                            ]),
+                          style: Theme.of(context).textTheme.bodyText2,
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: AppLocalizations.of(context)
+                                    .translate('login_disclaimer')
+                                    .split('%')[0]),
+                            TextSpan(
+                              text: 'sentry.io',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .copyWith(
+                                      color: Theme.of(context).accentColor),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  launch('https://sentry.io/privacy/');
+                                },
+                            ),
+                            TextSpan(
+                                text: AppLocalizations.of(context)
+                                    .translate('login_disclaimer')
+                                    .split('%')[1]),
+                            TextSpan(
+                              text: 'trackless.ga',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .copyWith(
+                                      color: Theme.of(context).accentColor),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  launch('https://trackless.ga');
+                                },
+                            ),
+                            TextSpan(
+                                style: Theme.of(context).textTheme.bodyText2,
+                                text: AppLocalizations.of(context)
+                                    .translate('login_disclaimer')
+                                    .split('%')[2]),
+                          ],
+                        ),
                       ),
                     ],
                   ),

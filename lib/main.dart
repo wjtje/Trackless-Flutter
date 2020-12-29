@@ -10,7 +10,9 @@ import 'package:provider/provider.dart';
 import 'package:sentry/sentry.dart';
 import 'package:trackless/async_state.dart';
 import 'package:trackless/trackless/trackless_account.dart';
+import 'package:trackless/trackless/trackless_location.dart';
 import 'package:trackless/trackless/trackless_work.dart';
+import 'package:trackless/trackless/trackless_worktype.dart';
 
 import 'app.dart';
 import 'app_localizations.dart';
@@ -119,10 +121,12 @@ class BaseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => TracklessAccount()),
           ChangeNotifierProvider(create: (_) => AppState()),
+          ChangeNotifierProvider(create: (_) => AsyncState()),
+          ChangeNotifierProvider(create: (_) => TracklessAccount()),
           ChangeNotifierProvider(create: (_) => TracklessWorkProvider()),
-          ChangeNotifierProvider(create: (_) => AsyncState())
+          ChangeNotifierProvider(create: (_) => TracklessLocationProvider()),
+          ChangeNotifierProvider(create: (_) => TracklessWorktypeProvider()),
         ],
         child: GlobalLoaderOverlay(
           useDefaultLoading: true,

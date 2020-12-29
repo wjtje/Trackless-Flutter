@@ -9,6 +9,7 @@ import 'package:trackless/pages/home/home_load.dart';
 
 import 'app_localizations.dart';
 import 'components/drawer.dart';
+import 'main.dart';
 import 'pages/History.dart';
 import 'pages/home/home.dart';
 import 'pages/account/account_load.dart';
@@ -47,7 +48,11 @@ class _MyAppState extends State<MyApp>
 
   @override
   void afterFirstLayout(BuildContext context) {
-    loadHomePage(context);
+    // Check if the serverUrl and apiKey is correct bevore loading the home page
+    if (storage.getItem('serverUrl') != null &&
+        storage.getItem('apiKey') != null) {
+      loadHomePage(context);
+    }
   }
 
   bool _handleScrollNotification(ScrollNotification notification) {

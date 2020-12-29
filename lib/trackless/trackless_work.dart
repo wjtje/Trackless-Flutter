@@ -19,7 +19,7 @@ class TracklessWorkProvider with ChangeNotifier {
   // Open the localStorage
   final LocalStorage _localStorage = new LocalStorage('trackless_work');
 
-  /// The compile work list
+  /// The complete work list
   ///
   /// WARNING: this can be null
   List<TracklessWork> get workList => _workList;
@@ -94,8 +94,7 @@ class TracklessWorkProvider with ChangeNotifier {
           this._workList = new List<TracklessWork>();
 
           for (var jsonItem in json.decode(response.body)) {
-            final work = TracklessWork.fromJson(jsonItem);
-            _workList.add(work);
+            _workList.add(TracklessWork.fromJson(jsonItem));
           }
 
           // Sort the list
@@ -104,7 +103,7 @@ class TracklessWorkProvider with ChangeNotifier {
           });
 
           // Save the work to localStorage
-          await this.saveToStorage(this.sortedWorkList);
+          await this.saveToStorage(this.sortedWorkList, startDate, endDate);
 
           // Update the start and end date
           _startDate = startDate;
@@ -132,16 +131,32 @@ class TracklessWorkProvider with ChangeNotifier {
       };
 
   /// Save a [List<List<TracklessWork>>] object to [LocalStorage]
-  Future Function(List<List<TracklessWork>> work) get saveToStorage =>
-      (work) async {
-        work.forEach((element) {
-          try {
-            _localStorage.setItem(element[0].date, element);
-          } on RangeError {
-            throw TracklessFailure(5, detailCode: 6);
-          }
-        });
-      };
+  Future Function(
+          List<List<TracklessWork>> work, DateTime startDate, DateTime endDate)
+      get saveToStorage => (work, startDate, endDate) async {
+            // Clean the localStorage
+            DateTime tmpDate = startDate;
+
+            while (!tmpDate.isAfter(endDate)) {
+              await _localStorage
+                  .deleteItem(DateFormat('yyyy-MM-dd').format(tmpDate));
+
+              // Go to the next day
+              tmpDate = tmpDate.add(Duration(days: 1));
+            }
+
+            // Save new data
+            work.forEach((element) {
+              // Make sure there is data to save
+              if (element.length > 0) {
+                try {
+                  _localStorage.setItem(element[0].date, element);
+                } on RangeError {
+                  throw TracklessFailure(5, detailCode: 6);
+                }
+              }
+            });
+          };
 
   /// Load work from the localStorage
   Future Function(DateTime startDate, DateTime endDate)

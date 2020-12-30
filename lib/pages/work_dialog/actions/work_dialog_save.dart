@@ -66,22 +66,32 @@ class WorkDialogSave extends StatelessWidget {
               }
 
               // Reload the home page
-              () async {
-                final asyncState =
-                    Provider.of<AsyncState>(context, listen: false);
-                // Show the async loading
-                asyncState.isAsyncLoading = true;
+              final asyncState =
+                  Provider.of<AsyncState>(context, listen: false);
+              final tracklessWorkProvider =
+                  Provider.of<TracklessWorkProvider>(context, listen: false);
 
-                // Load the data
-                final tracklessWorkProvider =
-                    Provider.of<TracklessWorkProvider>(context, listen: false);
+              // Show the async loading
+              asyncState.isAsyncLoading = true;
+
+              // Check if we need to update the u
+
+              if ((workDialogState.currentDate
+                          .isAtSameMomentAs(tracklessWorkProvider.startDate) ||
+                      workDialogState.currentDate
+                          .isAfter(tracklessWorkProvider.startDate)) &&
+                  (workDialogState.currentDate
+                          .isAtSameMomentAs(tracklessWorkProvider.endDate) ||
+                      workDialogState.currentDate
+                          .isBefore(tracklessWorkProvider.endDate))) {
+                // The date is visable update the ui
                 await tracklessWorkProvider.refreshFromServer(
                     tracklessWorkProvider.startDate,
                     tracklessWorkProvider.endDate);
+              }
 
-                // Done loading
-                asyncState.isAsyncLoading = false;
-              }();
+              // Done loading
+              asyncState.isAsyncLoading = false;
 
               // Hide the loading animation
               context.hideLoaderOverlay();

@@ -106,8 +106,10 @@ class TracklessWorkProvider with ChangeNotifier {
           await this.saveToStorage(this.sortedWorkList, startDate, endDate);
 
           // Update the start and end date
-          _startDate = startDate;
-          _endDate = endDate;
+          // Make sure only the year, month and date are saved
+          _startDate =
+              DateTime.parse(DateFormat('yyyy-MM-dd').format(startDate));
+          _endDate = DateTime.parse(DateFormat('yyyy-MM-dd').format(endDate));
 
           notifyListeners();
         } on SocketException {
@@ -185,12 +187,57 @@ class TracklessWorkProvider with ChangeNotifier {
               _workList = tmp;
 
               // Update the start and end date
-              _startDate = startDate;
-              _endDate = endDate;
+              // Make sure only the year, month and date are saved
+              _startDate =
+                  DateTime.parse(DateFormat('yyyy-MM-dd').format(startDate));
+              _endDate =
+                  DateTime.parse(DateFormat('yyyy-MM-dd').format(endDate));
 
               notifyListeners();
             } on FormatException {
               throw TracklessFailure(5, detailCode: 7);
             }
           };
+
+  /// Saves a [TracklessWork] object to localStorage and updates the ui
+  ///
+  /// The _workList this function creates is not sorted
+  /// It's better to refresh from server
+  Future Function(TracklessWork work) get saveWork => (newWork) async {
+        // Save this new work to localStorage
+        List<TracklessWork> tmpList = [];
+
+        try {
+          // Get all the current work from localStorage
+          final List<dynamic> jsonList = _localStorage.getItem(newWork.date);
+
+          if (jsonList != null) {
+            jsonList.forEach((json) {
+              tmpList.add(TracklessWork.fromJson(json));
+            });
+          }
+        } on TypeError {
+          throw TracklessFailure(5, detailCode: 16);
+        }
+
+        // Add new work
+        tmpList.add(newWork);
+
+        // Save changes to localStorage
+        await _localStorage.setItem(newWork.date, tmpList);
+
+        // Check if we need to update the ui
+        DateTime newWorkDate = DateTime.parse(newWork.date);
+
+        if ((newWorkDate.isAtSameMomentAs(startDate) ||
+                newWorkDate.isAfter(startDate)) &&
+            (newWorkDate.isAtSameMomentAs(endDate) ||
+                newWorkDate.isBefore(endDate))) {
+          // The newWorkDate is shown
+          // Update the ui
+          _workList.add(newWork);
+
+          notifyListeners();
+        }
+      };
 }

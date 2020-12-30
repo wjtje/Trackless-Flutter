@@ -95,4 +95,18 @@ class TracklessWorktypeProvider with ChangeNotifier {
           throw TracklessFailure(5, detailCode: 13);
         }
       };
+
+  /// Get a Worktype by ID
+  TracklessWorktype Function(int worktypeID) get getWorktypeByID =>
+      (worktypeID) {
+        TracklessWorktype tmp;
+
+        _worktypeList.forEach((element) {
+          if (element.worktypeID == worktypeID) {
+            tmp = element;
+          }
+        });
+
+        return tmp;
+      };
 }

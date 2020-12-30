@@ -95,4 +95,18 @@ class TracklessLocationProvider with ChangeNotifier {
           throw TracklessFailure(5, detailCode: 8);
         }
       };
+
+  /// Get a location by ID
+  TracklessLocation Function(int locationID) get getLocationByID =>
+      (locationID) {
+        TracklessLocation tmp;
+
+        _locationList.forEach((element) {
+          if (element.locationID == locationID) {
+            tmp = element;
+          }
+        });
+
+        return tmp;
+      };
 }

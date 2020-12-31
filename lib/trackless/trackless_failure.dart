@@ -16,9 +16,10 @@ class TracklessFailure {
   }
 
   /// Displays the failure using a snackbar
-  displayFailure() {
+  displayFailure([BuildContext context]) {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      scaffoldKey.currentState?.showSnackBar(new SnackBar(
+      (Scaffold.of(context) ?? scaffoldKey.currentState)
+          .showSnackBar(new SnackBar(
         content: Text(AppLocalizations.of(scaffoldKey.currentContext)
                 .translate('error_${this.code}') +
             this.toString()),

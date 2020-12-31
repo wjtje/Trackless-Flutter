@@ -42,13 +42,13 @@ List<Widget> listWork(List<List<TracklessWork>> work) {
                         return Column(
                           children: [
                             SizedBox(
-                              height: 4,
+                              height: 8,
                             ),
                             ListWorkItem(
                               work: element[index],
                             ),
                             SizedBox(
-                              height: 4,
+                              height: 8,
                             ),
                           ],
                         );
@@ -58,7 +58,7 @@ List<Widget> listWork(List<List<TracklessWork>> work) {
                           return Column(
                             children: [
                               SizedBox(
-                                height: 4,
+                                height: 8,
                               ),
                               ListWorkItem(
                                 work: element[index],
@@ -83,7 +83,7 @@ List<Widget> listWork(List<List<TracklessWork>> work) {
                                 work: element[index],
                               ),
                               SizedBox(
-                                height: 4,
+                                height: 8,
                               ),
                             ],
                           );

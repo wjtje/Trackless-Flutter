@@ -21,9 +21,11 @@ Future loadHomePage(BuildContext context) async {
 
   final asyncState = Provider.of<AsyncState>(context, listen: false);
 
+  // Loading
   asyncState.isAsyncLoading = true;
 
   try {
+    // Try to load the data from tge server
     await tracklessWorkProvider.refreshFromServer(startDate, endDate);
     await tracklessLocationProvider.refreshFromServer();
     await tracklessWorktypeProvider.refreshFromServer();
@@ -33,6 +35,7 @@ Future loadHomePage(BuildContext context) async {
     if (e.code == 1) {
       // Offline error
       try {
+        // Load the data from localStorage
         await tracklessWorkProvider.refreshFromLocalStorage(startDate, endDate);
         await tracklessLocationProvider.refreshFromLocalStorage();
         await tracklessWorktypeProvider.refreshFromLocalStorage();

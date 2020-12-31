@@ -12,7 +12,7 @@ class HomeFloatingActionButton extends StatelessWidget {
         onPressed: () {
           // Show the workdialog
           Navigator.push(
-              context, MaterialPageRoute(builder: (_) => WorkDialog()));
+              context, MaterialPageRoute(builder: (_) => WorkDialog(null)));
         });
   }
 }

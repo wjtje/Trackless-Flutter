@@ -32,10 +32,16 @@ class TracklessWorkProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Thhis will clear the workList
+  Function get clearWorkList => () {
+        _workList = null;
+        notifyListeners();
+      };
+
   /// Sort the workList by date
   List<List<TracklessWork>> get sortedWorkList => () {
-        List<TracklessWork> tmp = new List<TracklessWork>();
-        List<List<TracklessWork>> parcedWork = new List<List<TracklessWork>>();
+        List<TracklessWork> tmp = [];
+        List<List<TracklessWork>> parcedWork = [];
         String lastDate;
 
         // Sort the work by date
@@ -46,7 +52,7 @@ class TracklessWorkProvider with ChangeNotifier {
             if (tmp.length > 0) {
               parcedWork.add(tmp);
             }
-            tmp = new List<TracklessWork>();
+            tmp = [];
           }
 
           tmp.add(element);
@@ -91,7 +97,7 @@ class TracklessWorkProvider with ChangeNotifier {
           }
 
           // Clear the work list
-          this._workList = new List<TracklessWork>();
+          this._workList = [];
 
           for (var jsonItem in json.decode(response.body)) {
             _workList.add(TracklessWork.fromJson(jsonItem));

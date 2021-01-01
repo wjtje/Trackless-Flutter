@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:trackless/app_state.dart';
+import 'package:trackless/date.dart';
 
-import '../date.dart';
-import 'HistoryWork.dart';
+import 'history_work.dart';
 
 final historyPage =
-    new AppPage(pageTitle: 'history_page_title', page: HistoryPage());
+    AppPage(pageTitle: 'history_page_title', page: HistoryPage());
 
-class HistoryPage extends StatefulWidget {
-  HistoryPage({Key key}) : super(key: key);
+class HistoryPage extends StatelessWidget {
+  const HistoryPage({Key key}) : super(key: key);
 
-  @override
-  _HistoryPageState createState() => _HistoryPageState();
-}
-
-class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -33,13 +28,11 @@ class _HistoryPageState extends State<HistoryPage> {
               subtitle: Text(
                   '${DateFormat.yMMMd(Localizations.localeOf(context).languageCode).format(newDate)} - ${DateFormat.yMMMd(Localizations.localeOf(context).languageCode).format(newDate.add(Duration(days: 6)))}'),
               onTap: () {
-                print('History: ${week[0]}-W${week[1]}');
-
                 // Show the page
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HistoryWork(
+                        builder: (context) => HistoryPageWork(
                               year: week[0],
                               weekNumber: week[1],
                             )));

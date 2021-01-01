@@ -47,9 +47,6 @@ List isoDateToWeek(DateTime randomDate) {
   if (w < 1) {
     // Last year
     return [randomDate.year - 1, isoWeeksInYear(randomDate.year - 1)];
-  } else if (w > isoWeeksInYear(randomDate.year)) {
-    // Next year
-    return [randomDate.year + 1, 1];
   } else {
     // This year
     return [randomDate.year, w];

@@ -31,7 +31,7 @@ class WorkDialogSave extends StatelessWidget {
                       .hasMatch(workDialogState.currentTime.toString())) {
                 // Your are missing something
                 workDialogState.showInputError = true; // Show the error's
-                Scaffold.of(context).showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(AppLocalizations.of(context)
                         .translate("add_work_dataNotEntered"))));
               } else {

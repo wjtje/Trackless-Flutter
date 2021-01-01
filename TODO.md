@@ -1,7 +1,6 @@
 # For version 0.1.0-beta
 
  - Able to edit user info (firstname, lastname, etc.)
- - Remove the BLOC and update it for provider
 
 # For version 0.1.1-beta
 

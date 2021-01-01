@@ -7,13 +7,11 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../app_localizations.dart';
-import '../bloc/location_bloc.dart';
-import '../bloc/location_event.dart';
-import '../bloc/worktype_bloc.dart';
-import '../bloc/worktype_event.dart';
 import '../components/drawer.dart';
 import '../main.dart';
 import '../models/login.dart';
+
+// TODO: need to improve the login page
 
 class LoginPage extends StatelessWidget {
   // Define text controllers
@@ -36,7 +34,7 @@ class LoginPage extends StatelessWidget {
 
       if (serverUrl == '' || username == '' || password == '') {
         // Somethings missing
-        Scaffold.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(AppLocalizations.of(context).translate('login_error')),
         ));
 
@@ -75,7 +73,7 @@ class LoginPage extends StatelessWidget {
 
         if (response.statusCode != 200) {
           // Somethings wrong
-          Scaffold.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Gebruikers naam of wachtwoord fout'),
           ));
         } else {
@@ -86,15 +84,6 @@ class LoginPage extends StatelessWidget {
           await storage.setItem('serverUrl', serverUrl);
 
           print('Login: Your apiKey: "${res.bearer}"');
-
-          // Start loading data
-          final WorktypeBloc worktypeBloc = WorktypeBloc();
-          worktypeBloc.worktypeEventSink.add(LoadWorktypeFromServer());
-          worktypeBloc.dispose();
-
-          final LocationBloc locationBloc = LocationBloc();
-          locationBloc.locationEventSink.add(LoadLocationFromServer());
-          locationBloc.dispose();
 
           // Go to the homepage
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);

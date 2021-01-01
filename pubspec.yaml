@@ -27,7 +27,7 @@ dependencies:
   localstorage: ^3.0.3+6
   provider: ^4.3.2+3
   # For formatting the date
-  intl: ^0.16.1
+  intl: ^0.17.0-nullsafety.2
   # For create hashes
   crypto: ^2.1.5
   # For full screen loading

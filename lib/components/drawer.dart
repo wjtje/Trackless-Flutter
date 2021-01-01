@@ -54,7 +54,7 @@ class _TracklessDrawerAppVersionState extends State<TracklessDrawerAppVersion> {
           Navigator.pop(context);
 
           // Show a snackbar
-          Scaffold.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('There aren\'t any developer option. Yet....'),
             duration: Duration(seconds: 10),
           ));

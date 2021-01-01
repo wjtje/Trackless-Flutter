@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
@@ -45,10 +47,16 @@ void main() {
   });
 
   // Get the package info
-  PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-    // Build the appVersion string
-    appVersion = '${packageInfo.version} (build ${packageInfo.buildNumber})';
-  });
+  // We can only get the package info on android or ios
+  if (!kIsWeb) {
+    if (Platform.isAndroid || Platform.isIOS) {
+      PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+        // Build the appVersion string
+        appVersion =
+            '${packageInfo.version} (build ${packageInfo.buildNumber})';
+      });
+    }
+  }
 
   // Wait for the storage to start
   storage.ready.then((value) {
@@ -73,41 +81,38 @@ void main() {
         'editWorkDate', DateFormat('yyyy-MM-dd').format(DateTime.now()));
 
     // Start the app
-    runZoned(
-      () {
-        runApp(BaseApp(
-          initRoute: initPage,
-        ));
+    // Catching error's
+    runZonedGuarded(() {
+      runApp(BaseApp(
+        initRoute: initPage,
+      ));
 
-        // Catching flutter error's
-        FlutterError.onError = (details, {bool forceReport = false}) {
-          // try {
-          //   sentry.captureException(
-          //     exception: details.exception,
-          //     stackTrace: details.stack,
-          //   );
-          // } catch (e) {
-          //   print('Sending report to sentry.io failed: $e');
-          // } finally {
-          //   // Also use Flutter's pretty error logging to the device's console.
-          //   FlutterError.dumpErrorToConsole(details, forceReport: forceReport);
-          // }
-        };
-      },
-      // Catching error's
-      onError: (Object error, StackTrace stackTrace) {
+      // Catching flutter error's
+      FlutterError.onError = (details, {bool forceReport = false}) {
         // try {
         //   sentry.captureException(
-        //     exception: error,
-        //     stackTrace: stackTrace,
+        //     exception: details.exception,
+        //     stackTrace: details.stack,
         //   );
-        //   print('Error sent to sentry.io: $error');
         // } catch (e) {
         //   print('Sending report to sentry.io failed: $e');
-        //   print('Original error: $error');
+        // } finally {
+        //   // Also use Flutter's pretty error logging to the device's console.
+        //   FlutterError.dumpErrorToConsole(details, forceReport: forceReport);
         // }
-      },
-    );
+      };
+    }, (Object error, StackTrace stackTrace) {
+      // try {
+      //   sentry.captureException(
+      //     exception: error,
+      //     stackTrace: stackTrace,
+      //   );
+      //   print('Error sent to sentry.io: $error');
+      // } catch (e) {
+      //   print('Sending report to sentry.io failed: $e');
+      //   print('Original error: $error');
+      // }
+    });
   });
 }
 

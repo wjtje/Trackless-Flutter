@@ -44,7 +44,7 @@ class TracklessLocationProvider with ChangeNotifier {
           }
 
           // Clear the list
-          _locationList = new List<TracklessLocation>();
+          _locationList = [];
 
           for (var jsonItem in json.decode(response.body)) {
             _locationList.add(TracklessLocation.fromJson(jsonItem));

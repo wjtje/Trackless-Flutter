@@ -44,7 +44,7 @@ class TracklessWorktypeProvider with ChangeNotifier {
           }
 
           // Clear the list
-          _worktypeList = List<TracklessWorktype>();
+          _worktypeList = [];
 
           for (var jsonItem in json.decode(response.body)) {
             _worktypeList.add(TracklessWorktype.fromJson(jsonItem));
@@ -83,7 +83,7 @@ class TracklessWorktypeProvider with ChangeNotifier {
   /// Load all the worktypes from localStorage
   Future Function() get refreshFromLocalStorage => () async {
         try {
-          _worktypeList = List<TracklessWorktype>();
+          _worktypeList = [];
 
           // Parse the json
           for (var json in (_localStorage.getItem('worktypes') ?? [])) {

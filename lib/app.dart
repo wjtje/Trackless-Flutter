@@ -10,11 +10,12 @@ import 'package:trackless/pages/home/home_load.dart';
 import 'app_localizations.dart';
 import 'components/drawer.dart';
 import 'main.dart';
-import 'pages/History.dart';
+import 'pages/history/history.dart';
 import 'pages/home/home.dart';
 import 'pages/account/account_load.dart';
 
-final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldKey =
+    new GlobalKey<ScaffoldMessengerState>();
 
 class MyApp extends StatefulWidget {
   MyApp({Key key}) : super(key: key);

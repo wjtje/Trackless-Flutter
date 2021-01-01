@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:trackless/app_localizations.dart';
 import 'package:trackless/pages/work_dialog/actions/work_dialog_delete.dart';
 import 'package:trackless/pages/work_dialog/actions/work_dialog_save.dart';
+import 'package:trackless/pages/work_dialog/actions/work_dialog_update.dart';
 import 'package:trackless/pages/work_dialog/work_dialog_body.dart';
 import 'package:trackless/trackless/models/trackless_work_model.dart';
 import 'package:trackless/trackless/trackless_failure.dart';
@@ -93,6 +94,7 @@ class WorkDialog extends StatelessWidget {
               // Show the correct actions
               actions: [
                 WorkDialogDelete(),
+                WorkDialogUpdate(),
                 WorkDialogSave(),
               ],
             ),

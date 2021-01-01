@@ -11,14 +11,14 @@ import 'package:http/http.dart' as http;
 import '../work_dialog.dart';
 
 /// A save button for the work dialog
-class WorkDialogSave extends StatelessWidget {
-  const WorkDialogSave({Key key}) : super(key: key);
+class WorkDialogUpdate extends StatelessWidget {
+  const WorkDialogUpdate({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final workDialogState = Provider.of<WorkDialogState>(context);
     return Visibility(
-        visible: workDialogState.editWork == null,
+        visible: workDialogState.editWork != null,
         child: IconButton(
             icon: Icon(Icons.save),
             onPressed: () async {
@@ -44,22 +44,26 @@ class WorkDialogSave extends StatelessWidget {
                 final String serverUrl = storage.getItem('serverUrl');
 
                 await dialogTry(context, () async {
-                  final response =
-                      await http.post('$serverUrl/user/~/work', body: {
-                    'worktypeID': workDialogState.currentWorktypeID.toString(),
-                    'locationID': workDialogState.currentLocationID.toString(),
-                    'date': DateFormat('yyyy-MM-dd')
-                        .format(workDialogState.currentDate),
-                    'time': workDialogState.currentTime.toString(),
-                    'description': workDialogState
-                        .descriptionController.value.text
-                        .toString()
-                  }, headers: {
-                    'Authorization': 'Bearer $apiKey'
-                  });
+                  final response = await http.patch(
+                      '$serverUrl/user/~/work/${workDialogState.currentWorkID}',
+                      body: {
+                        'worktypeID':
+                            workDialogState.currentWorktypeID.toString(),
+                        'locationID':
+                            workDialogState.currentLocationID.toString(),
+                        'date': DateFormat('yyyy-MM-dd')
+                            .format(workDialogState.currentDate),
+                        'time': workDialogState.currentTime.toString(),
+                        'description': workDialogState
+                            .descriptionController.value.text
+                            .toString()
+                      },
+                      headers: {
+                        'Authorization': 'Bearer $apiKey'
+                      });
 
                   // Make sure its a valid response code
-                  if (response.statusCode != 201) {
+                  if (response.statusCode != 200) {
                     throw HttpException(response.statusCode.toString());
                   }
 

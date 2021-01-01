@@ -55,16 +55,16 @@ class WorkDialogDelete extends StatelessWidget {
 
                               // Reload the home page
                               await dialogReloadHome(context, workDialogState);
+
+                              // Hide the loading animation
+                              context.hideLoaderOverlay();
+
+                              // Close the alert
+                              Navigator.of(context).pop();
+
+                              // Close the dialog
+                              Navigator.of(context).pop();
                             });
-
-                            // Hide the loading animation
-                            context.hideLoaderOverlay();
-
-                            // Close the alert
-                            Navigator.of(context).pop();
-
-                            // Close the dialog
-                            Navigator.of(context).pop();
                           },
                         )
                       ],

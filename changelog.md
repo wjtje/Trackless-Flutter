@@ -8,6 +8,7 @@
 * Added offile support for work
 * Added web support
 * Added windows support
+
 ### Changed in this version
 
 * The app title is now correct

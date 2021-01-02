@@ -52,9 +52,12 @@ class ListWorkHeader extends StatelessWidget {
                     ])),
               ],
             )
-          : SkeletonText(
-              height: 14,
-              padding: 1,
+          : Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: SkeletonText(
+                height: 14,
+                padding: 1,
+              ),
             ),
     );
   }

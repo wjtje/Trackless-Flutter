@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trackless/app_localizations.dart';
+import 'package:trackless/functions/app_localizations.dart';
 import 'package:trackless/pages/work_dialog/work_dialog.dart';
 
 class WorkDialogDescription extends StatelessWidget {

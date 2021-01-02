@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:trackless/app_localizations.dart';
+import 'package:trackless/functions/app_localizations.dart';
 import 'package:trackless/pages/work_dialog/actions/work_dialog_delete.dart';
 import 'package:trackless/pages/work_dialog/actions/work_dialog_save.dart';
 import 'package:trackless/pages/work_dialog/actions/work_dialog_update.dart';
@@ -13,7 +13,7 @@ import 'package:trackless/trackless/trackless_failure.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:trackless/trackless/trackless_work.dart';
 
-import '../../async_state.dart';
+import '../../global/async_state.dart';
 
 /// A dialog to add, edit and remove work
 class WorkDialog extends StatelessWidget {

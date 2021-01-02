@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../app_localizations.dart';
+import '../functions/app_localizations.dart';
 import '../components/drawer.dart';
 import '../main.dart';
 import '../models/login.dart';

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:trackless/trackless/trackless_account.dart';
 import 'package:trackless/trackless/trackless_failure.dart';
 
-import '../../async_state.dart';
+import '../../global/async_state.dart';
 
 /// Start loading all the data needed for the account page
 Future loadAccountPage(BuildContext context) async {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skeleton_animation/skeleton_animation.dart';
-import 'package:trackless/app_localizations.dart';
+import 'package:trackless/functions/app_localizations.dart';
 import 'package:trackless/pages/work_dialog/work_dialog.dart';
 import 'package:trackless/trackless/models/trackless_work_model.dart';
 

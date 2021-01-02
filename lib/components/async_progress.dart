@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../async_state.dart';
+import '../global/async_state.dart';
 
 /// A LinearProgressIndicator that will show when the
 /// isAsyncLoading is active in the app_state

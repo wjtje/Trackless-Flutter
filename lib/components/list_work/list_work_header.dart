@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:skeleton_animation/skeleton_animation.dart';
 
-import '../../app_localizations.dart';
+import '../../functions/app_localizations.dart';
 
 /// A headers for listWork
 class ListWorkHeader extends StatelessWidget {
@@ -16,7 +16,7 @@ class ListWorkHeader extends StatelessWidget {
     return Container(
       height: 60,
       color: Theme.of(context).primaryColorLight,
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 16),
       child: (this.date != null && this.hours != null)
           ? Row(
               children: [
@@ -52,9 +52,7 @@ class ListWorkHeader extends StatelessWidget {
                     ])),
               ],
             )
-          : Skeleton(
-              style: SkeletonStyle.text,
-              parentBackgroundColor: Theme.of(context).primaryColorLight,
+          : SkeletonText(
               height: 14,
               padding: 1,
             ),

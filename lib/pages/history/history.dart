@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:trackless/app_state.dart';
-import 'package:trackless/date.dart';
+import 'package:trackless/global/app_state.dart';
+import 'package:trackless/functions/date.dart';
 
 import 'history_work.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../app_localizations.dart';
+import '../../functions/app_localizations.dart';
 
 class AccountOptions extends StatelessWidget {
   const AccountOptions({Key key}) : super(key: key);

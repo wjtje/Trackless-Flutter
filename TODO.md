@@ -12,3 +12,4 @@
 
  - Able to search to locations and worktype
  - Able to disable sentry
+ - Update login page

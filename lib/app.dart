@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
-import 'package:trackless/app_state.dart';
+import 'package:trackless/global/app_state.dart';
 import 'package:trackless/pages/account/account.dart';
 import 'package:trackless/pages/home/home_load.dart';
 
-import 'app_localizations.dart';
+import 'functions/app_localizations.dart';
 import 'components/drawer.dart';
 import 'main.dart';
 import 'pages/history/history.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skeleton_animation/skeleton_animation.dart';
-import 'package:trackless/app_localizations.dart';
+import 'package:trackless/functions/app_localizations.dart';
 import 'package:trackless/trackless/trackless_account.dart';
 
 class AccountInformation extends StatelessWidget {

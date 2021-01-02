@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trackless/async_state.dart';
-import 'package:trackless/date.dart';
+import 'package:trackless/global/async_state.dart';
+import 'package:trackless/functions/date.dart';
 import 'package:trackless/trackless/trackless_failure.dart';
 import 'package:trackless/trackless/trackless_location.dart';
 import 'package:trackless/trackless/trackless_work.dart';

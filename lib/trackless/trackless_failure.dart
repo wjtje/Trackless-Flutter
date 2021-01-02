@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:trackless/app_localizations.dart';
+import 'package:trackless/functions/app_localizations.dart';
 
 import '../app.dart';
 

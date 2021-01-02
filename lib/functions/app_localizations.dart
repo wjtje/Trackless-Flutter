@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// Provide localizations to your text
 class AppLocalizations {
   final Locale locale;
 
@@ -13,6 +14,7 @@ class AppLocalizations {
       _AppLocalizationsDelegate();
 
   // Shortcut for the context
+  /// Get access to localizations
   static AppLocalizations of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }

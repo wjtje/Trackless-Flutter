@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trackless/app_localizations.dart';
+import 'package:trackless/functions/app_localizations.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:trackless/main.dart';
 import 'package:http/http.dart' as http;

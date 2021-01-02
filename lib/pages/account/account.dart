@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trackless/app_state.dart';
+import 'package:trackless/global/app_state.dart';
 import 'package:trackless/components/async_progress.dart';
 import 'package:trackless/pages/account/account_information.dart';
 import 'package:trackless/pages/account/account_options.dart';

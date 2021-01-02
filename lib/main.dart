@@ -10,15 +10,15 @@ import 'package:package_info/package_info.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry/sentry.dart';
-import 'package:trackless/async_state.dart';
+import 'package:trackless/global/async_state.dart';
 import 'package:trackless/trackless/trackless_account.dart';
 import 'package:trackless/trackless/trackless_location.dart';
 import 'package:trackless/trackless/trackless_work.dart';
 import 'package:trackless/trackless/trackless_worktype.dart';
 
 import 'app.dart';
-import 'app_localizations.dart';
-import 'app_state.dart';
+import 'functions/app_localizations.dart';
+import 'global/app_state.dart';
 import 'pages/Login.dart';
 import 'theme/dark.dart';
 import 'theme/light.dart';

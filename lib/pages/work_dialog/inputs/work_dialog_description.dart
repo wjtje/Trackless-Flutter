@@ -8,8 +8,7 @@ class WorkDialogDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final workDialogState =
-        Provider.of<WorkDialogState>(context, listen: false);
+    final workDialogState = Provider.of<WorkDialogState>(context);
 
     return TextFormField(
       controller: workDialogState.descriptionController,
@@ -23,7 +22,6 @@ class WorkDialogDescription extends StatelessWidget {
           border: OutlineInputBorder(),
           icon: Icon(Icons.text_fields)),
       // Test the input value
-      // TODO: This is not working correctly
       autovalidateMode: AutovalidateMode.always,
       validator: validator(workDialogState, context, 'add_work_description'),
     );

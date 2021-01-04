@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 import 'package:trackless/functions/app_localizations.dart';
 import 'package:trackless/pages/work_dialog/actions/work_dialog_delete.dart';
@@ -114,6 +115,7 @@ class WorkDialogState with ChangeNotifier {
   // Global states
   bool _showInputError = false;
   TracklessWork _editWork;
+  LocalStorage _localStorage = LocalStorage('work_dialog');
 
   WorkDialogState(TracklessWork editWork) {
     if (editWork != null) {
@@ -125,8 +127,21 @@ class WorkDialogState with ChangeNotifier {
       _descriptionController.text = editWork.description;
       _timeController.text = editWork.time.toString();
       _currentWorktypeID = editWork.worktype.worktypeID;
+    } else {
+      () async {
+        await _localStorage.ready;
+
+        // Load the last used locationID and worktypeID
+        _currentLocationID = _localStorage.getItem('locationID');
+        _currentWorktypeID = _localStorage.getItem('workTypeID');
+
+        notifyListeners();
+      }();
     }
   }
+
+  /// Get the localStorage for the workDialog
+  LocalStorage get localStorage => _localStorage;
 
   /// Should input errors be shown?
   bool get showInputError => _showInputError;

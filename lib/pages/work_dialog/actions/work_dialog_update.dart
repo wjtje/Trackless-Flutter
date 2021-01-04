@@ -68,6 +68,12 @@ class WorkDialogUpdate extends StatelessWidget {
                     throw HttpException(response.statusCode.toString());
                   }
 
+                  // Update the last used
+                  await workDialogState.localStorage
+                      .setItem('locationID', workDialogState.currentLocationID);
+                  await workDialogState.localStorage
+                      .setItem('workTypeID', workDialogState.currentWorktypeID);
+
                   // Reload the home page
                   await dialogReloadHome(context, workDialogState);
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trackless/functions/app_localizations.dart';
+import 'package:trackless/functions/input_validator.dart';
 import 'package:trackless/pages/work_dialog/work_dialog.dart';
 
 class WorkDialogTime extends StatelessWidget {
@@ -20,7 +21,8 @@ class WorkDialogTime extends StatelessWidget {
       keyboardType: TextInputType.number,
       // Test the input value
       autovalidateMode: AutovalidateMode.always,
-      validator: validator(workDialogState, context, 'add_work_time'),
+      validator: inputValidator(
+          workDialogState.showInputError, context, 'add_work_time'),
     );
   }
 }

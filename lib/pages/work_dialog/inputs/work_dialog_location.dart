@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trackless/functions/app_localizations.dart';
+import 'package:trackless/functions/input_validator.dart';
 import 'package:trackless/pages/work_dialog/work_dialog.dart';
 import 'package:trackless/trackless/trackless_location.dart';
 
@@ -38,7 +39,8 @@ class WorkDialogLocation extends StatelessWidget {
           icon: Icon(Icons.location_on)),
       // Test the input value
       autovalidateMode: AutovalidateMode.always,
-      validator: validator(workDialogState, context, 'add_work_location'),
+      validator: inputValidator(
+          workDialogState.showInputError, context, 'add_work_location'),
     );
   }
 }

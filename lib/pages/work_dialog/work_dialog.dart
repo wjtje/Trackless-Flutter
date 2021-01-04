@@ -212,22 +212,6 @@ class WorkDialogState with ChangeNotifier {
   TracklessWork get editWork => _editWork;
 }
 
-/// A global function to test an input and return the correct value
-///
-/// if there is nothing wrong with the input it will return null else
-/// it will return the correct string to display
-Function validator(
-    WorkDialogState workDialogState, BuildContext context, String inputName) {
-  return (value) {
-    return ((value == null || value == "") && workDialogState.showInputError)
-        ? AppLocalizations.of(context)
-            .translate('add_work_valueNotvalid')
-            .replaceAll('%input',
-                AppLocalizations.of(context).translate(inputName).toLowerCase())
-        : null;
-  };
-}
-
 /// This function will try to run [function] and if it fails will display a dialog to inform the user
 Future dialogTry(BuildContext context, Future Function() function) async {
   try {

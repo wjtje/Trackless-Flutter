@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trackless/functions/app_localizations.dart';
+import 'package:trackless/functions/input_validator.dart';
 import 'package:trackless/pages/work_dialog/work_dialog.dart';
 
 class WorkDialogDescription extends StatelessWidget {
@@ -23,7 +24,8 @@ class WorkDialogDescription extends StatelessWidget {
           icon: Icon(Icons.text_fields)),
       // Test the input value
       autovalidateMode: AutovalidateMode.always,
-      validator: validator(workDialogState, context, 'add_work_description'),
+      validator: inputValidator(
+          workDialogState.showInputError, context, 'add_work_description'),
     );
   }
 }

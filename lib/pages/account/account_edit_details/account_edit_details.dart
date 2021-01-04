@@ -5,6 +5,8 @@ import 'package:trackless/pages/account/account_edit_details/account_edit_detail
 import 'package:trackless/pages/account/account_edit_details/account_edit_details_lastname.dart';
 import 'package:trackless/pages/account/account_edit_details/account_edit_details_save.dart';
 import 'package:trackless/pages/account/account_edit_details/account_edit_details_username.dart';
+import 'package:trackless/trackless/models/trackless_user_model.dart';
+import 'package:trackless/trackless/trackless_account.dart';
 
 /// A basic dialog to edit some account details
 class AccountEditDetails extends StatelessWidget {
@@ -13,7 +15,8 @@ class AccountEditDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => AccountEditDetailsState(),
+      create: (_) => AccountEditDetailsState(
+          Provider.of<TracklessAccount>(context, listen: false).tracklessUser),
       child: Builder(
         builder: (context) => WillPopScope(
             child: Scaffold(
@@ -57,6 +60,13 @@ class AccountEditDetailsState with ChangeNotifier {
   TextEditingController _firstname = TextEditingController();
   TextEditingController _lastname = TextEditingController();
   TextEditingController _username = TextEditingController();
+
+  // Load the account details
+  AccountEditDetailsState(TracklessUser user) {
+    _firstname.text = user.firstname;
+    _lastname.text = user.lastname;
+    _username.text = user.username;
+  }
 
   // Global states
   bool _showInputError = false;

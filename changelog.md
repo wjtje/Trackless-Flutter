@@ -8,7 +8,7 @@
 * Added offile support for work
 * Added web support
 * Added windows support
-
+* Able to edit user info (firstname, lastname, etc.)
 ### Changed in this version
 
 * The app title is now correct

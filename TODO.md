@@ -1,7 +1,3 @@
-# For version 0.1.0-beta
-
- - Able to edit user info (firstname, lastname, etc.)
-
 # For version 0.1.1-beta
 
  - Show active devices

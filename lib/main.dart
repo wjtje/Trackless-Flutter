@@ -92,19 +92,19 @@ void main() {
       ));
 
       // Catching flutter error's
-      FlutterError.onError = (details, {bool forceReport = false}) {
-        // try {
-        //   sentry.captureException(
-        //     exception: details.exception,
-        //     stackTrace: details.stack,
-        //   );
-        // } catch (e) {
-        //   print('Sending report to sentry.io failed: $e');
-        // } finally {
-        //   // Also use Flutter's pretty error logging to the device's console.
-        //   FlutterError.dumpErrorToConsole(details, forceReport: forceReport);
-        // }
-      };
+      // FlutterError.onError = (details, {bool forceReport = false}) {
+      //   try {
+      //     sentry.captureException(
+      //       exception: details.exception,
+      //       stackTrace: details.stack,
+      //     );
+      //   } catch (e) {
+      //     print('Sending report to sentry.io failed: $e');
+      //   } finally {
+      //     // Also use Flutter's pretty error logging to the device's console.
+      //     FlutterError.dumpErrorToConsole(details, forceReport: forceReport);
+      //   }
+      // };
     }, (Object error, StackTrace stackTrace) {
       // try {
       //   sentry.captureException(

@@ -51,4 +51,4 @@ flutter:
   assets:
     - lang/en.json
     - lang/nl.json
-    - images/T_icon.png
+    - images/ic_launcher.png

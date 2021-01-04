@@ -78,7 +78,7 @@ class AboutTrackless extends StatelessWidget {
     return AboutListTile(
       icon: Icon(Icons.info),
       applicationIcon: Image(
-        image: AssetImage('images/T_icon.png'),
+        image: AssetImage('images/ic_launcher.png'),
         height: 32,
         width: 32,
       ),

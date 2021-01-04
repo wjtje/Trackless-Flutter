@@ -12,38 +12,7 @@ class ListWorkSkeleton extends StatelessWidget {
     return SliverStickyHeader(
       header: ListWorkHeader(),
       sliver: SliverList(
-        delegate: SliverChildBuilderDelegate(
-            (context, index) => () {
-                  // First one
-                  if (index == 0) {
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: 8,
-                        ),
-                        ListWorkItem(),
-                        Divider(),
-                      ],
-                    );
-                  } else if ((index + 1) != 10) {
-                    return Column(
-                      children: [
-                        ListWorkItem(),
-                        Divider(),
-                      ],
-                    );
-                  } else {
-                    // Last one
-                    return Column(
-                      children: [
-                        ListWorkItem(),
-                        SizedBox(
-                          height: 8,
-                        ),
-                      ],
-                    );
-                  }
-                }(),
+        delegate: SliverChildBuilderDelegate((context, index) => ListWorkItem(),
             childCount: 10),
       ),
     );

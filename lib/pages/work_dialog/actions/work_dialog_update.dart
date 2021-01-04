@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:trackless/functions/app_localizations.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:trackless/functions/request.dart';
 import 'package:trackless/main.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,7 +34,7 @@ class WorkDialogUpdate extends StatelessWidget {
                 workDialogState.showInputError = true; // Show the error's
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(AppLocalizations.of(context)
-                        .translate("add_work_dataNotEntered"))));
+                        .translate("dataNotEntered"))));
               } else {
                 // Hide the keyboard and show loading animation
                 FocusScope.of(context).requestFocus(new FocusNode());
@@ -43,7 +44,7 @@ class WorkDialogUpdate extends StatelessWidget {
                 final String apiKey = storage.getItem('apiKey');
                 final String serverUrl = storage.getItem('serverUrl');
 
-                await dialogTry(context, () async {
+                await tryRequest(context, () async {
                   final response = await http.patch(
                       '$serverUrl/user/~/work/${workDialogState.currentWorkID}',
                       body: {

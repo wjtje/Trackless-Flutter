@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trackless/functions/app_localizations.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:trackless/functions/request.dart';
 import 'package:trackless/main.dart';
 import 'package:http/http.dart' as http;
 
@@ -38,7 +39,7 @@ class WorkDialogDelete extends StatelessWidget {
                             context.showLoaderOverlay();
 
                             // Try to remove the data
-                            await dialogTry(context, () async {
+                            await tryRequest(context, () async {
                               final String apiKey = storage.getItem('apiKey');
                               final String serverUrl =
                                   storage.getItem('serverUrl');

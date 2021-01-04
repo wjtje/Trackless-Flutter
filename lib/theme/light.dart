@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 final lightTheme = ThemeData(
-    brightness: Brightness.light,
-    primaryColor: Color(0xFF49cbf3),
-    primaryColorLight: Color(0xFF86FEFF),
-    accentColor: Color(0xFF564ae4),
+    primaryColor: Color(0xFF044b7f),
+    primaryColorDark: Color(0xFF002452),
+    primaryColorLight: Color(0xFF4876af),
+    accentColor: Color(0xFF90caf9),
     colorScheme: ColorScheme.light().copyWith(
-      primary: Color(0xFF49cbf3),
-      onPrimary: Color(0xFF000000),
-      secondary: Color(0xFF564ae4),
-      onSecondary: Color(0xFFFFFFFF),
-    ));
+        primary: Color(0xFF044b7f),
+        primaryVariant: Color(0xFF002452),
+        onPrimary: Colors.white,
+        secondary: Color(0xFF90caf9),
+        secondaryVariant: Color(0xFF5d99c6),
+        onSecondary: Colors.black));

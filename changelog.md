@@ -12,6 +12,7 @@
 ### Changed in this version
 
 * The app title is now correct
+* Updated the colors and the style
 
 ### Things that are fixed
 

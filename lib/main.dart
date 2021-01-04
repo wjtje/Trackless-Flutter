@@ -9,7 +9,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:package_info/package_info.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
-import 'package:sentry/sentry.dart';
+// import 'package:sentry/sentry.dart';
 import 'package:trackless/global/async_state.dart';
 import 'package:trackless/trackless/trackless_account.dart';
 import 'package:trackless/trackless/trackless_location.dart';
@@ -22,11 +22,11 @@ import 'global/app_state.dart';
 import 'pages/Login.dart';
 import 'theme/dark.dart';
 import 'theme/light.dart';
-import 'dsn.dart';
+// import 'dsn.dart';
 
 // Global var for storing sentry
 // This is used for debugging
-final SentryClient sentry = new SentryClient(dsn: dsn);
+// final SentryClient sentry = new SentryClient(dsn: dsn);
 
 // A global var for storing the appVersion name
 // It will be build in the main()
@@ -55,7 +55,11 @@ void main() {
         appVersion =
             '${packageInfo.version} (build ${packageInfo.buildNumber})';
       });
+    } else {
+      appVersion = 'Native build';
     }
+  } else {
+    appVersion = 'Web build';
   }
 
   // Wait for the storage to start

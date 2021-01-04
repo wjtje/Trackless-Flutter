@@ -20,20 +20,30 @@ class ListWorkHeader extends StatelessWidget {
       child: (this.date != null && this.hours != null)
           ? Row(
               children: [
-                // Display the date on the left
+                // Display the day and date on the left
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Display the day on the top
                     Text(
-                        DateFormat.yMMMd(
-                                Localizations.localeOf(context).languageCode)
-                            .format(DateTime.parse(this.date)),
-                        style: Theme.of(context).textTheme.subtitle1.merge(
-                              TextStyle(
-                                  // Make sure the text has the correct color
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary),
-                            )),
+                      DateFormat.EEEE(
+                              Localizations.localeOf(context).languageCode)
+                          .format(DateTime.parse(this.date)),
+                      style: Theme.of(context).textTheme.subtitle1.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimary),
+                    ),
+                    // Display the date on the bottom
+                    Text(
+                      DateFormat.yMMMd(
+                              Localizations.localeOf(context).languageCode)
+                          .format(DateTime.parse(this.date)),
+                      style: Theme.of(context).textTheme.bodyText2.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onPrimary
+                              .withOpacity(0.74)),
+                    )
                   ],
                 ),
                 // Display the total time on the right
@@ -43,12 +53,9 @@ class ListWorkHeader extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                       Text(
-                          '${this.hours} ${AppLocalizations.of(context).translate('list_work_total')}',
-                          style: Theme.of(context).textTheme.bodyText2.merge(
-                              TextStyle(
-                                  // Make sure the text has the correct color
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary)))
+                          '${this.hours} ${AppLocalizations.of(context).translate('list_work_hour')}',
+                          style: Theme.of(context).textTheme.caption.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary))
                     ])),
               ],
             )

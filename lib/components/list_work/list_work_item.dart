@@ -22,7 +22,7 @@ class ListWorkItem extends StatelessWidget {
             ),
       // Subtitle: Description
       subtitle: (work != null)
-          ? Text(work.description)
+          ? Text(work.description, overflow: TextOverflow.ellipsis)
           : SkeletonText(
               height: 10,
               padding: 1,
@@ -30,7 +30,8 @@ class ListWorkItem extends StatelessWidget {
       // Trailing: Time
       trailing: (work != null)
           ? Text(
-              '${work.time.toString()} ${AppLocalizations.of(context).translate('list_work_hour')}')
+              '${work.time.toString()} ${AppLocalizations.of(context).translate('list_work_hour')}',
+              style: Theme.of(context).textTheme.caption)
           : Skeleton(
               style: SkeletonStyle.text,
               height: 12,

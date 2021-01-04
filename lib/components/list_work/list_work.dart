@@ -36,60 +36,9 @@ List<Widget> listWork(List<List<TracklessWork>> work) {
           // Create the sliver
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
-                (context, index) => () {
-                      // Lists with one element doesn't need any dividers
-                      if (element.length == 1) {
-                        return Column(
-                          children: [
-                            SizedBox(
-                              height: 8,
-                            ),
-                            ListWorkItem(
-                              work: element[index],
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                          ],
-                        );
-                      } else {
-                        // First one
-                        if (index == 0) {
-                          return Column(
-                            children: [
-                              SizedBox(
-                                height: 8,
-                              ),
-                              ListWorkItem(
-                                work: element[index],
-                              ),
-                              Divider(),
-                            ],
-                          );
-                        } else if ((index + 1) != element.length) {
-                          return Column(
-                            children: [
-                              ListWorkItem(
-                                work: element[index],
-                              ),
-                              Divider(),
-                            ],
-                          );
-                        } else {
-                          // Last one
-                          return Column(
-                            children: [
-                              ListWorkItem(
-                                work: element[index],
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                            ],
-                          );
-                        }
-                      }
-                    }(),
+                (context, index) => ListWorkItem(
+                      work: element[index],
+                    ),
                 childCount: element.length),
           ),
         ));

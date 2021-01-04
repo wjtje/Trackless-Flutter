@@ -41,8 +41,8 @@ class AccountOptions extends StatelessWidget {
             title: Text(
                 AppLocalizations.of(context).translate('account_edit_details')),
             onTap: () {
-              showDialog(
-                  context: context, builder: (_) => AccountEditDetails());
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => AccountEditDetails()));
             },
           )
         ],

@@ -130,6 +130,7 @@ class BaseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          // Load all the global providers
           ChangeNotifierProvider(create: (_) => AppState()),
           ChangeNotifierProvider(create: (_) => AsyncState()),
           ChangeNotifierProvider(create: (_) => TracklessAccount()),
@@ -151,7 +152,7 @@ class BaseApp extends StatelessWidget {
             // Import the themes
             theme: lightTheme,
             darkTheme: darkTheme,
-            // Import
+            // Import the localizations stuff
             supportedLocales: [Locale('en'), Locale('nl')],
             localizationsDelegates: [
               AppLocalizations.delegate,

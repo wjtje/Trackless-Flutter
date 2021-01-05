@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:trackless/components/drawer/drawer.dart';
 import 'package:trackless/global/app_state.dart';
-import 'package:trackless/pages/account/account.dart';
 import 'package:trackless/pages/home/home_load.dart';
 
 import 'functions/app_localizations.dart';
-import 'components/drawer.dart';
 import 'main.dart';
-import 'pages/history/history.dart';
 import 'pages/home/home.dart';
-import 'pages/account/account_load.dart';
 
+/// A global key to show skeleton animations without a [BuildContext]
 final GlobalKey<ScaffoldMessengerState> scaffoldKey =
     new GlobalKey<ScaffoldMessengerState>();
 
+/// The global app widget
+///
+/// This widget will show / hide the Floating Action Button,
+/// show the correct page and handle navigation.
 class MyApp extends StatefulWidget {
   MyApp({Key key}) : super(key: key);
 
@@ -32,7 +34,7 @@ class _MyAppState extends State<MyApp>
   void initState() {
     super.initState();
 
-    // Show the fab
+    // Create the FAB animation and show it
     _hideFabAnimation =
         AnimationController(vsync: this, duration: kThemeAnimationDuration);
     _hideFabAnimation.forward();
@@ -43,6 +45,7 @@ class _MyAppState extends State<MyApp>
 
   @override
   void dispose() {
+    // Cleanup the animation
     _hideFabAnimation.dispose();
     super.dispose();
   }
@@ -56,6 +59,8 @@ class _MyAppState extends State<MyApp>
     }
   }
 
+  // When scrolling down hide the FAB
+  // When scrolling up show the FAB
   bool _handleScrollNotification(ScrollNotification notification) {
     if (notification.depth == 0) {
       if (notification is UserScrollNotification) {
@@ -86,9 +91,11 @@ class _MyAppState extends State<MyApp>
 
   @override
   Widget build(BuildContext context) {
+    // Get the current active page
     final appState = Provider.of<AppState>(context);
     final activePage = appState.activePage ?? homePage;
 
+    // Listen for changes in scrolling
     return NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
         child: Scaffold(
@@ -101,7 +108,7 @@ class _MyAppState extends State<MyApp>
             actions: activePage.appBarActions,
           ),
 
-          // The active page
+          // The current active page
           body: activePage.page,
 
           // Animate the floating action button
@@ -115,71 +122,7 @@ class _MyAppState extends State<MyApp>
           ),
 
           // The drawer
-          drawer: Builder(
-            builder: (context) => Drawer(
-              child: ListView(
-                children: [
-                  // Header
-                  TracklessDrawerHeader(),
-
-                  // This week
-                  ListTile(
-                    title: Text(AppLocalizations.of(context)
-                        .translate('this_week_page_title')),
-                    leading: Icon(Icons.home),
-                    onTap: () {
-                      appState.activePage = homePage; // Set the page
-                      _hideFabAnimation.forward(); // Show the FAB
-                      Navigator.of(context).pop(); // Close the drawer
-
-                      // Load the home page details
-                      loadHomePage(context);
-                    },
-                  ),
-
-                  // History
-                  ListTile(
-                    title: Text(AppLocalizations.of(context)
-                        .translate('history_page_title')),
-                    leading: Icon(Icons.history),
-                    onTap: () {
-                      appState.activePage = historyPage; // Set the page
-                      _hideFabAnimation.reverse(); // Hide the FAB
-                      Navigator.of(context).pop(); // Close the drawer
-                    },
-                  ),
-
-                  // Account
-                  ListTile(
-                    title: Text(AppLocalizations.of(context)
-                        .translate('account_page_title')),
-                    leading: Icon(Icons.account_box),
-                    onTap: () {
-                      appState.activePage = accountPage; // Set the page
-                      _hideFabAnimation.reverse(); // Hide the FAB
-                      Navigator.of(context).pop(); // Close the drawer
-
-                      // Load the account details
-                      loadAccountPage(context);
-                    },
-                  ),
-
-                  // Other options
-                  Divider(),
-
-                  // Settigns
-                  ListTile(
-                    title: Text(AppLocalizations.of(context)
-                        .translate('settings_page_title')),
-                    leading: Icon(Icons.settings),
-                  ),
-
-                  // About
-                  AboutTrackless(),
-                ],
-              ),
-            ),
-          ),
+          drawer: AppDrawer(_hideFabAnimation),
         ));
   }
 }

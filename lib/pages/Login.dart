@@ -4,12 +4,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:trackless/components/drawer/drawer_about.dart';
+import 'package:trackless/components/drawer/drawer_header.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../functions/app_localizations.dart';
-import '../components/drawer.dart';
 import '../main.dart';
 import '../models/login.dart';
+import 'home/home_load.dart';
 
 // TODO: need to improve the login page
 
@@ -87,6 +89,9 @@ class LoginPage extends StatelessWidget {
 
           // Go to the homepage
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+
+          // Load the home page
+          loadHomePage(context);
         }
       }
     };
@@ -105,14 +110,14 @@ class LoginPage extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              TracklessDrawerHeader(),
+              AppDrawerHeader(),
               ListTile(
                 title:
                     Text(AppLocalizations.of(context).translate('login_title')),
                 leading: Icon(Icons.login),
                 onTap: () => Navigator.pop(context),
               ),
-              AboutTrackless(),
+              AppDrawerAbout(),
             ],
           ),
         ),

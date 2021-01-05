@@ -223,7 +223,7 @@ class WorkDialogState with ChangeNotifier {
   TracklessWork get editWork => _editWork;
 }
 
-// This will reload the home page if needed
+/// This will reload the home page if needed
 Future dialogReloadHome(
     BuildContext context, WorkDialogState workDialogState) async {
   // Reload the home page
@@ -233,7 +233,7 @@ Future dialogReloadHome(
   // Show the async loading
   asyncState.isAsyncLoading = true;
 
-  // Check if we need to update the u
+  // Check if we need to update the ui
   if ((workDialogState.currentDate
               .isAtSameMomentAs(tracklessWorkProvider.startDate) ||
           workDialogState.currentDate

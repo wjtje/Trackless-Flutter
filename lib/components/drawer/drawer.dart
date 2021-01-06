@@ -24,7 +24,8 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Don't listen becuse the ui doesn't need to update
-    final appState = Provider.of<AppState>(context, listen: false);
+    final appState = Provider.of<AppState>(context);
+    final activePage = appState.activePage?.pageTitle ?? homePage.pageTitle;
 
     return Drawer(
       child: ListView(
@@ -33,8 +34,9 @@ class AppDrawer extends StatelessWidget {
 
           // This week
           ListTile(
+            selected: activePage == homePage.pageTitle,
             title: Text(
-                AppLocalizations.of(context).translate('this_week_page_title')),
+                AppLocalizations.of(context).translate(homePage.pageTitle)),
             leading: Icon(Icons.home),
             onTap: () {
               appState.activePage = homePage; // Set the page
@@ -48,8 +50,9 @@ class AppDrawer extends StatelessWidget {
 
           // History
           ListTile(
+            selected: activePage == historyPage.pageTitle,
             title: Text(
-                AppLocalizations.of(context).translate('history_page_title')),
+                AppLocalizations.of(context).translate(historyPage.pageTitle)),
             leading: Icon(Icons.history),
             onTap: () {
               appState.activePage = historyPage; // Set the page
@@ -60,8 +63,9 @@ class AppDrawer extends StatelessWidget {
 
           // Account
           ListTile(
+            selected: activePage == accountPage.pageTitle,
             title: Text(
-                AppLocalizations.of(context).translate('account_page_title')),
+                AppLocalizations.of(context).translate(accountPage.pageTitle)),
             leading: Icon(Icons.account_box),
             onTap: () {
               appState.activePage = accountPage; // Set the page

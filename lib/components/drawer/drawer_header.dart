@@ -25,9 +25,12 @@ class AppDrawerHeader extends StatelessWidget {
             ),
             // The version number
             Text(appVersion,
-                style: Theme.of(context).textTheme.subtitle1.apply(
+                style: Theme.of(context).textTheme.bodyText2.apply(
                     // Make sure the text is readable on the background
-                    color: Theme.of(context).colorScheme.onSecondary))
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSecondary
+                        .withOpacity(0.74)))
           ],
         ));
   }

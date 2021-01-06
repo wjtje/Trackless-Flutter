@@ -98,31 +98,38 @@ class _MyAppState extends State<MyApp>
     // Listen for changes in scrolling
     return NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
-        child: Scaffold(
-          key: scaffoldKey,
+        child: WillPopScope(
+          onWillPop: () async {
+            return appState.goPreviousPage(_hideFabAnimation);
+          },
+          child: Scaffold(
+            key: scaffoldKey,
 
-          // The appBar
-          appBar: AppBar(
-            title: Text(
-                AppLocalizations.of(context).translate(activePage.pageTitle)),
-            actions: activePage.appBarActions,
-          ),
-
-          // The current active page
-          body: activePage.page,
-
-          // Animate the floating action button
-          floatingActionButton: FadeTransition(
-            opacity: _hideFabAnimation,
-            child: ScaleTransition(
-              scale: _hideFabAnimation,
-              alignment: Alignment.center,
-              child: activePage.floatingActionButton,
+            // The appBar
+            appBar: AppBar(
+              title: Text(
+                  AppLocalizations.of(context).translate(activePage.pageTitle)),
+              actions: activePage.appBarActions,
             ),
-          ),
 
-          // The drawer
-          drawer: AppDrawer(_hideFabAnimation),
+            // The current active page
+            body: activePage.page,
+
+            // Animate the floating action button
+            floatingActionButton: FadeTransition(
+              opacity: _hideFabAnimation,
+              child: ScaleTransition(
+                scale: _hideFabAnimation,
+                alignment: Alignment.center,
+                // Show the correct Floating action button
+                child: activePage.floatingActionButton ??
+                    appState.previousPage.floatingActionButton,
+              ),
+            ),
+
+            // The drawer
+            drawer: AppDrawer(_hideFabAnimation),
+          ),
         ));
   }
 }

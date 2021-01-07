@@ -1,3 +1,10 @@
+## [0.1.1]
+
+* The back button now works as expected
+* The drawer will now show the active page
+* Updated the animation
+* The work dialog will now show the correct title
+
 ## [0.1.0] - Account update
 
 ### New in this version

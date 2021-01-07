@@ -86,8 +86,10 @@ class WorkDialog extends StatelessWidget {
               iconTheme: Theme.of(context).accentIconTheme,
               textTheme: Theme.of(context).accentTextTheme,
               // Show the correct title
-              title: Text(
-                  AppLocalizations.of(context).translate('add_work_title')),
+              title: Text(AppLocalizations.of(context).translate(
+                  (Provider.of<WorkDialogState>(context).currentWorkID == null)
+                      ? 'add_work_title'
+                      : 'add_work_edit')),
               // Show the correct actions
               actions: [
                 WorkDialogDelete(),

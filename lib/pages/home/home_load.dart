@@ -12,6 +12,7 @@ Future loadHomePage(BuildContext context) async {
   final startDate = firstDayOfWeek(DateTime.now());
   final endDate = startDate.add(Duration(days: 6));
 
+  // Ger all the providers
   final tracklessWorkProvider =
       Provider.of<TracklessWorkProvider>(context, listen: false);
   final tracklessLocationProvider =
@@ -25,24 +26,17 @@ Future loadHomePage(BuildContext context) async {
   asyncState.isAsyncLoading = true;
 
   try {
-    // Try to load the data from tge server
+    // Load the data from localStorage
+    await tracklessWorkProvider.refreshFromLocalStorage(startDate, endDate);
+    await tracklessLocationProvider.refreshFromLocalStorage();
+    await tracklessWorktypeProvider.refreshFromLocalStorage();
+
+    // Try to load the data from the server
     await tracklessWorkProvider.refreshFromServer(startDate, endDate);
     await tracklessLocationProvider.refreshFromServer();
     await tracklessWorktypeProvider.refreshFromServer();
   } on TracklessFailure catch (e) {
     e.displayFailure();
-
-    if (e.code == 1) {
-      // Offline error
-      try {
-        // Load the data from localStorage
-        await tracklessWorkProvider.refreshFromLocalStorage(startDate, endDate);
-        await tracklessLocationProvider.refreshFromLocalStorage();
-        await tracklessWorktypeProvider.refreshFromLocalStorage();
-      } on TracklessFailure catch (e) {
-        e.displayFailure();
-      }
-    }
   }
 
   // Wait a while for the animation

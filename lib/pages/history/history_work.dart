@@ -32,29 +32,27 @@ class _HistoryPageWorkState extends State<HistoryPageWork>
         firstDayOfWeek(isoWeekToDate(widget.year, widget.weekNumber));
 
     // Clear the data
-    tracklessWorkProvider.clearWorkList();
+    if (!firstDay.isAtSameMomentAs(tracklessWorkProvider.startDate) ||
+        !firstDay
+            .add(Duration(days: 6))
+            .isAtSameMomentAs(tracklessWorkProvider.endDate)) {
+      tracklessWorkProvider.clearWorkList();
+    }
 
     // Get the data from the server
     () async {
       asyncState.isAsyncLoading = true;
 
       try {
+        await tracklessWorkProvider.refreshFromLocalStorage(
+            firstDay, firstDay.add(Duration(days: 6)));
         await tracklessWorkProvider.refreshFromServer(
             firstDay, firstDay.add(Duration(days: 6)));
       } on TracklessFailure catch (e) {
         e.displayFailure(context);
-
-        if (e.code == 1) {
-          // Offline error
-          try {
-            // Load the data from localStorage
-            await tracklessWorkProvider.refreshFromLocalStorage(
-                firstDay, firstDay.add(Duration(days: 6)));
-          } on TracklessFailure catch (e) {
-            e.displayFailure();
-          }
-        }
       }
+
+      await Future.delayed(Duration(seconds: 1));
 
       asyncState.isAsyncLoading = false;
     }();
@@ -67,8 +65,6 @@ class _HistoryPageWorkState extends State<HistoryPageWork>
     // Create a basic scaffold with a async loader and a listWork
     return WillPopScope(
         onWillPop: () async {
-          // Clear the worklist for the home page
-          tracklessWorkProvider.clearWorkList();
           return true;
         },
         child: Scaffold(

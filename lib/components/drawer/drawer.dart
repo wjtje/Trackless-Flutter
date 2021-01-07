@@ -5,10 +5,8 @@ import 'package:trackless/components/drawer/drawer_header.dart';
 import 'package:trackless/functions/app_localizations.dart';
 import 'package:trackless/global/app_state.dart';
 import 'package:trackless/pages/account/account.dart';
-import 'package:trackless/pages/account/account_load.dart';
 import 'package:trackless/pages/history/history.dart';
 import 'package:trackless/pages/home/home.dart';
-import 'package:trackless/pages/home/home_load.dart';
 
 class AppDrawer extends StatelessWidget {
   final AnimationController fabAnimation;
@@ -42,9 +40,6 @@ class AppDrawer extends StatelessWidget {
               appState.activePage = homePage; // Set the page
               fabAnimation.forward(); // Show the FAB
               Navigator.of(context).pop(); // Close the drawer
-
-              // Load the home page details
-              loadHomePage(context);
             },
           ),
 
@@ -71,9 +66,6 @@ class AppDrawer extends StatelessWidget {
               appState.activePage = accountPage; // Set the page
               fabAnimation.reverse(); // Hide the FAB
               Navigator.of(context).pop(); // Close the drawer
-
-              // Load the account details
-              loadAccountPage(context);
             },
           ),
 

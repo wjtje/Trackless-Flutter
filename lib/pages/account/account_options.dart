@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:morpheus/morpheus.dart';
 import 'package:trackless/pages/account/account_edit_details/account_edit_details.dart';
 
 import '../../functions/app_localizations.dart';
 
 class AccountOptions extends StatelessWidget {
-  const AccountOptions({Key key}) : super(key: key);
+  AccountOptions({Key key}) : super(key: key);
+
+  final editBtnKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +40,18 @@ class AccountOptions extends StatelessWidget {
             onTap: () {},
           ),
           ListTile(
+            key: editBtnKey,
             leading: Icon(Icons.edit),
             title: Text(
                 AppLocalizations.of(context).translate('account_edit_details')),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => AccountEditDetails()));
+              Navigator.push(
+                  context,
+                  MorpheusPageRoute(
+                      parentKey: editBtnKey,
+                      builder: (_) => AccountEditDetails(),
+                      transitionColor:
+                          Theme.of(context).scaffoldBackgroundColor));
             },
           )
         ],

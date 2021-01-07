@@ -13,6 +13,7 @@
   "login_error": "Niet alle verplichte velden zijn ingevult",
   "login_disclaimer": "Trackless slaat geen persoonlijke informatie over jou of jouw apparaat op. Maar als de app crashed zullen er gegevens naar sentry worden gestuurt. Voor meer infomatie kan je naar % gaan. Alle ingevulde informatie in deze app is opgeslagen op de server van jouw bedrijf. Deze software is onder de MIT licentie. Voor meer informatie kan je naar %.",
   "add_work_title": "Werk toevoegen",
+  "add_work_edit": "Werk aanpassen",
   "add_work_date": "Datum",
   "add_work_location": "Locatie",
   "add_work_description": "Omschijving",

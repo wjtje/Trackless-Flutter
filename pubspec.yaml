@@ -1,6 +1,6 @@
 name: trackless
 description: Trackless client make in flutter
-version: 0.1.0-beta
+version: 0.1.1-beta
 
 publish_to: "none"
 
@@ -40,6 +40,8 @@ dependencies:
   package_info: ^0.4.3+2
   # For running code after the build method has finished running
   after_layout: ^1.0.7+2
+  # For displaying animations
+  morpheus: ^1.2.2+1
 
 dev_dependencies:
   flutter_test:

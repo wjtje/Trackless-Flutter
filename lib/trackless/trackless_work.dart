@@ -70,10 +70,10 @@ class TracklessWorkProvider with ChangeNotifier {
       }();
 
   /// The start date of the work list
-  DateTime get startDate => _startDate;
+  DateTime get startDate => _startDate ?? DateTime.now();
 
   /// The end date of the work list
-  DateTime get endDate => _endDate;
+  DateTime get endDate => _endDate ?? DateTime.now();
 
   /// Get all the work between a startDate and a endDate from the server
   /// and save it to localStorage

@@ -72,7 +72,7 @@ class WorkDialogUpdate extends StatelessWidget {
                   await workDialogState.localStorage
                       .setItem('locationID', workDialogState.currentLocationID);
                   await workDialogState.localStorage
-                      .setItem('workTypeID', workDialogState.currentWorktypeID);
+                      .setItem('worktypeID', workDialogState.currentWorktypeID);
 
                   // Reload the home page
                   await dialogReloadHome(context, workDialogState);

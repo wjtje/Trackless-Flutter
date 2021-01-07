@@ -33,7 +33,8 @@ class WorkDialogDelete extends StatelessWidget {
                       actions: [
                         TextButton(
                           child: Text(AppLocalizations.of(context)
-                              .translate('add_work_removeButton')),
+                              .translate('add_work_removeButton')
+                              .toUpperCase()),
                           onPressed: () async {
                             // Show loader
                             context.showLoaderOverlay();

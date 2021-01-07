@@ -65,13 +65,15 @@ class WorkDialog extends StatelessWidget {
                                 returnValue = true;
                               },
                               child: Text(AppLocalizations.of(context)
-                                  .translate('add_work_leave'))),
+                                  .translate('add_work_leave')
+                                  .toUpperCase())),
                           TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                               child: Text(AppLocalizations.of(context)
-                                  .translate('add_work_stay')))
+                                  .translate('add_work_stay')
+                                  .toUpperCase()))
                         ],
                       ));
 

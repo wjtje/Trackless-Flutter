@@ -5,6 +5,7 @@
 * Updated the animation
 * The work dialog will now show the correct title
 * Fixed a bug where the work dialog will see changed when there aren't any
+* Dialog buttons are now all CAPS and a readable color in dark mode
 
 ## [0.1.0] - Account update
 

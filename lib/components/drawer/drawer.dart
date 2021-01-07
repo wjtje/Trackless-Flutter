@@ -7,6 +7,7 @@ import 'package:trackless/global/app_state.dart';
 import 'package:trackless/pages/account/account.dart';
 import 'package:trackless/pages/history/history.dart';
 import 'package:trackless/pages/home/home.dart';
+import 'package:trackless/pages/settings/settings.dart';
 
 class AppDrawer extends StatelessWidget {
   final AnimationController fabAnimation;
@@ -74,9 +75,15 @@ class AppDrawer extends StatelessWidget {
 
           // Settigns
           ListTile(
+            selected: activePage == settingsPage.pageTitle,
             title: Text(
                 AppLocalizations.of(context).translate('settings_page_title')),
             leading: Icon(Icons.settings),
+            onTap: () {
+              appState.activePage = settingsPage; // Set the page
+              fabAnimation.reverse(); // Hide the FAB
+              Navigator.of(context).pop(); // Close the drawer
+            },
           ),
 
           AppDrawerAbout()

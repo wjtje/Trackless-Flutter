@@ -30,8 +30,10 @@ class WorkDialog extends StatelessWidget {
                 Provider.of<WorkDialogState>(context, listen: false);
 
             // Check if there are any onsaved changes
-            bool newChanges = (workDialogState.currentLocationID != null ||
-                workDialogState._currentWorktypeID != null ||
+            bool newChanges = (workDialogState.currentLocationID !=
+                    workDialogState.lastLocationID ||
+                workDialogState._currentWorktypeID !=
+                    workDialogState.lastWorktypeID ||
                 workDialogState.currentDescription != "" ||
                 workDialogState.currentTime != 0.0);
 
@@ -135,7 +137,7 @@ class WorkDialogState with ChangeNotifier {
 
         // Load the last used locationID and worktypeID
         _currentLocationID = _localStorage.getItem('locationID');
-        _currentWorktypeID = _localStorage.getItem('workTypeID');
+        _currentWorktypeID = _localStorage.getItem('worktypeID');
 
         notifyListeners();
       }();
@@ -223,6 +225,16 @@ class WorkDialogState with ChangeNotifier {
   ///
   /// WARNING: this could be null
   TracklessWork get editWork => _editWork;
+
+  /// Get the last used locationID from storage
+  ///
+  /// WARNING: This can be null
+  int get lastLocationID => _localStorage.getItem('locationID');
+
+  /// Get the last used worktypeID from storage
+  ///
+  /// WARNING: This can be null
+  int get lastWorktypeID => _localStorage.getItem('worktypeID');
 }
 
 /// This will reload the home page if needed

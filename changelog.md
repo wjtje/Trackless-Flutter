@@ -4,6 +4,7 @@
 * The drawer will now show the active page
 * Updated the animation
 * The work dialog will now show the correct title
+* Fixed a bug where the work dialog will see changed when there aren't any
 
 ## [0.1.0] - Account update
 

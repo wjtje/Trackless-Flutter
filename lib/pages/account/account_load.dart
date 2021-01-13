@@ -15,14 +15,14 @@ Future loadAccountPage(BuildContext context) async {
   try {
     await accountState.refreshFromServer();
   } on TracklessFailure catch (e) {
-    e.displayFailure();
+    e.displayFailure(context);
 
     if (e.code == 1) {
       // Offile error
       try {
         await accountState.refreshFromLocalStorage();
       } on TracklessFailure catch (e) {
-        e.displayFailure();
+        e.displayFailure(context);
       }
     }
   }

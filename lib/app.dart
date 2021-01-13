@@ -11,10 +11,6 @@ import 'functions/app_localizations.dart';
 import 'main.dart';
 import 'pages/home/home.dart';
 
-/// A global key to show skeleton animations without a [BuildContext]
-final GlobalKey<ScaffoldMessengerState> scaffoldKey =
-    new GlobalKey<ScaffoldMessengerState>();
-
 /// The global app widget
 ///
 /// This widget will show / hide the Floating Action Button,
@@ -103,8 +99,6 @@ class _MyAppState extends State<MyApp>
             return appState.goPreviousPage(_hideFabAnimation);
           },
           child: Scaffold(
-            key: scaffoldKey,
-
             // The appBar
             appBar: AppBar(
               title: Text(

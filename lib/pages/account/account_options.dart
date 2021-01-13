@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:morpheus/morpheus.dart';
+import 'package:trackless/pages/account/account_connected_devices/account_connected_devices.dart';
 import 'package:trackless/pages/account/account_edit_details/account_edit_details.dart';
 
 import '../../functions/app_localizations.dart';
@@ -8,6 +9,7 @@ class AccountOptions extends StatelessWidget {
   AccountOptions({Key key}) : super(key: key);
 
   final editBtnKey = GlobalKey();
+  final connectedBtnKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +30,19 @@ class AccountOptions extends StatelessWidget {
             onTap: () {},
           ),
           ListTile(
+            key: connectedBtnKey,
             leading: Icon(Icons.devices),
             title: Text(AppLocalizations.of(context)
                 .translate('account_connected_devices')),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MorpheusPageRoute(
+                      parentKey: connectedBtnKey,
+                      builder: (_) => AccountConnectedDevices(),
+                      transitionColor:
+                          Theme.of(context).scaffoldBackgroundColor));
+            },
           ),
           ListTile(
             leading: Icon(Icons.file_download),

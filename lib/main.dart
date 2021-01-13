@@ -4,6 +4,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:package_info/package_info.dart';
@@ -140,7 +141,7 @@ class BaseApp extends StatelessWidget {
         ],
         child: GlobalLoaderOverlay(
           useDefaultLoading: true,
-          child: MaterialApp(
+          child: GetMaterialApp(
             title: 'Trackless',
             // Create the base navigation
             initialRoute: this.initRoute,

@@ -16,6 +16,8 @@ class TracklessWorkProvider with ChangeNotifier {
   DateTime _startDate;
   DateTime _endDate;
 
+  String _currentHash;
+
   // Open the localStorage
   final LocalStorage _localStorage = new LocalStorage('trackless_work');
 
@@ -34,8 +36,10 @@ class TracklessWorkProvider with ChangeNotifier {
 
   /// Thhis will clear the workList
   Function get clearWorkList => () {
-        _workList = null;
-        notifyListeners();
+        if (_workList.length != 0) {
+          _workList = [];
+          notifyListeners();
+        }
       };
 
   /// Sort the workList by date
@@ -96,20 +100,17 @@ class TracklessWorkProvider with ChangeNotifier {
             throw HttpException(response.statusCode.toString());
           }
 
-          // Clear the work list
-          this._workList = [];
+          // Create a tmp list
+          List<TracklessWork> newList = [];
 
           for (var jsonItem in json.decode(response.body)) {
-            _workList.add(TracklessWork.fromJson(jsonItem));
+            newList.add(TracklessWork.fromJson(jsonItem));
           }
 
           // Sort the list
-          _workList.sort((a, b) {
+          newList.sort((a, b) {
             return -DateTime.parse(a.date).compareTo(DateTime.parse(b.date));
           });
-
-          // Save the work to localStorage
-          await this.saveToStorage(this.sortedWorkList, startDate, endDate);
 
           // Update the start and end date
           // Make sure only the year, month and date are saved
@@ -117,7 +118,23 @@ class TracklessWorkProvider with ChangeNotifier {
               DateTime.parse(DateFormat('yyyy-MM-dd').format(startDate));
           _endDate = DateTime.parse(DateFormat('yyyy-MM-dd').format(endDate));
 
-          notifyListeners();
+          // Calulate the hash of the new list
+          String newHash = '';
+
+          newList.forEach((element) {
+            newHash += element.hash;
+          });
+
+          // The list is not the same update the ui
+          if (_currentHash != newHash || (_workList == null)) {
+            _workList = newList;
+            _currentHash = newHash;
+
+            // Save the work to localStorage
+            await this.saveToStorage(this.sortedWorkList, startDate, endDate);
+
+            notifyListeners();
+          }
         } on SocketException {
           throw TracklessFailure(1); // No internet connection
         } on HttpException catch (e) {
@@ -189,9 +206,6 @@ class TracklessWorkProvider with ChangeNotifier {
                 tmpDate = tmpDate.subtract(Duration(days: 1));
               }
 
-              // Save the result
-              _workList = tmp;
-
               // Update the start and end date
               // Make sure only the year, month and date are saved
               _startDate =
@@ -199,7 +213,21 @@ class TracklessWorkProvider with ChangeNotifier {
               _endDate =
                   DateTime.parse(DateFormat('yyyy-MM-dd').format(endDate));
 
-              notifyListeners();
+              // Calulate the hash of the new list
+              String newHash = '';
+
+              tmp.forEach((element) {
+                newHash += element.hash;
+              });
+
+              // The list is not the same update the ui
+              if (_currentHash != newHash || tmp.length == 0) {
+                _workList =
+                    (tmp.length == 0) ? null : tmp; // Null if there is no work
+                _currentHash = newHash;
+
+                notifyListeners();
+              }
             } on FormatException {
               throw TracklessFailure(5, detailCode: 7);
             }

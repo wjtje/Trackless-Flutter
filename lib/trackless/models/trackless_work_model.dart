@@ -42,10 +42,7 @@ class TracklessWork {
   /// Calculate a hash for this object
   ///
   /// This can be used to compare two objects
-  String get hash => sha256
-      .convert(utf8.encode(
-          '${this.workID} ${this.user.hash} ${this.location.hash} ${this.worktype.hash} ${this.time} ${this.date} ${this.description}'))
-      .toString();
+  String get hash => sha256.convert(utf8.encode(this.toString())).toString();
 
   /// Convert json to a [TracklessWork] object
   factory TracklessWork.fromJson(Map<String, dynamic> json) {

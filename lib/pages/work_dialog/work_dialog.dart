@@ -86,9 +86,15 @@ class WorkDialog extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               // Make the appBar the correct colors
-              backgroundColor: Theme.of(context).accentColor,
-              iconTheme: Theme.of(context).accentIconTheme,
-              textTheme: Theme.of(context).accentTextTheme,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              textTheme: Theme.of(context)
+                  .textTheme
+                  .apply(bodyColor: Theme.of(context).colorScheme.onBackground),
+
+              iconTheme: Theme.of(context)
+                  .iconTheme
+                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
+              elevation: 0,
               // Show the correct title
               title: Text(AppLocalizations.of(context).translate(
                   (Provider.of<WorkDialogState>(context).currentWorkID == null)

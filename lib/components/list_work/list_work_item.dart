@@ -19,7 +19,10 @@ class ListWorkItem extends StatelessWidget {
       key: listItemKey,
       // Title: location
       title: (work != null)
-          ? Text(work.location.fullName)
+          ? Text(
+              work.location.fullName,
+              overflow: TextOverflow.ellipsis,
+            )
           : SkeletonText(
               height: 12,
               padding: 1,

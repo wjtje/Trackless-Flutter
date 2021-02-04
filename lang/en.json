@@ -11,6 +11,8 @@
   "login_deviceName": "Device name",
   "login_btn": "Sign in",
   "login_error": "Not all required field are entered",
+  "login_password_error": "Username or password incorrect",
+  "login_http_error": "Using HTTP is not allowed",
   "login_disclaimer": "Trackless does not store any personal information about you or your device. But when the app crashes some details will be sent to sentry. For more infomation go to %. All entered information in this app is stored on your companies server. This software is under the MIT licence. For more information go to %.",
   "add_work_title": "Add work",
   "add_work_edit": "Edit work",

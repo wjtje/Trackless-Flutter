@@ -35,7 +35,7 @@ class TracklessLocationProvider with ChangeNotifier {
         final String serverUrl = storage.getItem('serverUrl');
 
         try {
-          final response = await http.get('$serverUrl/location',
+          final response = await http.get('$serverUrl/location?sort=place,name',
               headers: {'Authorization': 'Bearer $apiKey'});
 
           // Make sure its a valid response code
@@ -59,6 +59,8 @@ class TracklessLocationProvider with ChangeNotifier {
         } on HttpException catch (e) {
           switch (e.message) {
             case '401':
+              throw TracklessFailure(2); // Unauthorized
+            case '403':
               throw TracklessFailure(2); // Unauthorized
             case '404':
               throw TracklessFailure(3); // Not found

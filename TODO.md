@@ -4,6 +4,7 @@
  - Able to remove devices
  - Able to change your password
  - Able to clear cache / reset app settings (storage) but keep api and server
+ - https://stackoverflow.com/questions/51659805/persisting-appbar-drawer-across-all-pages-flutter
 
 # For version 0.1.2-beta
 

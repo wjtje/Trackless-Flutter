@@ -11,6 +11,8 @@
   "login_deviceName": "Apperaat naam",
   "login_btn": "Inloggen",
   "login_error": "Niet alle verplichte velden zijn ingevult",
+  "login_password_error": "Gebruikersnaam of wachtwoord is fout",
+  "login_http_error": "Je mag geen onbeveiligde verbindenen gebruiken",
   "login_disclaimer": "Trackless slaat geen persoonlijke informatie over jou of jouw apparaat op. Maar als de app crashed zullen er gegevens naar sentry worden gestuurt. Voor meer infomatie kan je naar % gaan. Alle ingevulde informatie in deze app is opgeslagen op de server van jouw bedrijf. Deze software is onder de MIT licentie. Voor meer informatie kan je naar %.",
   "add_work_title": "Werk toevoegen",
   "add_work_edit": "Werk aanpassen",

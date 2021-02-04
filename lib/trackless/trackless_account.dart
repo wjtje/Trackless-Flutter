@@ -65,6 +65,8 @@ class TracklessAccount with ChangeNotifier {
           switch (e.message) {
             case '401':
               throw TracklessFailure(2); // Unauthorized
+            case '403':
+              throw TracklessFailure(2); // Unauthorized
             case '404':
               throw TracklessFailure(3); // Not found
             default:

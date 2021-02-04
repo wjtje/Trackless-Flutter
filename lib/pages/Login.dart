@@ -65,33 +65,44 @@ class LoginPage extends StatelessWidget {
         }
 
         // Send to sever
-        final response = await http.post('$serverUrl/login', body: {
-          'username': username,
-          'password': password,
-          'deviceName': deviceName
-        });
+        try {
+          final response = await http.post('$serverUrl/login', body: {
+            'username': username,
+            'password': password,
+            'deviceName': deviceName
+          });
 
-        context.hideLoaderOverlay();
+          context.hideLoaderOverlay();
 
-        if (response.statusCode != 200) {
-          // Somethings wrong
+          if (response.statusCode != 200) {
+            // Somethings wrong
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(AppLocalizations.of(context)
+                  .translate('login_password_error')),
+            ));
+          } else {
+            // Save the apikey
+            final Login res = Login.fromJson(json.decode(response.body));
+
+            await storage.setItem('apiKey', res.bearer);
+            await storage.setItem('serverUrl', serverUrl);
+
+            print('Login: Your apiKey: "${res.bearer}"');
+
+            // Go to the homepage
+            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+
+            // Load the home page
+            loadHomePage(context);
+          }
+        } on StateError catch (_) {
+          // Can not use HTTP
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Gebruikers naam of wachtwoord fout'),
+            content: Text(
+                AppLocalizations.of(context).translate('login_http_error')),
           ));
-        } else {
-          // Save the apikey
-          final Login res = Login.fromJson(json.decode(response.body));
-
-          await storage.setItem('apiKey', res.bearer);
-          await storage.setItem('serverUrl', serverUrl);
-
-          print('Login: Your apiKey: "${res.bearer}"');
-
-          // Go to the homepage
-          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-
-          // Load the home page
-          loadHomePage(context);
+        } finally {
+          context.hideLoaderOverlay();
         }
       }
     };

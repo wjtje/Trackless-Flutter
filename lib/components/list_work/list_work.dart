@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:trackless/components/list_work/list_work_skeleton.dart';
+import 'package:trackless/functions/app_localizations.dart';
 import 'package:trackless/trackless/models/trackless_work_model.dart';
 
 import '../async_progress.dart';
@@ -29,7 +30,7 @@ class ListWork extends StatelessWidget {
           children: [
             // Title
             Text(
-              'It\'s empty in here',
+              AppLocalizations.of(context).translate('work_list_empty_title'),
               style: Theme.of(context).textTheme.headline5,
             ),
             SizedBox(
@@ -37,7 +38,7 @@ class ListWork extends StatelessWidget {
             ),
             // Text
             Text(
-              'If you save some work for this week,\nit will show up in here.',
+              AppLocalizations.of(context).translate('work_list_empty_subtext'),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText2.apply(
                   color: Theme.of(context)

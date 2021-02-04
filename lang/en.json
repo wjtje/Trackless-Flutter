@@ -46,6 +46,8 @@
   "account_edit_details_firstname": "Firstname",
   "account_edit_details_lastname": "Lastname",
   "account_edit_details_username": "Username",
+  "work_list_empty_title": "It's empty in here",
+  "work_list_empty_subtext": "If you save some work for this week,\nit will show up in here.",
   "dataNotEntered": "Not everything has been entered. Please check your details and try again.",
   "input_error": "The %input is not valid",
   "error_1": "No internet connection",

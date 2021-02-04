@@ -46,6 +46,8 @@
   "account_edit_details_firstname": "Voornaam",
   "account_edit_details_lastname": "Achternaam",
   "account_edit_details_username": "Gebruikersnaam",
+  "work_list_empty_title": "Het is hier leeg",
+  "work_list_empty_subtext": "Als je wat werk oplaat voor deze week,\nkomt het hier te staan.",
   "dataNotEntered": "U heeft niet alles ingevult.",
   "input_error": "De %input bevat geen geldige waarde",
   "error_1": "Geen internet verbinding",

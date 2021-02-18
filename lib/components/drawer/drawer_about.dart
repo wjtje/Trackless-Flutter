@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:trackless/functions/app_localizations.dart';
-import 'package:trackless/main.dart';
+import 'package:trackless/functions/app_version.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppDrawerAbout extends StatelessWidget {
@@ -16,7 +16,7 @@ class AppDrawerAbout extends StatelessWidget {
       icon: Icon(Icons.info),
       // Show the correct app information
       applicationName: 'Trackless',
-      applicationVersion: appVersion,
+      applicationVersion: appVersion(),
       applicationLegalese: '\u{a9} 2020 Wouter van der Wal (wjtje)',
       applicationIcon: Image(
         image: AssetImage('images/ic_launcher.png'),

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +6,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:package_info/package_info.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
+import 'package:trackless/functions/app_version.dart';
 // import 'package:sentry/sentry.dart';
 import 'package:trackless/global/async_state.dart';
 import 'package:trackless/trackless/trackless_account.dart';
@@ -29,45 +28,26 @@ import 'theme/light.dart';
 // This is used for debugging
 // final SentryClient sentry = new SentryClient(dsn: dsn);
 
-// A global var for storing the appVersion name
-// It will be build in the main()
-String appVersion = ''; // Make sure it is not null
-
 // Global LocalStorage
 LocalStorage storage;
-Stream<Map<String, dynamic>> storageSteam;
 
 void main() {
+  // Make sure the app has started
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Get the package info
+  getPackageInfo();
 
   // Open the localStorage
   storage = LocalStorage('tracklessLocalStorage');
 
+  // TODO: Give the user notice something gone wrong
   storage.onError.addListener(() {
     print('FAILED TO INIT STORAGE!');
   });
 
-  // Get the package info
-  // We can only get the package info on android or ios
-  if (!kIsWeb) {
-    if (Platform.isAndroid || Platform.isIOS) {
-      PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-        // Build the appVersion string
-        appVersion =
-            '${packageInfo.version} (build ${packageInfo.buildNumber})';
-      });
-    } else {
-      appVersion = 'Native build';
-    }
-  } else {
-    appVersion = 'Web build';
-  }
-
   // Wait for the storage to start
   storage.ready.then((value) {
-    // Create a broadcast stream that blocs can listen for changes
-    storageSteam = storage.stream.asBroadcastStream();
-
     // Load the correct page
     String initPage = '/';
 

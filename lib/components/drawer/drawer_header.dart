@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trackless/main.dart';
+import 'package:trackless/functions/app_version.dart';
 
 class AppDrawerHeader extends StatelessWidget {
   /// A custom drawer header for this app
@@ -24,7 +24,7 @@ class AppDrawerHeader extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onSecondary),
             ),
             // The version number
-            Text(appVersion,
+            Text(appVersion(),
                 style: Theme.of(context).textTheme.bodyText2.apply(
                     // Make sure the text is readable on the background
                     color: Theme.of(context)

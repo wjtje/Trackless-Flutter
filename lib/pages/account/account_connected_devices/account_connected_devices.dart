@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:trackless/functions/request.dart';
+import 'package:trackless/functions/app_failure.dart';
 import 'package:trackless/main.dart';
 
 /// A dialog to show the devices conntected to your account
@@ -24,18 +22,23 @@ class _AccountConnectedDevicesState extends State<AccountConnectedDevices>
 
   @override
   void afterFirstLayout(BuildContext context) {
-    // Fetch the data
-    tryRequest(Get.context, () async {
-      final response = await http.get('${storage.getItem('serverUrl')}/api',
-          headers: {'Authorization': 'Bearer ${storage.getItem('apiKey')}'});
+    try {
+      () async {
+        // Fetch the data
+        final response = await http.get('${storage.getItem('serverUrl')}/api',
+            headers: {'Authorization': 'Bearer ${storage.getItem('apiKey')}'});
 
-      if (response.statusCode != 200) {
-        throw HttpException(response.statusCode.toString());
-      }
+        // Check for any error's
+        if (response.statusCode != 200) {
+          throw AppFailure.httpExecption(response);
+        }
 
-      // Update the controller
-      _controller = json.decode(response.body);
-    });
+        // Update the controller
+        _controller = json.decode(response.body);
+      }();
+    } on AppFailure catch (error) {
+      error.displayFailure();
+    }
   }
 
   @override

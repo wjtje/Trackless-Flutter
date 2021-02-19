@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trackless/functions/app_failure.dart';
 import 'package:trackless/functions/app_localizations.dart';
-import 'package:trackless/functions/request.dart';
 import 'package:trackless/pages/account/account_edit_details/account_edit_details.dart';
 import 'package:http/http.dart' as http;
 import 'package:loader_overlay/loader_overlay.dart';
@@ -36,11 +34,11 @@ class AccountEditDetailsSave extends StatelessWidget {
             FocusScope.of(context).requestFocus(new FocusNode());
             context.showLoaderOverlay();
 
-            // Try sending the data to the server
-            final String apiKey = storage.getItem('apiKey');
-            final String serverUrl = storage.getItem('serverUrl');
+            try {
+              // Try sending the data to the server
+              final String apiKey = storage.getItem('apiKey');
+              final String serverUrl = storage.getItem('serverUrl');
 
-            await tryRequest(context, () async {
               final response = await http.patch('$serverUrl/user/~', body: {
                 'firstname': accountEditDetailsState.firstname,
                 'lastname': accountEditDetailsState.lastname,
@@ -51,18 +49,20 @@ class AccountEditDetailsSave extends StatelessWidget {
 
               // Make sure its a valid response code
               if (response.statusCode != 200) {
-                throw HttpException(response.statusCode.toString());
+                throw AppFailure.httpExecption(response);
               }
 
               // Reload the account page
               await loadAccountPage(context);
 
-              // Hide the loading animation
-              context.hideLoaderOverlay();
-
               // Close the dialog
               Navigator.of(context).pop();
-            });
+            } on AppFailure catch (error) {
+              error.displayFailure();
+            } finally {
+              // Hide the loading animation
+              context.hideLoaderOverlay();
+            }
           }
         });
   }

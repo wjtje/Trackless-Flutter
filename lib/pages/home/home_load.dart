@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trackless/functions/app_failure.dart';
 import 'package:trackless/global/async_state.dart';
 import 'package:trackless/functions/date.dart';
-import 'package:trackless/trackless/trackless_failure.dart';
 import 'package:trackless/trackless/trackless_location.dart';
 import 'package:trackless/trackless/trackless_work.dart';
 import 'package:trackless/trackless/trackless_worktype.dart';
@@ -35,8 +35,8 @@ Future loadHomePage(BuildContext context) async {
     await tracklessWorkProvider.refreshFromServer(startDate, endDate);
     await tracklessLocationProvider.refreshFromServer();
     await tracklessWorktypeProvider.refreshFromServer();
-  } on TracklessFailure catch (e) {
-    e.displayFailure(context);
+  } on AppFailure catch (e) {
+    e.displayFailure();
   }
 
   // Wait a while for the animation

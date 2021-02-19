@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:http/http.dart' as http;
+import 'package:trackless/functions/app_failure.dart';
 
 import '../main.dart';
 import 'models/trackless_work_model.dart';
-import 'trackless_failure.dart';
 
 class TracklessWorkProvider with ChangeNotifier {
   List<TracklessWork> _workList;
@@ -97,7 +97,7 @@ class TracklessWorkProvider with ChangeNotifier {
 
           // Make sure its a valid response code
           if (response.statusCode != 200) {
-            throw HttpException(response.statusCode.toString());
+            throw AppFailure.httpExecption(response);
           }
 
           // Create a tmp list
@@ -136,24 +136,13 @@ class TracklessWorkProvider with ChangeNotifier {
             notifyListeners();
           }
         } on SocketException {
-          throw TracklessFailure(1); // No internet connection
-        } on HttpException catch (e) {
-          switch (e.message) {
-            case '401':
-              throw TracklessFailure(2); // Unauthorized
-            case '403':
-              throw TracklessFailure(2); // Unauthorized
-            case '404':
-              throw TracklessFailure(3); // Not found
-            default:
-              throw TracklessFailure(4); // Internal server error
-          }
+          throw AppFailure(3);
         } on FormatException {
-          throw TracklessFailure(5); // Internal error
+          throw AppFailure(2, detail: 'trackless.work.formatError');
         } on RangeError {
-          throw TracklessFailure(5, detailCode: 4); // Internal error
+          throw AppFailure(2, detail: 'trackless.work.rangeError');
         } on TypeError {
-          throw TracklessFailure(5, detailCode: 5); // Internal error
+          throw AppFailure(2, detail: 'trackless.work.typeError');
         }
       };
 
@@ -179,7 +168,7 @@ class TracklessWorkProvider with ChangeNotifier {
                 try {
                   _localStorage.setItem(element[0].date, element);
                 } on RangeError {
-                  throw TracklessFailure(5, detailCode: 6);
+                  throw AppFailure(2, detail: 'trackless.work.rangeError');
                 }
               }
             });
@@ -231,7 +220,7 @@ class TracklessWorkProvider with ChangeNotifier {
                 notifyListeners();
               }
             } on FormatException {
-              throw TracklessFailure(5, detailCode: 7);
+              throw AppFailure(2, detail: 'trackless.work.formatException');
             }
           };
 
@@ -253,7 +242,7 @@ class TracklessWorkProvider with ChangeNotifier {
             });
           }
         } on TypeError {
-          throw TracklessFailure(5, detailCode: 16);
+          throw AppFailure(2, detail: 'trackless.work.typeError');
         }
 
         // Add new work

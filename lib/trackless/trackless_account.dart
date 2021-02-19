@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:trackless/functions/app_failure.dart';
 import 'package:trackless/main.dart';
 import 'package:trackless/trackless/models/trackless_user_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:trackless/trackless/trackless_failure.dart';
 
 class TracklessAccount with ChangeNotifier {
   TracklessUser _user;
@@ -44,7 +44,7 @@ class TracklessAccount with ChangeNotifier {
 
           // Make sure its a valid response code
           if (response.statusCode != 200) {
-            throw HttpException(response.statusCode.toString());
+            throw AppFailure.httpExecption(response);
           }
 
           // Parse the json
@@ -60,22 +60,9 @@ class TracklessAccount with ChangeNotifier {
             _localStorage.setItem('currentAccount', _user);
           }
         } on SocketException {
-          throw TracklessFailure(1); // No internet connection
-        } on HttpException catch (e) {
-          switch (e.message) {
-            case '401':
-              throw TracklessFailure(2); // Unauthorized
-            case '403':
-              throw TracklessFailure(2); // Unauthorized
-            case '404':
-              throw TracklessFailure(3); // Not found
-            default:
-              throw TracklessFailure(4); // Internal server error
-          }
-        } on FormatException {
-          throw TracklessFailure(5); // Internal error
+          throw AppFailure(3); // No internet connection
         } on RangeError {
-          throw TracklessFailure(5, detailCode: 1); // Internal error
+          throw AppFailure(2, detail: 'trackless.account.rangeError');
         }
       };
 
@@ -94,9 +81,9 @@ class TracklessAccount with ChangeNotifier {
             notifyListeners();
           }
         } on TypeError {
-          throw TracklessFailure(5, detailCode: 2); // Internal error
+          throw AppFailure(2, detail: 'trackless.account.typeError');
         } on FormatException {
-          throw TracklessFailure(5, detailCode: 3); // Internal error
+          throw AppFailure(2, detail: 'trackless.account.rangeError');
         }
       };
 

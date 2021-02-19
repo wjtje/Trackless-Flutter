@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trackless/functions/app_failure.dart';
 import 'package:trackless/trackless/trackless_account.dart';
-import 'package:trackless/trackless/trackless_failure.dart';
 
 import '../../global/async_state.dart';
 
@@ -14,15 +14,15 @@ Future loadAccountPage(BuildContext context) async {
 
   try {
     await accountState.refreshFromServer();
-  } on TracklessFailure catch (e) {
-    e.displayFailure(context);
+  } on AppFailure catch (e) {
+    e.displayFailure();
 
-    if (e.code == 1) {
+    if (e.failureLevel == 3) {
       // Offile error
       try {
         await accountState.refreshFromLocalStorage();
-      } on TracklessFailure catch (e) {
-        e.displayFailure(context);
+      } on AppFailure catch (e) {
+        e.displayFailure();
       }
     }
   }

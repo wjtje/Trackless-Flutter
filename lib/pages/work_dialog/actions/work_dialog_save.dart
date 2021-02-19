@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:trackless/functions/app_failure.dart';
 import 'package:trackless/functions/app_localizations.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:trackless/functions/request.dart';
 import 'package:trackless/main.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,10 +39,10 @@ class WorkDialogSave extends StatelessWidget {
                 context.showLoaderOverlay();
 
                 // Try sending the data to the server
-                final String apiKey = storage.getItem('apiKey');
-                final String serverUrl = storage.getItem('serverUrl');
+                try {
+                  final String apiKey = storage.getItem('apiKey');
+                  final String serverUrl = storage.getItem('serverUrl');
 
-                await tryRequest(context, () async {
                   final response =
                       await http.post('$serverUrl/user/~/work', body: {
                     'worktypeID': workDialogState.currentWorktypeID.toString(),
@@ -61,7 +59,7 @@ class WorkDialogSave extends StatelessWidget {
 
                   // Make sure its a valid response code
                   if (response.statusCode != 201) {
-                    throw HttpException(response.statusCode.toString());
+                    throw AppFailure.httpExecption(response);
                   }
 
                   // Update the last used
@@ -73,12 +71,14 @@ class WorkDialogSave extends StatelessWidget {
                   // Reload the home page
                   await dialogReloadHome(context, workDialogState);
 
-                  // Hide the loading animation
-                  context.hideLoaderOverlay();
-
                   // Close the dialog
                   Navigator.of(context).pop();
-                });
+                } on AppFailure catch (error) {
+                  error.displayFailure();
+                } finally {
+                  // Hide the loading animation
+                  context.hideLoaderOverlay();
+                }
               }
             }));
   }

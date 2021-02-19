@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:morpheus/morpheus.dart';
 import 'package:provider/provider.dart';
+import 'package:trackless/functions/app_failure.dart';
 import 'package:trackless/global/app_state.dart';
 import 'package:trackless/functions/date.dart';
 import 'package:trackless/global/async_state.dart';
-import 'package:trackless/trackless/trackless_failure.dart';
 import 'package:trackless/trackless/trackless_work.dart';
 
 import 'history_work.dart';
@@ -64,8 +64,8 @@ class HistoryPage extends StatelessWidget {
                   try {
                     await tracklessWorkProvider.refreshFromServer(
                         firstDay, lastDay);
-                  } on TracklessFailure catch (e) {
-                    e.displayFailure(context);
+                  } on AppFailure catch (e) {
+                    e.displayFailure();
                   }
 
                   await Future.delayed(Duration(seconds: 1));

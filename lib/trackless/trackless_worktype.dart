@@ -3,11 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:trackless/functions/app_failure.dart';
 import 'package:trackless/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:trackless/trackless/models/trackless_worktype_model.dart';
-
-import 'trackless_failure.dart';
 
 class TracklessWorktypeProvider with ChangeNotifier {
   List<TracklessWorktype> _worktypeList;
@@ -40,7 +39,7 @@ class TracklessWorktypeProvider with ChangeNotifier {
 
           // Make sure its a valid response code
           if (response.statusCode != 200) {
-            throw HttpException(response.statusCode.toString());
+            throw AppFailure.httpExecption(response);
           }
 
           // Clear the list
@@ -55,24 +54,13 @@ class TracklessWorktypeProvider with ChangeNotifier {
 
           notifyListeners();
         } on SocketException {
-          throw TracklessFailure(1); // No internet connection
-        } on HttpException catch (e) {
-          switch (e.message) {
-            case '401':
-              throw TracklessFailure(2); // Unauthorized
-            case '403':
-              throw TracklessFailure(2); // Unauthorized
-            case '404':
-              throw TracklessFailure(3); // Not found
-            default:
-              throw TracklessFailure(4); // Internal server error
-          }
+          throw AppFailure(3); // No internet connection
         } on FormatException {
-          throw TracklessFailure(5); // Internal error
+          throw AppFailure(2, detail: 'trackless.worktype.formatError');
         } on RangeError {
-          throw TracklessFailure(5, detailCode: 11); // Internal error
+          throw AppFailure(2, detail: 'trackless.worktype.rangeError');
         } on TypeError {
-          throw TracklessFailure(5, detailCode: 12); // Internal error
+          throw AppFailure(2, detail: 'trackless.worktype.typeError');
         }
       };
 
@@ -94,7 +82,7 @@ class TracklessWorktypeProvider with ChangeNotifier {
 
           notifyListeners();
         } on FormatException {
-          throw TracklessFailure(5, detailCode: 13);
+          throw AppFailure(2, detail: 'trackless.worktype.formatError');
         }
       };
 

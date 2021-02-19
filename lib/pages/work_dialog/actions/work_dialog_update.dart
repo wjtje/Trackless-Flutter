@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:trackless/functions/app_failure.dart';
 import 'package:trackless/functions/app_localizations.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:trackless/functions/request.dart';
 import 'package:trackless/main.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,10 +41,10 @@ class WorkDialogUpdate extends StatelessWidget {
                 context.showLoaderOverlay();
 
                 // Try sending the data to the server
-                final String apiKey = storage.getItem('apiKey');
-                final String serverUrl = storage.getItem('serverUrl');
+                try {
+                  final String apiKey = storage.getItem('apiKey');
+                  final String serverUrl = storage.getItem('serverUrl');
 
-                await tryRequest(context, () async {
                   final response = await http.patch(
                       '$serverUrl/user/~/work/${workDialogState.currentWorkID}',
                       body: {
@@ -77,12 +77,14 @@ class WorkDialogUpdate extends StatelessWidget {
                   // Reload the home page
                   await dialogReloadHome(context, workDialogState);
 
-                  // Hide the loading animation
-                  context.hideLoaderOverlay();
-
                   // Close the dialog
                   Navigator.of(context).pop();
-                });
+                } on AppFailure catch (error) {
+                  error.displayFailure();
+                } finally {
+                  // Hide the loading animation
+                  context.hideLoaderOverlay();
+                }
               }
             }));
   }

@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trackless/functions/app_failure.dart';
 import 'package:trackless/functions/app_localizations.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:trackless/functions/request.dart';
 import 'package:trackless/main.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,6 +14,38 @@ class WorkDialogDelete extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final workDialogState = Provider.of<WorkDialogState>(context);
+
+    Future<void> onRemove() async {
+      // Show loader
+      context.showLoaderOverlay();
+
+      // Try to remove the data
+      try {
+        final String apiKey = storage.getItem('apiKey');
+        final String serverUrl = storage.getItem('serverUrl');
+
+        final response = await http.delete(
+            '$serverUrl/user/~/work/${workDialogState.currentWorkID}',
+            headers: {'Authorization': 'Bearer $apiKey'});
+
+        // Make sure its a valid response code
+        if (response.statusCode != 200) {
+          throw AppFailure.httpExecption(response);
+        }
+
+        // Reload the home page
+        await dialogReloadHome(context, workDialogState);
+
+        // Close the alert and dialog
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      } on AppFailure catch (error) {
+        error.displayFailure();
+      } finally {
+        // Hide the loading animation
+        context.hideLoaderOverlay();
+      }
+    }
 
     return Visibility(
         visible: workDialogState.editWork != null,
@@ -35,39 +65,7 @@ class WorkDialogDelete extends StatelessWidget {
                           child: Text(AppLocalizations.of(context)
                               .translate('add_work_removeButton')
                               .toUpperCase()),
-                          onPressed: () async {
-                            // Show loader
-                            context.showLoaderOverlay();
-
-                            // Try to remove the data
-                            await tryRequest(context, () async {
-                              final String apiKey = storage.getItem('apiKey');
-                              final String serverUrl =
-                                  storage.getItem('serverUrl');
-
-                              final response = await http.delete(
-                                  '$serverUrl/user/~/work/${workDialogState.currentWorkID}',
-                                  headers: {'Authorization': 'Bearer $apiKey'});
-
-                              // Make sure its a valid response code
-                              if (response.statusCode != 200) {
-                                throw HttpException(
-                                    response.statusCode.toString());
-                              }
-
-                              // Reload the home page
-                              await dialogReloadHome(context, workDialogState);
-
-                              // Hide the loading animation
-                              context.hideLoaderOverlay();
-
-                              // Close the alert
-                              Navigator.of(context).pop();
-
-                              // Close the dialog
-                              Navigator.of(context).pop();
-                            });
-                          },
+                          onPressed: () => {onRemove()},
                         )
                       ],
                     ));

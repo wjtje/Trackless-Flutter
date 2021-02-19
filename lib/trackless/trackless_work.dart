@@ -36,7 +36,7 @@ class TracklessWorkProvider with ChangeNotifier {
 
   /// Thhis will clear the workList
   Function get clearWorkList => () {
-        if (_workList.length != 0) {
+        if ((_workList ?? []).length != 0) {
           _workList = [];
           notifyListeners();
         }

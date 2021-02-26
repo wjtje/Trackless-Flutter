@@ -204,8 +204,14 @@ class WorkDialogState with ChangeNotifier {
   TextEditingController get timeController => _timeController;
 
   /// Get the current time
+  ///
+  /// If the input is null the result will be 0
   double get currentTime =>
       double.tryParse(_timeController.text.replaceAll(',', '.')) ?? 0;
+
+  /// Get the time without null safety
+  double get currentTimeNull =>
+      double.tryParse(_timeController.text.replaceAll(',', '.'));
 
   /// Change the current time
   set currentTime(double value) {

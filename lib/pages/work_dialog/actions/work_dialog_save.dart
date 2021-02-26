@@ -25,7 +25,7 @@ class WorkDialogSave extends StatelessWidget {
               if (workDialogState.currentLocationID == null ||
                   workDialogState.currentWorktypeID == null ||
                   workDialogState.currentDescription == '' ||
-                  workDialogState.currentTime == null ||
+                  workDialogState.currentTimeNull == null ||
                   !RegExp(r'(^[0-9]{1}|^1[0-9]{1})($|[.,][0-9]{1,2}$)')
                       .hasMatch(workDialogState.currentTime.toString())) {
                 // Your are missing something

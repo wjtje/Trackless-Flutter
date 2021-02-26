@@ -213,9 +213,9 @@ class LoginPage extends StatelessWidget {
                       ),
                       // Login button
                       Builder(
-                        builder: (context) => ButtonTheme(
-                          minWidth: double.infinity,
-                          child: RaisedButton(
+                        builder: (context) => Container(
+                          width: double.infinity,
+                          child: ElevatedButton(
                             child: Text(
                                 AppLocalizations.of(context)
                                     .translate('login_btn'),
@@ -223,7 +223,6 @@ class LoginPage extends StatelessWidget {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onPrimary)),
-                            color: Theme.of(context).colorScheme.primary,
                             onPressed: _onLoginPressed(context),
                           ),
                         ),

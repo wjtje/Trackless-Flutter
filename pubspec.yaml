@@ -42,6 +42,7 @@ dependencies:
   after_layout: ^1.0.7+2
   # For displaying animations
   morpheus: ^1.2.2+1
+  animations: ^1.1.2
   # To get the context from every where!
   get: ^3.24.0
 

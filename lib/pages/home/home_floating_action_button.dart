@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:trackless/pages/work_dialog/work_dialog.dart';
 
@@ -7,12 +8,14 @@ class HomeFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          // Show the workdialog
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => WorkDialog(null)));
-        });
+    return OpenContainer(
+        // Define the Floating Action Button
+        closedShape: CircleBorder(),
+        closedColor: Theme.of(context).colorScheme.secondary,
+        closedBuilder: (context, openContainer) => FloatingActionButton(
+            child: Icon(Icons.add), onPressed: openContainer),
+        // Define the workdialog
+        openColor: Theme.of(context).scaffoldBackgroundColor,
+        openBuilder: (context, closeContainer) => WorkDialog(null));
   }
 }

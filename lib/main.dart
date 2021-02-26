@@ -41,9 +41,12 @@ void main() {
   // Open the localStorage
   storage = LocalStorage('tracklessLocalStorage');
 
-  // TODO: Give the user notice something gone wrong
+  // Give the user notice something gone wrong
   storage.onError.addListener(() {
-    print('FAILED TO INIT STORAGE!');
+    ScaffoldMessenger.of(Get.context).showSnackBar(SnackBar(
+      content: Text('Failed to init storage'),
+      backgroundColor: Colors.red,
+    ));
   });
 
   // Wait for the storage to start
